@@ -223,6 +223,7 @@ public class Z80Loader extends BaseLoader {
 	 * Load the Z80 snapshot body.
 	 */
 	protected void loadBody(InputStream is) throws IOException {
+		System.out.println("LOAD BODY");
 		if (m_version == VERSION_1) {
 			if (m_compressed) {
 				int addr = 16384;
@@ -369,6 +370,7 @@ public class Z80Loader extends BaseLoader {
 	 */
 	protected void loadPage(InputStream is, int block, boolean skip)
 			throws IOException {
+		System.out.println("LOAD PAGE");
 
 		PageHeader header = new PageHeader();
 		header.load(is);

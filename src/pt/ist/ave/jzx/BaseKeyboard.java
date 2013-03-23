@@ -146,7 +146,6 @@ public class BaseKeyboard extends BaseComponent implements KeyListener {
 	 */
 	public void keyPressed(KeyEvent kevent) {
 		int key = kevent.getKeyCode();
-
 		// Joystick takes precedence.
 		if (key == JOY_UP) {
 			m_io.orIn(BaseIO.P_KEMPSTON, BaseIO.B_UP);

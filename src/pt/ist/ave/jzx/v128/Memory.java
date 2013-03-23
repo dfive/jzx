@@ -24,8 +24,8 @@ public class Memory extends BaseMemory {
 		super.init(spectrum, logger);
 		
 		try {
-			readROM("../roms/128a.rom", m_page[ROM0]);
-			readROM("../roms/128b.rom", m_page[ROM1]);
+			readROM("/roms/128a.rom", m_page[ROM0]);
+			readROM("/roms/128b.rom", m_page[ROM1]);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe.getMessage());
 		}

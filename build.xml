@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="JZX AVE" basedir=".">
+<project name="JZX AVE" default="run" basedir=".">
 	<property name="src" location="src" />
 	<property name="build" location="bin" />
 	<property name="base" value="pt.ist.ave.jzx" />
@@ -42,13 +42,13 @@
 		<java classname="${main}" fork="true">
 			<classpath refid="project.classpath" />
 			<arg value="-scale" />
-			<arg value="3" />
+			<arg value="2" />
 
 			<arg value="-mode" />
 			<arg value="128" />
 			
 			<arg value="-snapshot" />
-			<arg value="etc/bombjack.z80" />
+			<arg value="etc/Batman.z80" />
 		</java>
 	</target>
 

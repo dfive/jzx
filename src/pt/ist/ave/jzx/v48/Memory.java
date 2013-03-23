@@ -23,7 +23,7 @@ public class Memory extends BaseMemory {
 		super.init(spectrum, logger);
 		
 		try {
-			readROM("/spectrum.rom", m_page[ROM0]);
+			readROM("/roms/spectrum.rom", m_page[ROM0]);
 		} catch (IOException ioe) {
 			throw new RuntimeException(ioe.getMessage());
 		}

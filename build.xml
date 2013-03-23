@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="checkassertions" basedir=".">
+<project name="JZX AVE" basedir=".">
 	<property name="src" location="src" />
 	<property name="build" location="bin" />
-	<property name="base" value="org.razvan.jzx" />
+	<property name="base" value="pt.ist.ave.jzx" />
 	<property name="test" value="test" />
-	<property name="resources" value="resources" />
+	<property name="etc" value="etc" />
+	<property name="roms" value="roms" />
+	<!--property name="resources" value="resources" /-->
 	<property name="main" value="${base}.JZXFrame" />
 
-	<path id="external.jars">
+	<!--path id="external.jars">
 		<fileset dir="${resources}" includes="**/*.jar" />
-	</path>
+	</path-->
 
 	<path id="project.classpath">
 		<pathelement location="${src}" />
 		<pathelement location="${build}" />
-		<path refid="external.jars" />
 	</path>
 
 	<target name="init" description="Setup build dir">
@@ -26,10 +27,10 @@
 			<src path="${src}" />
 			<classpath refid="project.classpath" />
 		</javac>
-		<javac destdir="${build}" includeantruntime="false">
+		<!--javac destdir="${build}" includeantruntime="false">
 			<src path="${test}" />
 			<classpath refid="project.classpath" />
-		</javac>
+		</javac-->
 	</target>
 
 
@@ -47,7 +48,7 @@
 			<arg value="128" />
 			
 			<arg value="-snapshot" />
-			<arg value="bombjack.z80" />
+			<arg value="etc/bombjack.z80" />
 		</java>
 	</target>
 

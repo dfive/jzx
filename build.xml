@@ -42,13 +42,13 @@
 		<java classname="${main}" fork="true">
 			<classpath refid="project.classpath" />
 			<arg value="-scale" />
-			<arg value="2" />
+			<arg value="3" />
 
 			<arg value="-mode" />
 			<arg value="128" />
 			
 			<arg value="-snapshot" />
-			<arg value="etc/bombjack.z80" />
+			<arg value="etc/Renegade.z80" />
 		</java>
 	</target>
 

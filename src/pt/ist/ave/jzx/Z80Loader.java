@@ -368,134 +368,267 @@ public class Z80Loader extends BaseLoader {
 	/**
 	 * Load a memory page from the Z80 snapshot.
 	 */
+//	protected void loadPage(InputStream is, int block, boolean skip)
+//			throws IOException {
+//		System.out.println("LOAD PAGE");
+//
+//		PageHeader header = new PageHeader();
+//		header.load(is);
+//
+//		int blockLength = header.getPageLength();
+//		int page = header.getPageNumber();
+//
+//		if (skip) {
+//			// Z80 v3.05 style uncompressed page
+//			if (blockLength == 65535) {
+//				blockLength = BaseMemory.PAGE_SIZE;
+//			}
+//
+//			// Move the file pointer to the beginning of the next block
+//			for (int i = 0; i < blockLength; i++) {
+//				int data = is.read();
+//				if (data == -1) {
+//					break;
+//				}
+//			}
+//
+//			return;
+//		}
+//
+//		int jzxPage;
+//
+//		// Convert Z80 page number to JZXFrame ones
+//		System.out.println("MODE: " + m_mode);
+//		if (m_mode == MODE_48) {
+//			switch (page) {
+//			case 4:
+//				jzxPage = BaseMemory.RAM2;
+//				break;
+//			case 5:
+//				jzxPage = BaseMemory.RAM0;
+//				break;
+//			case 8:
+//				jzxPage = BaseMemory.RAM5;
+//				break;
+//			default:
+//				throw new IOException("Invalid page number for 48k snapshot: "
+//						+ page);
+//			}
+//		} else {
+//			jzxPage = BaseMemory.RAM0 + page - 3;
+//		}
+//
+//		// The structure of a memory block is:
+//
+//		// Offset Length Description
+//		// 0 2 Length of data (without this 3-byte header)
+//		// 2 1 Page number of block
+//		// 3 [0] Compressed data
+//
+//		// Starting with version 3.05, a length field of 65535 (-1) means that
+//		// the block is not compressed and exactly 16384 bytes long, and the
+//		// length field will never hold values larger than 16383.
+//		System.out.println("BlockLenght: " + blockLength);
+//		if (blockLength == 65535) {
+//			int length = is.read(m_memory.getBytes(jzxPage));
+//			if (length != BaseMemory.PAGE_SIZE) {
+//				throw new IOException("Block " + block + " is too short: "
+//						+ length);
+//			}
+//		} else {
+//			byte[] memory = m_memory.getBytes(jzxPage);
+//			int addr = 0;
+//			boolean unread = false;
+//			int data = 0;
+//			byte b = 0;
+//
+//			for (int i = 0; i < blockLength;) {
+//				i++;
+//
+//				if (unread) {
+//					unread = false;
+//				} else {
+//					data = is.read();
+//					if (data == EOF) {
+//						break;
+//					}
+//					b = (byte) data;
+//				}
+//				System.out.println("B " + b);
+//				if (b != (byte) 0xed) {
+//					memory[addr++] = b;
+//				} else {
+//					i++;
+//
+//					data = is.read();
+//					if (data == EOF) {
+//						break;
+//					}
+//					b = (byte) data;
+//
+//					if (b != (byte) 0xed) {
+//						memory[addr++] = (byte) 0xed;
+//						unread = true;
+//						i--;
+//					} else {
+//						int count = is.read();
+//						if (count == EOF) {
+//							break;
+//						}
+//						count = (count & 0xff);
+//
+//						i++;
+//						data = is.read();
+//						if (data == EOF) {
+//							break;
+//						}
+//						b = (byte) data;
+//						i++;
+//
+//						while (count-- != 0) {
+//							memory[addr++] = b;
+//							System.out.println("AQUI");
+//						}
+//					}
+//				}
+//			}
+//
+//			System.out.println(addr);
+////			if (addr != BaseMemory.PAGE_SIZE) {
+////				throw new IOException("Block " + block + " contains only: "
+////						+ addr + " bytes");
+////			}
+//		}
+//	}
+//}
+	
 	protected void loadPage(InputStream is, int block, boolean skip)
-			throws IOException {
-		System.out.println("LOAD PAGE");
+            throws IOException {
 
-		PageHeader header = new PageHeader();
-		header.load(is);
+    PageHeader header = new PageHeader();
+    header.load(is);
 
-		int blockLength = header.getPageLength();
-		int page = header.getPageNumber();
+    int blockLength = header.getPageLength();
+    int page = header.getPageNumber();
 
-		if (skip) {
-			// Z80 v3.05 style uncompressed page
-			if (blockLength == 65535) {
-				blockLength = BaseMemory.PAGE_SIZE;
-			}
+    if (skip) {
+            // Z80 v3.05 style uncompressed page
+            if (blockLength == 65535) {
+                    blockLength = BaseMemory.PAGE_SIZE;
+            }
 
-			// Move the file pointer to the beginning of the next block
-			for (int i = 0; i < blockLength; i++) {
-				int data = is.read();
-				if (data == -1) {
-					break;
-				}
-			}
+            // Move the file pointer to the beginning of the next block
+            for (int i = 0; i < blockLength; i++) {
+                    int data = is.read();
+                    if (data == -1) {
+                            break;
+                    }
+            }
 
-			return;
-		}
+            return;
+    }
 
-		int jzxPage;
+    int jzxPage;
 
-		// Convert Z80 page number to JZXFrame ones
-		if (m_mode == MODE_48) {
-			switch (page) {
-			case 4:
-				jzxPage = BaseMemory.RAM2;
-				break;
-			case 5:
-				jzxPage = BaseMemory.RAM0;
-				break;
-			case 8:
-				jzxPage = BaseMemory.RAM5;
-				break;
-			default:
-				throw new IOException("Invalid page number for 48k snapshot: "
-						+ page);
-			}
-		} else {
-			jzxPage = BaseMemory.RAM0 + page - 3;
-		}
+    // Convert Z80 page number to JZXFrame ones
+    if (m_mode == MODE_48) {
+            switch (page) {
+            case 4:
+                    jzxPage = BaseMemory.RAM2;
+                    break;
+            case 5:
+                    jzxPage = BaseMemory.RAM0;
+                    break;
+            case 8:
+                    jzxPage = BaseMemory.RAM5;
+                    break;
+            default:
+                    throw new IOException("Invalid page number for 48k snapshot: "
+                                    + page);
+            }
+    } else {
+            jzxPage = BaseMemory.RAM0 + page - 3;
+    }
 
-		// The structure of a memory block is:
+    // The structure of a memory block is:
 
-		// Offset Length Description
-		// 0 2 Length of data (without this 3-byte header)
-		// 2 1 Page number of block
-		// 3 [0] Compressed data
+    // Offset Length Description
+    // 0 2 Length of data (without this 3-byte header)
+    // 2 1 Page number of block
+    // 3 [0] Compressed data
 
-		// Starting with version 3.05, a length field of 65535 (-1) means that
-		// the block is not compressed and exactly 16384 bytes long, and the
-		// length field will never hold values larger than 16383.
-		if (blockLength == 65535) {
-			int length = is.read(m_memory.getBytes(jzxPage));
-			if (length != BaseMemory.PAGE_SIZE) {
-				throw new IOException("Block " + block + " is too short: "
-						+ length);
-			}
-		} else {
-			byte[] memory = m_memory.getBytes(jzxPage);
-			int addr = 0;
-			boolean unread = false;
-			int data = 0;
-			byte b = 0;
+    // Starting with version 3.05, a length field of 65535 (-1) means that
+    // the block is not compressed and exactly 16384 bytes long, and the
+    // length field will never hold values larger than 16383.
+    if (blockLength == 65535) {
+            int length = is.read(m_memory.getBytes(jzxPage));
+            if (length != BaseMemory.PAGE_SIZE) {
+                    throw new IOException("Block " + block + " is too short: "
+                                    + length);
+            }
+    } else {
+            byte[] memory = m_memory.getBytes(jzxPage);
+            int addr = 0;
+            boolean unread = false;
+            int data = 0;
+            byte b = 0;
 
-			for (int i = 0; i < blockLength;) {
-				i++;
+            for (int i = 0; i < blockLength;) {
+                    i++;
 
-				if (unread) {
-					unread = false;
-				} else {
-					data = is.read();
-					if (data == EOF) {
-						break;
-					}
-					b = (byte) data;
-				}
+                    if (unread) {
+                            unread = false;
+                    } else {
+                            data = is.read();
+                            if (data == EOF) {
+                                    break;
+                            }
+                            b = (byte) data;
+                    }
 
-				if (b != (byte) 0xed) {
-					memory[addr++] = b;
-				} else {
-					i++;
+                    if (b != (byte) 0xed) {
+                            memory[addr++] = b;
+                    } else {
+                            i++;
 
-					data = is.read();
-					if (data == EOF) {
-						break;
-					}
-					b = (byte) data;
+                            data = is.read();
+                            if (data == EOF) {
+                                    break;
+                            }
+                            b = (byte) data;
 
-					if (b != (byte) 0xed) {
-						memory[addr++] = (byte) 0xed;
-						unread = true;
-						i--;
-					} else {
-						int count = is.read();
-						if (count == EOF) {
-							break;
-						}
-						count = (count & 0xff);
+                            if (b != (byte) 0xed) {
+                                    memory[addr++] = (byte) 0xed;
+                                    unread = true;
+                                    i--;
+                            } else {
+                                    int count = is.read();
+                                    if (count == EOF) {
+                                            break;
+                                    }
+                                    count = (count & 0xff);
 
-						i++;
-						data = is.read();
-						if (data == EOF) {
-							break;
-						}
-						b = (byte) data;
-						i++;
+                                    i++;
+                                    data = is.read();
+                                    if (data == EOF) {
+                                            break;
+                                    }
+                                    b = (byte) data;
+                                    i++;
 
-						while (count-- != 0) {
-							memory[addr++] = b;
-						}
-					}
-				}
-			}
+                                    while (count-- != 0) {
+                                            memory[addr++] = b;
+                                    }
+                            }
+                    }
+            }
 
-			if (addr != BaseMemory.PAGE_SIZE) {
-				throw new IOException("Block " + block + " contains only: "
-						+ addr + " bytes");
-			}
-		}
-	}
+            if (addr != BaseMemory.PAGE_SIZE) {
+                    throw new IOException("Block " + block + " contains only: "
+                                    + addr + " bytes");
+            }
+    }
+}
 }
 
 /**

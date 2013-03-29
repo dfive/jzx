@@ -48,7 +48,7 @@
 			<arg value="128" />
 			
 			<arg value="-snapshot" />
-			<arg value="etc/Adidas.z80" />
+			<arg value="etc/Renegade.z80" />
 		</java>
 	</target>
 

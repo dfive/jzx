@@ -1086,7 +1086,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void emulate() {
 //		instructionTable[0x76].setCPU(this);
-//		long instrs = 0;
+		long instrs = 0;
 
 		while (true) {
 			m_spectrum.update();
@@ -1097,15 +1097,28 @@ public class Z80 extends BaseComponent {
 			int op8 = mone8();
 			
 			// Descomentar para contar instruções e ver as mais usadas
-//			instructionCounter[op8]++;
-//			instrs++;
-//			if(instrs > 100000000)
-//				stop();
+			instructionCounter[op8]++;
+			instrs++;
+			if(instrs > 100000000)
+				stop();
 
 			switch (op8) {
 
+			/* MOST USED INSTRUCTION 48k. IN 100M -> 16M*/
+			/* jr nz,D */
+			case 0x20:
+				if (!m_zeroF) {
+					m_tstates += 12;
+					m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
+				} else {
+					m_tstates += 7;
+					inc16pc();
+				}
+				break;
+				
+			
 			/* halt */
-			/* MOST USED INSTRUCTION. IN 100M -> 35M times*/
+			/* MOST USED INSTRUCTION 128k. IN 100M -> 35M times*/
 			case 0x76:
 //				m_tstates += instructionTable[op8].incTstates();
 //				instructionTable[op8].execute();
@@ -1353,17 +1366,6 @@ public class Z80 extends BaseComponent {
 					m_addsubtractF = false;
 					m_3F = ((m_a8 & THREE_MASK) != 0);
 					m_5F = ((m_a8 & FIVE_MASK) != 0);
-					break;
-
-					/* jr nz,D */
-				case 0x20:
-					if (!m_zeroF) {
-						m_tstates += 12;
-						m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
-					} else {
-						m_tstates += 7;
-						inc16pc();
-					}
 					break;
 
 					/* ld hl,NN */

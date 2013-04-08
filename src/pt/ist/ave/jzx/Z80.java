@@ -1,5 +1,7 @@
 package pt.ist.ave.jzx;
 
+import java.util.TreeMap;
+
 import pt.ist.ave.jzx.Instructions.HALT;
 import pt.ist.ave.jzx.Instructions.Instruction;
 import pt.ist.ave.jzx.Instructions.NOP;
@@ -1044,6 +1046,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void stop() {
 		m_stop = true;
+		this.dump();
 	}
 
 	/**
@@ -1070,13 +1073,22 @@ public class Z80 extends BaseComponent {
 	private void dump() {
 		int max = -1;
 		int maxindex = -1;
+		TreeMap<Integer,Integer> teste = new TreeMap<Integer,Integer>();
 		for(int i = 0; i < instructionCounter.length; i++) {
 			if(instructionCounter[i] >= max){
 				max = instructionCounter[i];
 				maxindex = i;
 			}
-			System.out.println("Run instruction " + i + ": " + instructionCounter[i] + " times." );
+			teste.put(instructionCounter[i], i);
+			
+			//System.out.println("Run instruction " + i + ": " + instructionCounter[i] + " times." );
+					}
+		
+	
+		for (Integer key : teste.keySet()) {
+			System.out.println("Run instruction " + teste.get(key) + ": " + key + " times." );
 		}
+	
 		System.out.println("MAX: " + maxindex + " - " + max);
 	}
 
@@ -1101,7 +1113,8 @@ public class Z80 extends BaseComponent {
 			instrs++;
 			if(instrs > 100000000)
 				stop();
-
+			
+			
 			switch (op8) {
 
 			/* MOST USED INSTRUCTION 48k. IN 100M -> 16M*/

@@ -202,7 +202,6 @@ public abstract class BaseMemory extends BaseComponent {
 
 		m_frameToPage[frame] = page;
 		m_frame[frame] = m_page[page];
-		System.out.println("PageIn" + page);
 	}
 
 	/**
@@ -247,6 +246,8 @@ public abstract class BaseMemory extends BaseComponent {
 	public void write8(int addr16, int val8) {
 		int frame = (addr16 >> 14);
 		int offset = (addr16 & 0x3fff);
+		if(frame == 0 || frame == 3)
+//		out.println(offset);
 
 		if (m_frame[frame][offset] == (byte) val8) {
 			return;

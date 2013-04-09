@@ -1,5 +1,8 @@
 package pt.ist.ave.jzx.v128;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 import pt.ist.ave.jzx.BaseIO;
 import pt.ist.ave.jzx.BaseLoader;
 import pt.ist.ave.jzx.BaseMemory;
@@ -72,7 +75,7 @@ public class IO extends BaseIO {
 	 */
 	public void init(BaseSpectrum spectrum, ILogger logger) {
 		super.init(spectrum, logger);
-		
+
 		m_psgPorts = new int[16];
 		
 		m_ay8912 = ((Spectrum) spectrum).getAY8912();
@@ -138,6 +141,7 @@ public class IO extends BaseIO {
 		return res8;
 	}
 	
+	
 	/**
 	 * Write an 8-bit value to the specified 16-bit
 	 * I/O port.
@@ -178,8 +182,6 @@ public class IO extends BaseIO {
 					if (m_last0x7ffd == val8 || ((m_last0x7ffd & B_PAGING) != 0)) {
 						return;
 					}
-					if(port16 == P_BANK128)
-					System.out.println("port: " + port16 +" "+ val8);
 					// Bit D3 is screen select; 0 selects page 5, 1 selects page 7
 					m_screen.setPage((val8 & B_SELSCREEN) != 0 ? BaseMemory.RAM7 : BaseMemory.RAM5);
 					if ((val8 & B_SELSCREEN) != (m_last0x7ffd & B_SELSCREEN)) {
@@ -189,11 +191,15 @@ public class IO extends BaseIO {
 					
 					// Bit D5 is the page disable bit
 					m_last0x7ffd = val8;
-					
+
+//					out.println("Page " + (BaseMemory.RAM0 + (val8 & B_SELRAM)) + " to " + 3);
+//					if((BaseMemory.RAM0 + (val8 & B_SELRAM)) == 8)
+//						out.println("weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 					// Bits D0-D2 are RAM select at 0xC000
 					m_memory.pageIn(3, BaseMemory.RAM0 + (val8 & B_SELRAM));
 					
 					// Bit D4 is ROM select at 0x0000
+//					out.println("Rom " + (BaseMemory.ROM0 + ((val8 & B_SELROM) >> 4)) + " to " + 0);
 					m_memory.pageIn(0, BaseMemory.ROM0 + ((val8 & B_SELROM) >> 4));
 				}
 			}

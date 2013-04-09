@@ -1,5 +1,9 @@
 package pt.ist.ave.jzx;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+
 /**
  * Base class extended by all components that comprise the emulator.
  * <P>
@@ -36,6 +40,16 @@ package pt.ist.ave.jzx;
  * @see BaseSpectrum
  */
 public abstract class BaseComponent {
+
+//	protected PrintStream out;
+//	{
+//		try {
+//			out = new PrintStream(new FileOutputStream("/home/antonio/output.txt"));
+//		} catch (FileNotFoundException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//	}
 	/**
 	 * The BaseSpectrum instance, of which this BaseComponent is a part.
 	 */

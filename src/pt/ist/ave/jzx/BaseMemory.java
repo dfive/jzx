@@ -202,6 +202,7 @@ public abstract class BaseMemory extends BaseComponent {
 
 		m_frameToPage[frame] = page;
 		m_frame[frame] = m_page[page];
+		System.out.println("PageIn" + page);
 	}
 
 	/**
@@ -308,7 +309,8 @@ public abstract class BaseMemory extends BaseComponent {
 	/**
 	 * Load the memory contents from the given BaseLoader object.
 	 * <P>
-	 * The BaseLoader contains a "headless" memory object inside it, whose page
+	 * The BaseLoader contains a "headless" memory obje		System.out.println("READ8");
+ct inside it, whose page
 	 * contents are copied into the page contents of "this" memory object.
 	 * 
 	 * @see BaseLoader

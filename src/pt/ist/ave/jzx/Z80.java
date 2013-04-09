@@ -1081,7 +1081,7 @@ public class Z80 extends BaseComponent {
 			}
 			teste.put(instructionCounter[i], i);
 			
-			//System.out.println("Run instruction " + i + ": " + instructionCounter[i] + " times." );
+			
 					}
 		
 	
@@ -1111,7 +1111,7 @@ public class Z80 extends BaseComponent {
 			// Descomentar para contar instruções e ver as mais usadas
 			instructionCounter[op8]++;
 			instrs++;
-			if(instrs > 100000000)
+			if(instrs > 10000000)
 				stop();
 			
 			
@@ -2535,6 +2535,7 @@ public class Z80 extends BaseComponent {
 					/* out (N),a */
 				case 0xD3:
 					m_tstates += 11;
+//					System.out.println("OUT");
 					m_io.out((m_a8 << 8) | m_memory.read8(inc16pc()), m_a8);
 					break;
 

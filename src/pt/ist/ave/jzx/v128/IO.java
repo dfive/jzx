@@ -178,7 +178,8 @@ public class IO extends BaseIO {
 					if (m_last0x7ffd == val8 || ((m_last0x7ffd & B_PAGING) != 0)) {
 						return;
 					}
-					
+					if(port16 == P_BANK128)
+					System.out.println("port: " + port16 +" "+ val8);
 					// Bit D3 is screen select; 0 selects page 5, 1 selects page 7
 					m_screen.setPage((val8 & B_SELSCREEN) != 0 ? BaseMemory.RAM7 : BaseMemory.RAM5);
 					if ((val8 & B_SELSCREEN) != (m_last0x7ffd & B_SELSCREEN)) {

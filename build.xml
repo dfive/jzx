@@ -48,7 +48,7 @@
 			<arg value="128" />
 			
 			<arg value="-snapshot" />
-			<arg value="etc/renagadev1.z80" />
+			<arg value="etc/Lemans.z80" />
 		</java>
 	</target>
 	<target name="bombjack" depends="compile">

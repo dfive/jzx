@@ -1575,7 +1575,7 @@ public class Z80 extends BaseComponent {
 	 * decode it and execute it.
 	 */
 	public void emulate() {
-//				instructionTable[0x76].setCPU(this);
+				instructionTable[0x76].setCPU(this);
 		long instrs = 0;
 
 		while (true) {
@@ -1587,16 +1587,16 @@ public class Z80 extends BaseComponent {
 			int op8 = mone8();
 
 			// Descomentar para contar instruções e ver as mais usadas
-						instructionCounter[op8]++;
-						instrs++;
-						if(instrs > 10000000)
-							stop();
+//						instructionCounter[op8]++;
+//						instrs++;
+//						if(instrs > 10000000)
+//							stop();
 			
-//			if(instructionTable[op8] != null) {
-//
-//				instructionTable[op8].execute();
-//				m_tstates += instructionTable[op8].incTstates();
-//			} else {
+			if(instructionTable[op8] != null) {
+
+				instructionTable[op8].execute();
+				m_tstates += instructionTable[op8].incTstates();
+			} else {
 
 				switch (op8) {
 
@@ -3408,7 +3408,7 @@ public class Z80 extends BaseComponent {
 					}
 				}
 			}
-//		}
+		}
 		System.out.println("END");
 		dump();
 	}

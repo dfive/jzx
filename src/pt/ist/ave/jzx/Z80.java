@@ -38,7 +38,7 @@ public class Z80 extends BaseComponent {
 	 * The T-States are used for synchonizing the rendering of screen lines that
 	 * comprise the screen frame.
 	 */
-	private int m_tstates;
+	public int m_tstates;
 
 	/**
 	 * Cached reference to the memory object.
@@ -46,44 +46,44 @@ public class Z80 extends BaseComponent {
 	 * This is used to read and write data as CPU instructions access the
 	 * memory.
 	 */
-	private BaseMemory m_memory;
+	public BaseMemory m_memory;
 
 	/**
 	 * Cached reference to the I/O object.
 	 * <P>
 	 * This is used to read and write I/O ports CPU instructions are decoded.
 	 */
-	private BaseIO m_io;
+	public BaseIO m_io;
 
 	/** The bit mask used to extract the CARRY flag from the F register. */
-	private static final int CARRY_MASK = 0x01;
+	public static final int CARRY_MASK = 0x01;
 
 	/** The bit mask used to set the 5 flag in some instructions. */
-	private static final int ONE_MASK = 0x01;
+	public static final int ONE_MASK = 0x01;
 
 	/** The bit mask used to extract the ADDSUBTRACT flag from the F register. */
-	private static final int ADDSUBTRACT_MASK = 0x02;
+	public static final int ADDSUBTRACT_MASK = 0x02;
 
 	/** The bit mask used to extract the PARITY flag from the F register. */
-	private static final int PARITY_MASK = 0x04;
+	public static final int PARITY_MASK = 0x04;
 
 	/** The bit mask used to extract the OVERFLOW flag from the F register. */
-	private static final int OVERFLOW_MASK = PARITY_MASK;
+	public static final int OVERFLOW_MASK = PARITY_MASK;
 
 	/** The bit mask used to extract the THREE flag from the F register. */
-	private static final int THREE_MASK = 0x08;
+	public static final int THREE_MASK = 0x08;
 
 	/** The bit mask used to extract the HALFCARRY flag from the F register. */
-	private static final int HALFCARRY_MASK = 0x10;
+	public static final int HALFCARRY_MASK = 0x10;
 
 	/** The bit mask used to extract the FIVE flag from the F register. */
-	private static final int FIVE_MASK = 0x20;
+	public static final int FIVE_MASK = 0x20;
 
 	/** The bit mask used to extract the ZERO flag from the F register. */
-	private static final int ZERO_MASK = 0x40;
+	public static final int ZERO_MASK = 0x40;
 
 	/** The bit mask used to extract the SIGN flag from the F register. */
-	private static final int SIGN_MASK = 0x80;
+	public static final int SIGN_MASK = 0x80;
 
 	/**
 	 * Explicit flags, which represent the bits in the F register as distinct
@@ -92,23 +92,24 @@ public class Z80 extends BaseComponent {
 	 * @see #storeFlags
 	 * @see #retrieveFlags
 	 */
-	private boolean m_carryF, m_addsubtractF, m_parityoverflowF, m_halfcarryF,
+	public boolean m_carryF, m_addsubtractF, m_parityoverflowF, m_halfcarryF,
 	m_zeroF, m_signF, m_5F, m_3F;
 
 	/** The basic registers (least significant 8 bits.) */
-	private int m_a8, m_f8, m_b8, m_c8, m_d8, m_e8, m_h8, m_l8;
+	public int m_a8, m_f8, m_b8, m_c8, m_d8, m_e8, m_h8, m_l8;
+
 	/** The alternate registers (least significant 16 bits.) */
-	private int m_af16alt, m_bc16alt, m_de16alt, m_hl16alt;
+	public int m_af16alt, m_bc16alt, m_de16alt, m_hl16alt;
 	/** The index registers (least significant 16 bits.) */
-	private int m_ix16, m_iy16, m_xx16;
+	public int m_ix16, m_iy16, m_xx16;
 	/** The core registers (least significant 16 bits.) */
-	private int m_sp16, m_pc16;
+	public int m_sp16, m_pc16;
 	/** The refresh and interrupt registers (least significant 8 bits.) */
-	private int m_r8, m_i8;
+	public int m_r8, m_i8;
 	/** The interrupt mode (least significant 2 bits.) */
-	private int m_im2;
+	public int m_im2;
 	/** The flip-flops (least significant 1 bit.) */
-	private int m_iff1a, m_iff1b;
+	public int m_iff1a, m_iff1b;
 
 	/**
 	 * Secret, internal Z80 register that is set as follows:
@@ -117,7 +118,7 @@ public class Z80 extends BaseComponent {
 	 * high byte of the resulting address IX/IY+d JR d = high byte target
 	 * address of the jump
 	 */
-	private int m_x8;
+	public int m_x8;
 
 	/**
 	 * Parity table for 256 bytes (true = even parity, false = odd parity).
@@ -151,18 +152,495 @@ public class Z80 extends BaseComponent {
 		false, true, };
 
 	/** Half carry table (addition). */
-	private static boolean m_halfcarryTable[] = { false, false, true, false,
+	public static boolean m_halfcarryTable[] = { false, false, true, false,
 		true, false, true, true };
 	/** Half carry table (subtraction). */
-	private static boolean m_subhalfcarryTable[] = { false, true, true, true,
+	public static boolean m_subhalfcarryTable[] = { false, true, true, true,
 		false, false, false, true };
 
 	/** Overflow table (addition). */
-	private static boolean m_overflowTable[] = { false, true, false, false,
+	public static boolean m_overflowTable[] = { false, true, false, false,
 		false, false, true, false };
 	/** Overflow table (subtraction). */
-	private static boolean m_suboverflowTable[] = { false, false, false, true,
+	public static boolean m_suboverflowTable[] = { false, false, false, true,
 		true, false, false, false };
+	
+	/**
+	 * @return the m_tstates
+	 */
+	public int getM_tstates() {
+		return m_tstates;
+	}
+
+	/**
+	 * @return the m_memory
+	 */
+	public BaseMemory getM_memory() {
+		return m_memory;
+	}
+
+	/**
+	 * @return the m_io
+	 */
+	public BaseIO getM_io() {
+		return m_io;
+	}
+
+	/**
+	 * @return the m_carryF
+	 */
+	public boolean getM_carryF() {
+		return m_carryF;
+	}
+
+	/**
+	 * @return the m_addsubtractF
+	 */
+	public boolean getM_addsubtractF() {
+		return m_addsubtractF;
+	}
+
+	/**
+	 * @return the m_parityoverflowF
+	 */
+	public boolean getM_parityoverflowF() {
+		return m_parityoverflowF;
+	}
+
+	/**
+	 * @return the m_halfcarryF
+	 */
+	public boolean getM_halfcarryF() {
+		return m_halfcarryF;
+	}
+
+	/**
+	 * @return the m_zeroF
+	 */
+	public boolean getM_zeroF() {
+		return m_zeroF;
+	}
+
+	/**
+	 * @return the m_signF
+	 */
+	public boolean getM_signF() {
+		return m_signF;
+	}
+
+	/**
+	 * @return the m_5F
+	 */
+	public boolean getM_5F() {
+		return m_5F;
+	}
+
+	/**
+	 * @return the m_3F
+	 */
+	public boolean getM_3F() {
+		return m_3F;
+	}
+
+	/**
+	 * @return the m_a8
+	 */
+	public int getM_a8() {
+		return m_a8;
+	}
+
+	/**
+	 * @return the m_f8
+	 */
+	public int getM_f8() {
+		return m_f8;
+	}
+
+	/**
+	 * @return the m_b8
+	 */
+	public int getM_b8() {
+		return m_b8;
+	}
+
+	/**
+	 * @return the m_c8
+	 */
+	public int getM_c8() {
+		return m_c8;
+	}
+
+	/**
+	 * @return the m_d8
+	 */
+	public int getM_d8() {
+		return m_d8;
+	}
+
+	/**
+	 * @return the m_e8
+	 */
+	public int getM_e8() {
+		return m_e8;
+	}
+
+	/**
+	 * @return the m_h8
+	 */
+	public int getM_h8() {
+		return m_h8;
+	}
+
+	/**
+	 * @return the m_l8
+	 */
+	public int getM_l8() {
+		return m_l8;
+	}
+
+	/**
+	 * @return the m_af16alt
+	 */
+	public int getM_af16alt() {
+		return m_af16alt;
+	}
+
+	/**
+	 * @return the m_bc16alt
+	 */
+	public int getM_bc16alt() {
+		return m_bc16alt;
+	}
+
+	/**
+	 * @return the m_de16alt
+	 */
+	public int getM_de16alt() {
+		return m_de16alt;
+	}
+
+	/**
+	 * @return the m_hl16alt
+	 */
+	public int getM_hl16alt() {
+		return m_hl16alt;
+	}
+
+	/**
+	 * @return the m_ix16
+	 */
+	public int getM_ix16() {
+		return m_ix16;
+	}
+
+	/**
+	 * @return the m_iy16
+	 */
+	public int getM_iy16() {
+		return m_iy16;
+	}
+
+	/**
+	 * @return the m_xx16
+	 */
+	public int getM_xx16() {
+		return m_xx16;
+	}
+
+	/**
+	 * @return the m_sp16
+	 */
+	public int getM_sp16() {
+		return m_sp16;
+	}
+
+	/**
+	 * @return the m_pc16
+	 */
+	public int getM_pc16() {
+		return m_pc16;
+	}
+
+	/**
+	 * @return the m_r8
+	 */
+	public int getM_r8() {
+		return m_r8;
+	}
+
+	/**
+	 * @return the m_i8
+	 */
+	public int getM_i8() {
+		return m_i8;
+	}
+
+	/**
+	 * @return the m_im2
+	 */
+	public int getM_im2() {
+		return m_im2;
+	}
+
+	/**
+	 * @return the m_iff1a
+	 */
+	public int getM_iff1a() {
+		return m_iff1a;
+	}
+
+	/**
+	 * @return the m_iff1b
+	 */
+	public int getM_iff1b() {
+		return m_iff1b;
+	}
+
+	/**
+	 * @return the m_x8
+	 */
+	public int getM_x8() {
+		return m_x8;
+	}
+
+	/**
+	 * @param m_tstates the m_tstates to set
+	 */
+	public void setM_tstates(int m_tstates) {
+		this.m_tstates = m_tstates;
+	}
+
+	/**
+	 * @param m_memory the m_memory to set
+	 */
+	public void setM_memory(BaseMemory m_memory) {
+		this.m_memory = m_memory;
+	}
+
+	/**
+	 * @param m_io the m_io to set
+	 */
+	public void setM_io(BaseIO m_io) {
+		this.m_io = m_io;
+	}
+
+	/**
+	 * @param m_carryF the m_carryF to set
+	 */
+	public void setM_carryF(boolean m_carryF) {
+		this.m_carryF = m_carryF;
+	}
+
+	/**
+	 * @param m_addsubtractF the m_addsubtractF to set
+	 */
+	public void setM_addsubtractF(boolean m_addsubtractF) {
+		this.m_addsubtractF = m_addsubtractF;
+	}
+
+	/**
+	 * @param m_parityoverflowF the m_parityoverflowF to set
+	 */
+	public void setM_parityoverflowF(boolean m_parityoverflowF) {
+		this.m_parityoverflowF = m_parityoverflowF;
+	}
+
+	/**
+	 * @param m_halfcarryF the m_halfcarryF to set
+	 */
+	public void setM_halfcarryF(boolean m_halfcarryF) {
+		this.m_halfcarryF = m_halfcarryF;
+	}
+
+	/**
+	 * @param m_zeroF the m_zeroF to set
+	 */
+	public void setM_zeroF(boolean m_zeroF) {
+		this.m_zeroF = m_zeroF;
+	}
+
+	/**
+	 * @param m_signF the m_signF to set
+	 */
+	public void setM_signF(boolean m_signF) {
+		this.m_signF = m_signF;
+	}
+
+	/**
+	 * @param m_5f the m_5F to set
+	 */
+	public void setM_5F(boolean m_5f) {
+		m_5F = m_5f;
+	}
+
+	/**
+	 * @param m_3f the m_3F to set
+	 */
+	public void setM_3F(boolean m_3f) {
+		m_3F = m_3f;
+	}
+
+	/**
+	 * @param m_a8 the m_a8 to set
+	 */
+	public void setM_a8(int m_a8) {
+		this.m_a8 = m_a8;
+	}
+
+	/**
+	 * @param m_f8 the m_f8 to set
+	 */
+	public void setM_f8(int m_f8) {
+		this.m_f8 = m_f8;
+	}
+
+	/**
+	 * @param m_b8 the m_b8 to set
+	 */
+	public void setM_b8(int m_b8) {
+		this.m_b8 = m_b8;
+	}
+
+	/**
+	 * @param m_c8 the m_c8 to set
+	 */
+	public void setM_c8(int m_c8) {
+		this.m_c8 = m_c8;
+	}
+
+	/**
+	 * @param m_d8 the m_d8 to set
+	 */
+	public void setM_d8(int m_d8) {
+		this.m_d8 = m_d8;
+	}
+
+	/**
+	 * @param m_e8 the m_e8 to set
+	 */
+	public void setM_e8(int m_e8) {
+		this.m_e8 = m_e8;
+	}
+
+	/**
+	 * @param m_h8 the m_h8 to set
+	 */
+	public void setM_h8(int m_h8) {
+		this.m_h8 = m_h8;
+	}
+
+	/**
+	 * @param m_l8 the m_l8 to set
+	 */
+	public void setM_l8(int m_l8) {
+		this.m_l8 = m_l8;
+	}
+
+	/**
+	 * @param m_af16alt the m_af16alt to set
+	 */
+	public void setM_af16alt(int m_af16alt) {
+		this.m_af16alt = m_af16alt;
+	}
+
+	/**
+	 * @param m_bc16alt the m_bc16alt to set
+	 */
+	public void setM_bc16alt(int m_bc16alt) {
+		this.m_bc16alt = m_bc16alt;
+	}
+
+	/**
+	 * @param m_de16alt the m_de16alt to set
+	 */
+	public void setM_de16alt(int m_de16alt) {
+		this.m_de16alt = m_de16alt;
+	}
+
+	/**
+	 * @param m_hl16alt the m_hl16alt to set
+	 */
+	public void setM_hl16alt(int m_hl16alt) {
+		this.m_hl16alt = m_hl16alt;
+	}
+
+	/**
+	 * @param m_ix16 the m_ix16 to set
+	 */
+	public void setM_ix16(int m_ix16) {
+		this.m_ix16 = m_ix16;
+	}
+
+	/**
+	 * @param m_iy16 the m_iy16 to set
+	 */
+	public void setM_iy16(int m_iy16) {
+		this.m_iy16 = m_iy16;
+	}
+
+	/**
+	 * @param m_xx16 the m_xx16 to set
+	 */
+	public void setM_xx16(int m_xx16) {
+		this.m_xx16 = m_xx16;
+	}
+
+	/**
+	 * @param m_sp16 the m_sp16 to set
+	 */
+	public void setM_sp16(int m_sp16) {
+		this.m_sp16 = m_sp16;
+	}
+
+	/**
+	 * @param m_pc16 the m_pc16 to set
+	 */
+	public void setM_pc16(int m_pc16) {
+		this.m_pc16 = m_pc16;
+	}
+
+	/**
+	 * @param m_r8 the m_r8 to set
+	 */
+	public void setM_r8(int m_r8) {
+		this.m_r8 = m_r8;
+	}
+
+	/**
+	 * @param m_i8 the m_i8 to set
+	 */
+	public void setM_i8(int m_i8) {
+		this.m_i8 = m_i8;
+	}
+
+	/**
+	 * @param m_im2 the m_im2 to set
+	 */
+	public void setM_im2(int m_im2) {
+		this.m_im2 = m_im2;
+	}
+
+	/**
+	 * @param m_iff1a the m_iff1a to set
+	 */
+	public void setM_iff1a(int m_iff1a) {
+		this.m_iff1a = m_iff1a;
+	}
+
+	/**
+	 * @param m_iff1b the m_iff1b to set
+	 */
+	public void setM_iff1b(int m_iff1b) {
+		this.m_iff1b = m_iff1b;
+	}
+
+	/**
+	 * @param m_x8 the m_x8 to set
+	 */
+	public void setM_x8(int m_x8) {
+		this.m_x8 = m_x8;
+	}
+
 
 	/** Tabela com as instancias das instruções do cpu */
 	private static final Instruction[] instructionTable = new Instruction[256];
@@ -277,35 +755,35 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Accessor for the 16-bit AF register (it combines the A and F registers.)
 	 */
-	private int af16() {
+	public int af16() {
 		return ((m_a8 << 8) | m_f8);
 	}
 
 	/**
 	 * Accessor for the 16-bit BC register (it combines the A and F registers.)
 	 */
-	private int bc16() {
+	public int bc16() {
 		return ((m_b8 << 8) | m_c8);
 	}
 
 	/**
 	 * Accessor for the 16-bit DE register (it combines the A and F registers.)
 	 */
-	private int de16() {
+	public int de16() {
 		return ((m_d8 << 8) | m_e8);
 	}
 
 	/**
 	 * Accessor for the 16-bit HL register (it combines the A and F registers.)
 	 */
-	private int hl16() {
+	public int hl16() {
 		return ((m_h8 << 8) | m_l8);
 	}
 
 	/**
 	 * Mutator for the 16-bit AF register (it sets the A and F registers.)
 	 */
-	private void af16(int val16) {
+	public void af16(int val16) {
 		m_a8 = (val16 >> 8);
 		m_f8 = (val16 & 0xff);
 	}
@@ -313,7 +791,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Mutator for the 16-bit BC register (it sets the A and F registers.)
 	 */
-	private void bc16(int val16) {
+	public void bc16(int val16) {
 		m_b8 = (val16 >> 8);
 		m_c8 = (val16 & 0xff);
 	}
@@ -321,7 +799,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Mutator for the 16-bit DE register (it sets the A and F registers.)
 	 */
-	private void de16(int val16) {
+	public void de16(int val16) {
 		m_d8 = (val16 >> 8);
 		m_e8 = (val16 & 0xff);
 	}
@@ -329,7 +807,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Mutator for the 16-bit HL register (it sets the A and F registers.)
 	 */
-	private void hl16(int val16) {
+	public void hl16(int val16) {
 		m_h8 = (val16 >> 8);
 		m_l8 = (val16 & 0xff);
 	}
@@ -340,7 +818,7 @@ public class Z80 extends BaseComponent {
 	 * The current index register is stored in m_xx16, and could either be
 	 * m_ix16 or m_iy16.
 	 */
-	private int xx16low8() {
+	public int xx16low8() {
 		return (m_xx16 & 0xff);
 	}
 
@@ -350,7 +828,7 @@ public class Z80 extends BaseComponent {
 	 * The current index register is stored in m_xx16, and could either be
 	 * m_ix16 or m_iy16.
 	 */
-	private int xx16high8() {
+	public int xx16high8() {
 		return (m_xx16 >> 8);
 	}
 
@@ -360,7 +838,7 @@ public class Z80 extends BaseComponent {
 	 * The current index register is stored in m_xx16, and could either be
 	 * m_ix16 or m_iy16.
 	 */
-	private void xx16low8(int val8) {
+	public void xx16low8(int val8) {
 		m_xx16 = ((m_xx16 & 0xff00) | val8);
 	}
 
@@ -370,7 +848,7 @@ public class Z80 extends BaseComponent {
 	 * The current index register is stored in m_xx16, and could either be
 	 * m_ix16 or m_iy16.
 	 */
-	private void xx16high8(int val8) {
+	public void xx16high8(int val8) {
 		m_xx16 = ((val8 << 8) | (m_xx16 & 0xff));
 	}
 
@@ -378,7 +856,7 @@ public class Z80 extends BaseComponent {
 	 * Store the values from m_*F variables into the m_f8 register, according to
 	 * the *_MASK variables.
 	 */
-	private void storeFlags() {
+	public void storeFlags() {
 		if (m_signF)
 			m_f8 |= SIGN_MASK;
 		else
@@ -417,7 +895,7 @@ public class Z80 extends BaseComponent {
 	 * Retrieve the flags from the m_f8 register into the the m_*F variables,
 	 * according to the *_MASK variables.
 	 */
-	private void retrieveFlags() {
+	public void retrieveFlags() {
 		m_signF = ((m_f8 & SIGN_MASK) != 0);
 		m_zeroF = ((m_f8 & ZERO_MASK) != 0);
 		m_halfcarryF = ((m_f8 & HALFCARRY_MASK) != 0);
@@ -431,7 +909,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Increment the 16-bit PC register.
 	 */
-	private int inc16pc() {
+	public int inc16pc() {
 		int work16 = m_pc16;
 		m_pc16 = ((m_pc16 + 1) & 0xffff);
 		return work16;
@@ -440,7 +918,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Increment the 16-bit SP register.
 	 */
-	private int inc16sp() {
+	public int inc16sp() {
 		int work16 = m_sp16;
 		m_sp16 = ((m_sp16 + 1) & 0xffff);
 		return work16;
@@ -449,7 +927,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Increment the 16-bit BC register.
 	 */
-	private int inc16bc() {
+	public int inc16bc() {
 		int work16 = bc16();
 		bc16((work16 + 1) & 0xffff);
 		return work16;
@@ -458,7 +936,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Increment the 16-bit DE register.
 	 */
-	private int inc16de() {
+	public int inc16de() {
 		int work16 = de16();
 		de16((work16 + 1) & 0xffff);
 		return work16;
@@ -467,7 +945,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Increment the 16-bit HL register.
 	 */
-	private int inc16hl() {
+	public int inc16hl() {
 		int work16 = hl16();
 		hl16((work16 + 1) & 0xffff);
 		return work16;
@@ -476,7 +954,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Increment the 16-bit (current) index register (m_xx16).
 	 */
-	private int inc16xx() {
+	public int inc16xx() {
 		int work16 = m_xx16;
 		m_xx16 = ((m_xx16 + 1) & 0xffff);
 		return work16;
@@ -494,7 +972,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Decrement the 16-bit SP register.
 	 */
-	private int dec16sp() {
+	public int dec16sp() {
 		int work16 = m_sp16;
 		m_sp16 = ((m_sp16 - 1) & 0xffff);
 		return work16;
@@ -503,7 +981,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Decrement the 16-bit BC register.
 	 */
-	private int dec16bc() {
+	public int dec16bc() {
 		int work16 = bc16();
 		bc16((work16 - 1) & 0xffff);
 		return work16;
@@ -512,7 +990,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Decrement the 16-bit DE register.
 	 */
-	private int dec16de() {
+	public int dec16de() {
 		int work16 = de16();
 		de16((work16 - 1) & 0xffff);
 		return work16;
@@ -521,7 +999,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Decrement the 16-bit HL register.
 	 */
-	private int dec16hl() {
+	public int dec16hl() {
 		int work16 = hl16();
 		hl16((work16 - 1) & 0xffff);
 		return work16;
@@ -530,7 +1008,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Decrement the 16-bit (current) index register (m_xx16).
 	 */
-	private int dec16xx() {
+	public int dec16xx() {
 		int work16 = m_xx16;
 		m_xx16 = ((m_xx16 - 1) & 0xffff);
 		return work16;
@@ -540,7 +1018,7 @@ public class Z80 extends BaseComponent {
 	 * Add a 16-bit value to the (current) index register (m_xx16) and set the
 	 * appropriate flags.
 	 */
-	private void add_xx(int val16) {
+	public void add_xx(int val16) {
 		int work32 = m_xx16 + val16;
 		int idx = ((m_xx16 & 0x800) >> 9) | ((val16 & 0x800) >> 10)
 				| ((work32 & 0x800) >> 11);
@@ -557,7 +1035,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Add a 16-bit value to the HL register and set the appropriate flags.
 	 */
-	private void add_hl(int val16) {
+	public void add_hl(int val16) {
 		m_x8 = m_h8;
 
 		int hl16 = hl16();
@@ -576,7 +1054,7 @@ public class Z80 extends BaseComponent {
 	 * Add a 16-bit value, with carry, to the HL register and set the
 	 * appropriate flags.
 	 */
-	private void adc_hl(int val16) {
+	public void adc_hl(int val16) {
 		int hl16 = hl16();
 		int work32 = hl16 + val16 + (m_carryF ? 1 : 0);
 		int idx = ((hl16 & 0x8800) >> 9) | ((val16 & 0x8800) >> 10)
@@ -597,7 +1075,7 @@ public class Z80 extends BaseComponent {
 	 * Subtract a 16-bit value, with carry, from the HL register and set the
 	 * appropriate flags.
 	 */
-	private void sbc_hl(int val16) {
+	public void sbc_hl(int val16) {
 		int hl16 = hl16();
 		int work32 = hl16 - val16 - (m_carryF ? 1 : 0);
 		int idx = ((hl16 & 0x8800) >> 9) | ((val16 & 0x8800) >> 10)
@@ -866,7 +1344,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Subtract a 8-bit value from the A register and set the appropriate flags.
 	 */
-	private void sub_a(int val8) {
+	public void sub_a(int val8) {
 		int work16 = m_a8 - val8;
 		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
 				| ((work16 & 0x88) >> 3);
@@ -885,7 +1363,7 @@ public class Z80 extends BaseComponent {
 	 * Subtract with carry a 8-bit value from the A register and set the
 	 * appropriate flags.
 	 */
-	private void sbc_a(int val8) {
+	public void sbc_a(int val8) {
 		int work16 = m_a8 - val8 - (m_carryF ? 1 : 0);
 		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
 				| ((work16 & 0x88) >> 3);
@@ -903,7 +1381,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * And a 8-bit value to the A register and set the appropriate flags.
 	 */
-	private void and_a(int val8) {
+	public void and_a(int val8) {
 		m_a8 &= val8;
 		m_signF = ((m_a8 & 0x80) != 0);
 		m_zeroF = (m_a8 == 0);
@@ -918,7 +1396,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Xor a 8-bit value to the A register and set the appropriate flags.
 	 */
-	private void xor_a(int val8) {
+	public void xor_a(int val8) {
 		m_a8 ^= val8;
 		m_signF = ((m_a8 & 0x80) != 0);
 		m_zeroF = (m_a8 == 0);
@@ -933,7 +1411,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Or a 8-bit value to the A register and set the appropriate flags.
 	 */
-	private void or_a(int val8) {
+	public void or_a(int val8) {
 		m_a8 |= val8;
 		m_signF = ((m_a8 & 0x80) != 0);
 		m_zeroF = (m_a8 == 0);
@@ -948,7 +1426,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Compare a 8-bit value to the A register and set the appropriate flags.
 	 */
-	private void cmp_a(int val8) {
+	public void cmp_a(int val8) {
 		int work16 = m_a8 - val8;
 		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
 				| ((work16 & 0x88) >> 3);
@@ -966,7 +1444,7 @@ public class Z80 extends BaseComponent {
 	 * Compare a 8-bit value to the A register and set the appropriate flags,
 	 * except PARITY and CARRY.
 	 */
-	private void cmp_a_special(int val8) {
+	public void cmp_a_special(int val8) {
 		int work16 = m_a8 - val8;
 		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
 				| ((work16 & 0x88) >> 3);
@@ -979,7 +1457,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Test the given bit in a byte and set the appropriate flags.
 	 */
-	private void bit(int bit3, int reg8) {
+	public void bit(int bit3, int reg8) {
 		m_zeroF = ((reg8 & (0x01 << bit3)) == 0);
 		m_halfcarryF = true;
 		m_parityoverflowF = m_zeroF;
@@ -989,7 +1467,7 @@ public class Z80 extends BaseComponent {
 		m_5F = (bit3 == 5 && !m_zeroF);
 	}
 
-	private void bit_hl(int bit3, int val8) {
+	public void bit_hl(int bit3, int val8) {
 		m_zeroF = ((val8 & (0x01 << bit3)) == 0);
 		m_halfcarryF = true;
 		m_parityoverflowF = m_zeroF;
@@ -999,7 +1477,7 @@ public class Z80 extends BaseComponent {
 		m_5F = ((m_x8 & FIVE_MASK) != 0);
 	}
 
-	private void bit_xx(int bit3, int val8) {
+	public void bit_xx(int bit3, int val8) {
 		m_zeroF = ((val8 & (0x01 << bit3)) == 0);
 		m_halfcarryF = true;
 		m_parityoverflowF = m_zeroF;
@@ -1012,7 +1490,7 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Read an 8-bit value from a 16-bit I/O port and return it.
 	 */
-	private int in8(int port16) {
+	public int in8(int port16) {
 		int work8 = m_io.in8(port16);
 		m_signF = ((work8 & 0x80) != 0);
 		m_zeroF = (work8 == 0);
@@ -1120,6 +1598,8 @@ public class Z80 extends BaseComponent {
 			/* MOST USED INSTRUCTION 48k. IN 100M -> 16M*/
 			/* jr nz,D */
 			case 0x20:
+//				instructionTable[op8].execute();
+//				m_tstates += instructionTable[op8].incTstates();
 				if (!m_zeroF) {
 					m_tstates += 12;
 					m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
@@ -1133,8 +1613,8 @@ public class Z80 extends BaseComponent {
 			/* halt */
 			/* MOST USED INSTRUCTION 128k. IN 100M -> 35M times*/
 			case 0x76:
-//				m_tstates += instructionTable[op8].incTstates();
 //				instructionTable[op8].execute();
+//				m_tstates += instructionTable[op8].incTstates();
 				dec16pc();
 				m_tstates += 4;
 				break;

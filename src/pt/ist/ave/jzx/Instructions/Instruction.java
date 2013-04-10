@@ -12,7 +12,7 @@ public abstract class Instruction {
 		_opCode = opCode;
 	}
 	
-	public void setCPU(Z80 cpu) {
+	public static void setCPU(Z80 cpu) {
 		_cpu = cpu;
 	}
 	

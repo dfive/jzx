@@ -1,11 +1,11 @@
 package pt.ist.ave.jzx.Instructions;
 
 
-public class JRNZ extends Instruction {
+public class JRNZD extends Instruction {
 
 	private int _tstates;
 	
-	public JRNZ(short opCode) {
+	public JRNZD(short opCode) {
 		super(opCode);
 	}
 

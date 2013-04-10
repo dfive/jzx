@@ -1575,7 +1575,7 @@ public class Z80 extends BaseComponent {
 	 * decode it and execute it.
 	 */
 	public void emulate() {
-		//		instructionTable[0x76].setCPU(this);
+				instructionTable[0x76].setCPU(this);
 //		long instrs = 0;
 
 		while (true) {
@@ -1591,8 +1591,9 @@ public class Z80 extends BaseComponent {
 			//			instrs++;
 			//			if(instrs > 10000000)
 			//				stop();
-
+			
 			if(instructionTable[op8] != null) {
+
 				instructionTable[op8].execute();
 				m_tstates += instructionTable[op8].incTstates();
 			} else {
@@ -3013,7 +3014,6 @@ public class Z80 extends BaseComponent {
 						/* out (N),a */
 					case 0xD3:
 						m_tstates += 11;
-						//					System.out.println("OUT");
 						m_io.out((m_a8 << 8) | m_memory.read8(inc16pc()), m_a8);
 						break;
 
@@ -3408,9 +3408,9 @@ public class Z80 extends BaseComponent {
 					}
 				}
 			}
-			System.out.println("END");
-			dump();
 		}
+		System.out.println("END");
+		dump();
 	}
 	/**
 	 * Decode the instructions whose first opcode is 0xCB.

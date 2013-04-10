@@ -12,7 +12,7 @@ public class LD_HLNN extends Instruction {
 //		m_pc16 = incinc16(m_pc16);
 	
 		_cpu.hl16(_cpu.getM_memory().read16(_cpu.getM_pc16()));
-		_cpu.setM_pc16(_cpu.getM_pc16());
+		_cpu.setM_pc16(_cpu.incinc16(_cpu.getM_pc16()));
 		
 	}
 

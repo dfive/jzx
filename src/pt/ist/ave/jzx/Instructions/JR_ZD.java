@@ -16,7 +16,7 @@ public class JR_ZD extends Instruction {
 //			inc16pc();
 //		}
 		if(_cpu.getM_zeroF()){
-			_cpu.setM_pc16(_cpu.add16(_cpu.getM_pc16(),(byte)_cpu.getM_memory().read8(_cpu.getM_pc16()+1)));
+			_cpu.setM_pc16(_cpu.add16(_cpu.getM_pc16(),(byte)_cpu.getM_memory().read8(_cpu.getM_pc16()) + 1));
 		}else{
 			_cpu.inc16pc();
 		}

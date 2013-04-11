@@ -1,6 +1,7 @@
 package pt.ist.ave.jzx.Instructions;
 
 import pt.ist.ave.jzx.Instructions.ld.LD_AB;
+import pt.ist.ave.jzx.Instructions.ld.LD_AC;
 import pt.ist.ave.jzx.Instructions.ld.LD_AD;
 import pt.ist.ave.jzx.Instructions.ld.LD_AH;
 import pt.ist.ave.jzx.Instructions.ld.LD_AL;
@@ -17,9 +18,11 @@ import pt.ist.ave.jzx.Instructions.ld.LD_CD;
 import pt.ist.ave.jzx.Instructions.ld.LD_CMHL;
 import pt.ist.ave.jzx.Instructions.ld.LD_DENN;
 import pt.ist.ave.jzx.Instructions.ld.LD_EA;
+import pt.ist.ave.jzx.Instructions.ld.LD_HA;
 import pt.ist.ave.jzx.Instructions.ld.LD_HLMNN;
 import pt.ist.ave.jzx.Instructions.ld.LD_HLNN;
 import pt.ist.ave.jzx.Instructions.ld.LD_HN;
+import pt.ist.ave.jzx.Instructions.ld.LD_LA;
 import pt.ist.ave.jzx.Instructions.ld.LD_LB;
 import pt.ist.ave.jzx.Instructions.ld.LD_LC;
 import pt.ist.ave.jzx.Instructions.ld.LD_LN;
@@ -180,13 +183,15 @@ public class InstructionFactory {
 			return new LD_MHLE(opCode);
 		case 0x72:
 			return new LD_MHLD(opCode);
-		case 0x06:
-			return new LD_BN(opCode);
+//		case 0x06:
+//			return new LD_BN(opCode);
 		case 0xc0:
 			return new RETNZ(opCode);
 		case 0x4e:
 			return new LD_CMHL(opCode);
 		case 0x67:
+			return new LD_HA(opCode);
+		case 0x85:
 			return new ADD_AL(opCode);
 		case 0x2e:
 			return new LD_LN(opCode);
@@ -206,12 +211,10 @@ public class InstructionFactory {
 			return new SUB_C(opCode);
 		case 0x25:
 			return new DEC_H(opCode);
-		case 0x7b:
-			return new LD_AL(opCode);
 		case 0x95:
 			return new SUB_L(opCode);
-//		case 0xd6:
-//			return new SUB_N(opCode);
+		case 0xd6:
+			return new SUB_N(opCode);
 		case 0x7d:
 			return new LD_AL(opCode);
 		case 0xbd:

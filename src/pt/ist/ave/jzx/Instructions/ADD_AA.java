@@ -1,18 +1,20 @@
 package pt.ist.ave.jzx.Instructions;
 
-public class DEC_C extends Instruction {
+public class ADD_AA extends Instruction {
 
-	public DEC_C(short opCode) {
+	public ADD_AA(short opCode) {
 		super(opCode);
 	}
 
 	@Override
 	public void execute() {
-		_cpu.setM_c8(_cpu.dec8(_cpu.getM_c8()));
+		//add_a(m_a8);
+		_cpu.add_a(_cpu.getM_a8());
 	}
 
 	@Override
 	public int incTstates() {
+		//m_tstates += 4;
 		return 4;
 	}
 

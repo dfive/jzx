@@ -115,8 +115,10 @@ public class InstructionFactory {
 			return new INC_D(opCode);
 		case 0x4a:
 			return new LD_CD(opCode);
+//eSTA LIXADO---Já não está
 		case 0xc3:
 			return new JP_NN(opCode);
+			
 		case 0x2c:
 			return new INC_L(opCode);
 		case 0x68:
@@ -132,7 +134,7 @@ public class InstructionFactory {
 		case 0x1c:
 			return new INC_E(opCode);
 		case 0xb4:
-			return new OR_H(opCode);
+			return new OR_H(opCode);		
 		case 0x1a:
 			return new LD_AMDE(opCode);
 		case 0x02:
@@ -183,8 +185,9 @@ public class InstructionFactory {
 			return new LD_MHLE(opCode);
 		case 0x72:
 			return new LD_MHLD(opCode);
-//		case 0x06:
-//			return new LD_BN(opCode);
+// estava comentado
+		case 0x06:
+			return new LD_BN(opCode);
 		case 0xc0:
 			return new RETNZ(opCode);
 		case 0x4e:
@@ -195,10 +198,12 @@ public class InstructionFactory {
 			return new ADD_AL(opCode);
 		case 0x2e:
 			return new LD_LN(opCode);
-//		case 0xf2:
-//			return new JPP_NN(opCode);
-//		case 0x09:
-//			return new ADD_HLBC(opCode);
+//	estava comentado (ESTE ESTÁ LIXADO)-Já esta bom :)
+		case 0xf2:
+			return new JPP_NN(opCode);
+//	estava coemnatdo
+		case 0x09:
+			return new ADD_HLBC(opCode);
 		case 0xaf:
 			return new XOR_A(opCode);
 		case 0x3c:

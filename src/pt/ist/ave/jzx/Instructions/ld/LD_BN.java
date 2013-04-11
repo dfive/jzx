@@ -10,11 +10,13 @@ public class LD_BN extends Instruction {
 
 	@Override
 	public void execute() {
+//		m_b8 = m_memory.read8(inc16pc());
 		_cpu.setM_b8(_cpu.getM_memory().read8(_cpu.inc16pc()));
 	}
 
 	@Override
 	public int incTstates() {
+//		m_tstates += 7;
 		return 7;
 	}
 

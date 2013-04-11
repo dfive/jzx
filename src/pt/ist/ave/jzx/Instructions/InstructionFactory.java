@@ -2,23 +2,32 @@ package pt.ist.ave.jzx.Instructions;
 
 import pt.ist.ave.jzx.Instructions.ld.LD_AB;
 import pt.ist.ave.jzx.Instructions.ld.LD_AD;
+import pt.ist.ave.jzx.Instructions.ld.LD_AH;
+import pt.ist.ave.jzx.Instructions.ld.LD_AL;
 import pt.ist.ave.jzx.Instructions.ld.LD_AMDE;
 import pt.ist.ave.jzx.Instructions.ld.LD_AMHL;
 import pt.ist.ave.jzx.Instructions.ld.LD_AMNN;
 import pt.ist.ave.jzx.Instructions.ld.LD_AN;
+import pt.ist.ave.jzx.Instructions.ld.LD_BA;
 import pt.ist.ave.jzx.Instructions.ld.LD_BCNN;
 import pt.ist.ave.jzx.Instructions.ld.LD_BMHL;
+import pt.ist.ave.jzx.Instructions.ld.LD_BN;
 import pt.ist.ave.jzx.Instructions.ld.LD_CA;
 import pt.ist.ave.jzx.Instructions.ld.LD_CD;
+import pt.ist.ave.jzx.Instructions.ld.LD_CMHL;
 import pt.ist.ave.jzx.Instructions.ld.LD_DENN;
 import pt.ist.ave.jzx.Instructions.ld.LD_EA;
 import pt.ist.ave.jzx.Instructions.ld.LD_HLMNN;
 import pt.ist.ave.jzx.Instructions.ld.LD_HLNN;
+import pt.ist.ave.jzx.Instructions.ld.LD_HN;
 import pt.ist.ave.jzx.Instructions.ld.LD_LB;
 import pt.ist.ave.jzx.Instructions.ld.LD_LC;
+import pt.ist.ave.jzx.Instructions.ld.LD_LN;
 import pt.ist.ave.jzx.Instructions.ld.LD_MBCA;
 import pt.ist.ave.jzx.Instructions.ld.LD_MDEA;
 import pt.ist.ave.jzx.Instructions.ld.LD_MHLA;
+import pt.ist.ave.jzx.Instructions.ld.LD_MHLD;
+import pt.ist.ave.jzx.Instructions.ld.LD_MHLE;
 import pt.ist.ave.jzx.Instructions.ld.LD_MNNA;
 import pt.ist.ave.jzx.Instructions.ld.LD_MNNHL;
 import pt.ist.ave.jzx.Instructions.ld.LD_SPHL;
@@ -74,7 +83,7 @@ public class InstructionFactory {
 		case 0xcd:
 			return new CALL_NN(opCode);
 		case 0xc8:
-			return new RET_Z(opCode);
+			return new RETZ(opCode);
 		case 0x23:
 			return new INC_HL(opCode);
 		case 0xb0:
@@ -161,6 +170,82 @@ public class InstructionFactory {
 			return new CP_C(opCode);
 		case 0x46:
 			return new LD_BMHL(opCode);
+		case 0x26:
+			return new LD_HN(opCode);
+		case 0xca:
+			return new JPZ_NN(opCode);
+		case 0x86:
+			return new ADD_AMHL(opCode);
+		case 0x73:
+			return new LD_MHLE(opCode);
+		case 0x72:
+			return new LD_MHLD(opCode);
+		case 0x06:
+			return new LD_BN(opCode);
+		case 0xc0:
+			return new RETNZ(opCode);
+		case 0x4e:
+			return new LD_CMHL(opCode);
+		case 0x67:
+			return new ADD_AL(opCode);
+		case 0x2e:
+			return new LD_LN(opCode);
+//		case 0xf2:
+//			return new JPP_NN(opCode);
+//		case 0x09:
+//			return new ADD_HLBC(opCode);
+		case 0xaf:
+			return new XOR_A(opCode);
+		case 0x3c:
+			return new INC_A(opCode);
+		case 0x7c:
+			return new LD_AH(opCode);
+		case 0x90:
+			return new SUB_B(opCode);
+		case 0x91:
+			return new SUB_C(opCode);
+		case 0x25:
+			return new DEC_H(opCode);
+		case 0x7b:
+			return new LD_AL(opCode);
+		case 0x95:
+			return new SUB_L(opCode);
+//		case 0xd6:
+//			return new SUB_N(opCode);
+		case 0x7d:
+			return new LD_AL(opCode);
+		case 0xbd:
+			return new CP_L(opCode);
+		case 0x47:
+			return new LD_BA(opCode);
+		case 0x81:
+			return new ADD_AC(opCode);
+		case 0x29:
+			return new ADD_HLHL(opCode);
+		case 0xb7:
+			return new OR_A(opCode);
+		case 0x18:
+			return new JR_D(opCode);
+		case 0x6f:
+			return new LD_LA(opCode);
+		case 0x0f:
+			return new RRCA(opCode);
+		case 0x30:
+			return new JRNC_D(opCode);
+		case 0x1d:
+			return new DEC_E(opCode);
+		case 0x87:
+			return new ADD_AA(opCode);
+		case 0x2d:
+			return new DEC_L(opCode);
+		case 0x0d:
+			return new DEC_C(opCode);
+		case 0xdb:
+			return new IN_AN(opCode);
+		case 0x15:
+			return new DEC_D(opCode);
+		case 0x79:
+			return new LD_AC(opCode);			
 		}
 		return null;
 	}

@@ -429,11 +429,14 @@ public class InstructionFactory {
 			return new LD_SPHL(opCode);
 			//		case 0xfa:
 			//		case 0xfb:
-			//		case 0xfc:
-			//		case 0xfd:
+		case 0xfc:
+			return new CALL_MNN(opCode);
+		case 0xfd:
+			return new DECODEXX(opCode);
 		case 0xfe:
 			return new CP_N(opCode);
 		case 0xff:
+			return new RST(opCode);
 		}
 		return null;
 	}

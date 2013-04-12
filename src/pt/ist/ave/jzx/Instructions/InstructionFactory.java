@@ -213,10 +213,10 @@ public class InstructionFactory {
 			return new LD_CMHL(opCode);
 		case 0x4f:
 			return new LD_CA(opCode);
-//		case 0x50:
+			//		case 0x50:
 			//		case 0x51:
-				//		case 0x52:
-					//		case 0x53:
+			//		case 0x52:
+			//		case 0x53:
 			//		case 0x54:
 			//		case 0x55:
 			//		case 0x56:
@@ -274,7 +274,7 @@ public class InstructionFactory {
 		case 0x7e:
 			return new LD_AMHL(opCode);
 			//		case 0x7f:
-//		case 0x80:
+			//		case 0x80:
 		case 0x81:
 			return new ADD_AC(opCode);
 			//		case 0x82:
@@ -379,7 +379,9 @@ public class InstructionFactory {
 			return new RET(opCode);
 		case 0xca:
 			return new JPZ_NN(opCode);
-			//		case 0xcb:
+		case 0xcb:
+			return new DECODECB(opCode);
+
 			//		case 0xcc:
 		case 0xcd:
 			return new CALL_NN(opCode);

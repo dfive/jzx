@@ -648,6 +648,8 @@ public class Z80 extends BaseComponent {
 	private static final Instruction[] instructionTable = new Instruction[256];
 
 	private static final int[] instructionCounter = new int[255];
+	private static long instrs = 0;
+
 
 
 	/** Inicialização da tabela */
@@ -1516,7 +1518,8 @@ public class Z80 extends BaseComponent {
 	 * etcetera. The sequence LD R,A/LD A,R increases A by two, except for the
 	 * highest bit: this bit of the R register is never changed.
 	 */
-	private int mone8() {
+	//was private
+	public int mone8() {
 		m_r8 = (m_r8 & 0x80) | ((m_r8 + 1) & 0x7f);
 
 		return m_memory.read8(inc16pc());
@@ -1579,7 +1582,6 @@ public class Z80 extends BaseComponent {
 	 */
 	public void emulate() {
 				instructionTable[0x76].setCPU(this);
-		long instrs = 0;
 
 		while (true) {
 			m_spectrum.update();
@@ -3418,9 +3420,17 @@ public class Z80 extends BaseComponent {
 	/**
 	 * Decode the instructions whose first opcode is 0xCB.
 	 */
-	private void decodeCB(int op8) {
+	//was private
+	public void decodeCB(int op8) {
 		int work8 = 0;
-
+		
+		//Descomentar para contar instruções e ver as mais usadas
+			instructionCounter[op8]++;
+			instrs++;
+			if(instrs > 100000){
+				stop();
+			}
+		
 		switch (op8) {
 		/* rlc b */
 		case 0x00:

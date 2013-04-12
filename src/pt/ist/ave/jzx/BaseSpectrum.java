@@ -292,6 +292,7 @@ public abstract class BaseSpectrum extends BaseComponent {
 	private int m_frames;
 	private int m_interrupts;
 	private long m_fpsTimer = System.currentTimeMillis();
+	private long clock = System.currentTimeMillis() + 366000;
 
 	public void update() {
 		int tStates = m_cpu.getTStates();
@@ -310,9 +311,10 @@ public abstract class BaseSpectrum extends BaseComponent {
 
 				m_frames++;
 				long elapsed = System.currentTimeMillis() - m_fpsTimer;
+				long tau = System.currentTimeMillis();
 				if (elapsed > 1000L) {
 					long fps = ((m_frames * 1000L) / elapsed);
-					m_status.setText("FPS: " + fps);
+					m_status.setText("FPS: " + fps + "    " + (clock - tau)/1000);
 					m_fpsTimer = System.currentTimeMillis();
 					m_frames = 0;
 				}

@@ -1,8 +1,5 @@
 package pt.ist.ave.jzx.v128;
 
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
 import pt.ist.ave.jzx.BaseIO;
 import pt.ist.ave.jzx.BaseLoader;
 import pt.ist.ave.jzx.BaseMemory;
@@ -192,14 +189,14 @@ public class IO extends BaseIO {
 					// Bit D5 is the page disable bit
 					m_last0x7ffd = val8;
 
-//					out.println("Page " + (BaseMemory.RAM0 + (val8 & B_SELRAM)) + " to " + 3);
+//					out.println("FIRST: " + (BaseMemory.RAM0 + (val8 & B_SELRAM)) + " to " + 3);
 //					if((BaseMemory.RAM0 + (val8 & B_SELRAM)) == 8)
 //						out.println("weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 					// Bits D0-D2 are RAM select at 0xC000
 					m_memory.pageIn(3, BaseMemory.RAM0 + (val8 & B_SELRAM));
 					
 					// Bit D4 is ROM select at 0x0000
-//					out.println("Rom " + (BaseMemory.ROM0 + ((val8 & B_SELROM) >> 4)) + " to " + 0);
+//					out.println("SECOND: " + (BaseMemory.ROM0 + ((val8 & B_SELROM) >> 4)) + " to " + 0);
 					m_memory.pageIn(0, BaseMemory.ROM0 + ((val8 & B_SELROM) >> 4));
 				}
 			}
@@ -217,7 +214,7 @@ public class IO extends BaseIO {
 	 */
 	public void load(BaseLoader loader) {
 		super.load(loader);
-		
+
 		out(P_BANK128, loader.getLast0x7ffd());
 		out(P_SNDCONTROL, loader.getLast0xfffd());
 	}

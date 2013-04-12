@@ -14,7 +14,6 @@ public class NonOptimizedInstruction extends Instruction {
 
 	@Override
 	public void execute() {
-
 	}
 
 	@Override

@@ -121,10 +121,10 @@ public abstract class BaseMemory extends BaseComponent {
 			m_screen = m_spectrum.getScreen();
 		}
 
-		pageIn(0, ROM0);
-		pageIn(1, RAM5);
-		pageIn(2, RAM2);
-		pageIn(3, RAM0);
+		pageIn(0, ROM0); //0
+		pageIn(1, RAM5); //9
+		pageIn(2, RAM2); //6
+		pageIn(3, RAM0); //4
 	}
 
 	/**
@@ -247,7 +247,6 @@ public abstract class BaseMemory extends BaseComponent {
 		int frame = (addr16 >> 14);
 		int offset = (addr16 & 0x3fff);
 		if(frame == 0 || frame == 3)
-//		out.println(offset);
 
 		if (m_frame[frame][offset] == (byte) val8) {
 			return;

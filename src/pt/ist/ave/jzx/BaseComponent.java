@@ -44,7 +44,7 @@ public abstract class BaseComponent {
 //	protected PrintStream out;
 //	{
 //		try {
-//			out = new PrintStream(new FileOutputStream("/home/antonio/output.txt"));
+//			out = new PrintStream(new FileOutputStream("/afs/ist.utl.pt/users/5/0/ist166950/output.txt"));
 //		} catch (FileNotFoundException e) {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();

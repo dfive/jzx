@@ -48,10 +48,49 @@
 			<arg value="128" />
 			
 			<arg value="-snapshot" />
-			<arg value="etc/tau.z80" />
+			<arg value="etc/RenegadeL3.z80" />
 		</java>
 	</target>
-	<target name="bombjack" depends="compile">
+	<target name="RenegadeL1" description="Run Renegade form level 1" depends="compile">
+		<java classname="${main}" fork="true">
+			<classpath refid="project.classpath" />
+			<arg value="-scale" />
+			<arg value="2" />
+
+			<arg value="-mode" />
+			<arg value="128" />
+			
+			<arg value="-snapshot" />
+			<arg value="etc/RenegadeL1.z80" />
+		</java>
+	</target>
+	<target name="RenegadeL2" description="Run Renegade form level 2" depends="compile">
+		<java classname="${main}" fork="true">
+			<classpath refid="project.classpath" />
+			<arg value="-scale" />
+			<arg value="2" />
+
+			<arg value="-mode" />
+			<arg value="128" />
+			
+			<arg value="-snapshot" />
+			<arg value="etc/RenegadeL2.z80" />
+		</java>
+	</target>
+	<target name="RenegadeL3" description="Run Renegade form level 3" depends="compile">
+		<java classname="${main}" fork="true">
+			<classpath refid="project.classpath" />
+			<arg value="-scale" />
+			<arg value="2" />
+
+			<arg value="-mode" />
+			<arg value="128" />
+			
+			<arg value="-snapshot" />
+			<arg value="etc/RenegadeL3.z80" />
+		</java>
+	</target>
+	<target name="Bombjack" depends="compile">
 			<java classname="${main}" fork="true">
 				<classpath refid="project.classpath" />
 				<arg value="-scale" />

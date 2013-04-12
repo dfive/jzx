@@ -64,5 +64,18 @@
 				<arg value="etc/bombjack.z80" />
 			</java>
 		</target>
+			<target name="Lemans" depends="compile">
+		<java classname="${main}" fork="true">
+			<classpath refid="project.classpath" />
+			<arg value="-scale" />
+			<arg value="2" />
+
+			<arg value="-mode" />
+			<arg value="128" />
+			
+			<arg value="-snapshot" />
+			<arg value="etc/Lemans.z80" />
+		</java>
+	</target>
 
 </project>

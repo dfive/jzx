@@ -140,7 +140,8 @@ public class JZXFrame {
 		if (loader != null) {
 			spectrum.load(loader);
 		}
-
+		
+		
 		spectrum.emulate();
 	}
 }

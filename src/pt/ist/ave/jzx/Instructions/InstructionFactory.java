@@ -327,7 +327,9 @@ public class InstructionFactory {
 			return new RET(opCode);
 		case 0xca:
 			return new JPZ_NN(opCode);
-//		case 0xcb:
+		case 0xcb:
+			return new DECODECB(opCode);
+			
 //		case 0xcc:
 		case 0xcd:
 			return new CALL_NN(opCode);

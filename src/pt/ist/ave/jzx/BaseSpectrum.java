@@ -123,6 +123,7 @@ public abstract class BaseSpectrum extends BaseComponent {
 
 		m_container.add(m_screen, BorderLayout.CENTER);
 		m_container.add(m_status, BorderLayout.SOUTH);
+	
 	}
 
 	/**
@@ -313,9 +314,11 @@ public abstract class BaseSpectrum extends BaseComponent {
 				if (elapsed > 1000L) {
 					long fps = ((m_frames * 1000L) / elapsed);
 					m_status.setText("FPS: " + fps);
+					
 					m_fpsTimer = System.currentTimeMillis();
 					m_frames = 0;
 				}
+				
 
 				// Fire an interrupt per frame
 				m_interrupts++;

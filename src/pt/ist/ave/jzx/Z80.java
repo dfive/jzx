@@ -2474,251 +2474,251 @@ public class Z80 extends BaseComponent {
 //					case 0x7F:
 //						m_tstates += 4;
 //						break;
-
-						/* add a,b */
-					case 0x80:
-						m_tstates += 4;
-						add_a(m_b8);
-						break;
-
-						/* add a,c */
-					case 0x81:
-						m_tstates += 4;
-						add_a(m_c8);
-						break;
-
-						/* add a,d */
-					case 0x82:
-						m_tstates += 4;
-						add_a(m_d8);
-						break;
-
-						/* add a,e */
-					case 0x83:
-						m_tstates += 4;
-						add_a(m_e8);
-						break;
-
-						/* add a,h */
-					case 0x84:
-						m_tstates += 4;
-						add_a(m_h8);
-						break;
-
-						/* add a,l */
-					case 0x85:
-						m_tstates += 4;
-						add_a(m_l8);
-						break;
-
-						/* add a,(hl) */
-					case 0x86:
-						m_tstates += 7;
-						work8 = m_memory.read8(hl16());
-						add_a(work8);
-						break;
-
-						/* add a,a */
-					case 0x87:
-						m_tstates += 4;
-						add_a(m_a8);
-						break;
-
-						/* adc a,b */
-					case 0x88:
-						m_tstates += 4;
-						adc_a(m_b8);
-						break;
-
-						/* adc a,c */
-					case 0x89:
-						m_tstates += 4;
-						adc_a(m_c8);
-						break;
-
-						/* adc a,d */
-					case 0x8A:
-						m_tstates += 4;
-						adc_a(m_d8);
-						break;
-
-						/* adc a,e */
-					case 0x8B:
-						m_tstates += 4;
-						adc_a(m_e8);
-						break;
-
-						/* adc a,h */
-					case 0x8C:
-						m_tstates += 4;
-						adc_a(m_h8);
-						break;
-
-						/* adc a,l */
-					case 0x8D:
-						m_tstates += 4;
-						adc_a(m_l8);
-						break;
-
-						/* adc a,(hl) */
-					case 0x8E:
-						m_tstates += 7;
-						work8 = m_memory.read8(hl16());
-						adc_a(work8);
-						break;
-
-						/* adc a,a */
-					case 0x8F:
-						m_tstates += 4;
-						adc_a(m_a8);
-						break;
-
-						/* sub b */
-					case 0x90:
-						m_tstates += 4;
-						sub_a(m_b8);
-						break;
-
-						/* sub c */
-					case 0x91:
-						m_tstates += 4;
-						sub_a(m_c8);
-						break;
-
-						/* sub d */
-					case 0x92:
-						m_tstates += 4;
-						sub_a(m_d8);
-						break;
-
-						/* sub e */
-					case 0x93:
-						m_tstates += 4;
-						sub_a(m_e8);
-						break;
-
-						/* sub h */
-					case 0x94:
-						m_tstates += 4;
-						sub_a(m_h8);
-						break;
-
-						/* sub l */
-					case 0x95:
-						m_tstates += 4;
-						sub_a(m_l8);
-						break;
-
-						/* sub (hl) */
-					case 0x96:
-						m_tstates += 7;
-						work8 = m_memory.read8(hl16());
-						sub_a(work8);
-						break;
-
-						/* sub a */
-					case 0x97:
-						m_tstates += 4;
-						sub_a(m_a8);
-						break;
-
-						/* sbc a,b */
-					case 0x98:
-						m_tstates += 4;
-						sbc_a(m_b8);
-						break;
-
-						/* sbc a,c */
-					case 0x99:
-						m_tstates += 4;
-						sbc_a(m_c8);
-						break;
-
-						/* sbc a,d */
-					case 0x9A:
-						m_tstates += 4;
-						sbc_a(m_d8);
-						break;
-
-						/* sbc a,e */
-					case 0x9B:
-						m_tstates += 4;
-						sbc_a(m_e8);
-						break;
-
-						/* sbc a,h */
-					case 0x9C:
-						m_tstates += 4;
-						sbc_a(m_h8);
-						break;
-
-						/* sbc a,l */
-					case 0x9D:
-						m_tstates += 4;
-						sbc_a(m_l8);
-						break;
-
-						/* sbc a,(hl) */
-					case 0x9E:
-						m_tstates += 7;
-						work8 = m_memory.read8(hl16());
-						sbc_a(work8);
-						break;
-
-						/* sbc a,a */
-					case 0x9F:
-						m_tstates += 4;
-						sbc_a(m_a8);
-						break;
-
-						/* and b */
-					case 0xA0:
-						m_tstates += 4;
-						and_a(m_b8);
-						break;
-
-						/* and c */
-					case 0xA1:
-						m_tstates += 4;
-						and_a(m_c8);
-						break;
-
-						/* and d */
-					case 0xA2:
-						m_tstates += 4;
-						and_a(m_d8);
-						break;
-
-						/* and e */
-					case 0xA3:
-						m_tstates += 4;
-						and_a(m_e8);
-						break;
-
-						/* and h */
-					case 0xA4:
-						m_tstates += 4;
-						and_a(m_h8);
-						break;
-
-						/* and l */
-					case 0xA5:
-						m_tstates += 4;
-						and_a(m_l8);
-						break;
-
-						/* and (hl) */
-					case 0xA6:
-						m_tstates += 7;
-						work8 = m_memory.read8(hl16());
-						and_a(work8);
-						break;
-
-						/* and a */
-					case 0xA7:
-						m_tstates += 4;
-						and_a(m_a8);
-						break;
+//
+//						/* add a,b */
+//					case 0x80:
+//						m_tstates += 4;
+//						add_a(m_b8);
+//						break;
+//
+//						/* add a,c */
+//					case 0x81:
+//						m_tstates += 4;
+//						add_a(m_c8);
+//						break;
+//
+//						/* add a,d */
+//					case 0x82:
+//						m_tstates += 4;
+//						add_a(m_d8);
+//						break;
+//
+//						/* add a,e */
+//					case 0x83:
+//						m_tstates += 4;
+//						add_a(m_e8);
+//						break;
+//
+//						/* add a,h */
+//					case 0x84:
+//						m_tstates += 4;
+//						add_a(m_h8);
+//						break;
+//
+//						/* add a,l */
+//					case 0x85:
+//						m_tstates += 4;
+//						add_a(m_l8);
+//						break;
+//
+//						/* add a,(hl) */
+//					case 0x86:
+//						m_tstates += 7;
+//						work8 = m_memory.read8(hl16());
+//						add_a(work8);
+//						break;
+//
+//						/* add a,a */
+//					case 0x87:
+//						m_tstates += 4;
+//						add_a(m_a8);
+//						break;
+//
+//						/* adc a,b */
+//					case 0x88:
+//						m_tstates += 4;
+//						adc_a(m_b8);
+//						break;
+//
+//						/* adc a,c */
+//					case 0x89:
+//						m_tstates += 4;
+//						adc_a(m_c8);
+//						break;
+//
+//						/* adc a,d */
+//					case 0x8A:
+//						m_tstates += 4;
+//						adc_a(m_d8);
+//						break;
+//
+//						/* adc a,e */
+//					case 0x8B:
+//						m_tstates += 4;
+//						adc_a(m_e8);
+//						break;
+//
+//						/* adc a,h */
+//					case 0x8C:
+//						m_tstates += 4;
+//						adc_a(m_h8);
+//						break;
+//
+//						/* adc a,l */
+//					case 0x8D:
+//						m_tstates += 4;
+//						adc_a(m_l8);
+//						break;
+//
+//						/* adc a,(hl) */
+//					case 0x8E:
+//						m_tstates += 7;
+//						work8 = m_memory.read8(hl16());
+//						adc_a(work8);
+//						break;
+//
+//						/* adc a,a */
+//					case 0x8F:
+//						m_tstates += 4;
+//						adc_a(m_a8);
+//						break;
+//
+//						/* sub b */
+//					case 0x90:
+//						m_tstates += 4;
+//						sub_a(m_b8);
+//						break;
+//
+//						/* sub c */
+//					case 0x91:
+//						m_tstates += 4;
+//						sub_a(m_c8);
+//						break;
+//
+//						/* sub d */
+//					case 0x92:
+//						m_tstates += 4;
+//						sub_a(m_d8);
+//						break;
+//
+//						/* sub e */
+//					case 0x93:
+//						m_tstates += 4;
+//						sub_a(m_e8);
+//						break;
+//
+//						/* sub h */
+//					case 0x94:
+//						m_tstates += 4;
+//						sub_a(m_h8);
+//						break;
+//
+//						/* sub l */
+//					case 0x95:
+//						m_tstates += 4;
+//						sub_a(m_l8);
+//						break;
+//
+//						/* sub (hl) */
+//					case 0x96:
+//						m_tstates += 7;
+//						work8 = m_memory.read8(hl16());
+//						sub_a(work8);
+//						break;
+//
+//						/* sub a */
+//					case 0x97:
+//						m_tstates += 4;
+//						sub_a(m_a8);
+//						break;
+//
+//						/* sbc a,b */
+//					case 0x98:
+//						m_tstates += 4;
+//						sbc_a(m_b8);
+//						break;
+//
+//						/* sbc a,c */
+//					case 0x99:
+//						m_tstates += 4;
+//						sbc_a(m_c8);
+//						break;
+//
+//						/* sbc a,d */
+//					case 0x9A:
+//						m_tstates += 4;
+//						sbc_a(m_d8);
+//						break;
+//
+//						/* sbc a,e */
+//					case 0x9B:
+//						m_tstates += 4;
+//						sbc_a(m_e8);
+//						break;
+//
+//						/* sbc a,h */
+//					case 0x9C:
+//						m_tstates += 4;
+//						sbc_a(m_h8);
+//						break;
+//
+//						/* sbc a,l */
+//					case 0x9D:
+//						m_tstates += 4;
+//						sbc_a(m_l8);
+//						break;
+//
+//						/* sbc a,(hl) */
+//					case 0x9E:
+//						m_tstates += 7;
+//						work8 = m_memory.read8(hl16());
+//						sbc_a(work8);
+//						break;
+//
+//						/* sbc a,a */
+//					case 0x9F:
+//						m_tstates += 4;
+//						sbc_a(m_a8);
+//						break;
+//
+//						/* and b */
+//					case 0xA0:
+//						m_tstates += 4;
+//						and_a(m_b8);
+//						break;
+//
+//						/* and c */
+//					case 0xA1:
+//						m_tstates += 4;
+//						and_a(m_c8);
+//						break;
+//
+//						/* and d */
+//					case 0xA2:
+//						m_tstates += 4;
+//						and_a(m_d8);
+//						break;
+//
+//						/* and e */
+//					case 0xA3:
+//						m_tstates += 4;
+//						and_a(m_e8);
+//						break;
+//
+//						/* and h */
+//					case 0xA4:
+//						m_tstates += 4;
+//						and_a(m_h8);
+//						break;
+//
+//						/* and l */
+//					case 0xA5:
+//						m_tstates += 4;
+//						and_a(m_l8);
+//						break;
+//
+//						/* and (hl) */
+//					case 0xA6:
+//						m_tstates += 7;
+//						work8 = m_memory.read8(hl16());
+//						and_a(work8);
+//						break;
+//
+//						/* and a */
+//					case 0xA7:
+//						m_tstates += 4;
+//						and_a(m_a8);
+//						break;
 
 						/* xor b */
 					case 0xA8:

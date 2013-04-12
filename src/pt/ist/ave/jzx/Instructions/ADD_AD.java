@@ -1,14 +1,14 @@
 package pt.ist.ave.jzx.Instructions;
 
-public class SUB_B extends Instruction {
+public class ADD_AD extends Instruction {
 
-	public SUB_B(short opCode) {
+	public ADD_AD(short opCode) {
 		super(opCode);
 	}
 
 	@Override
 	public void execute() {
-		_cpu.sub_a(_cpu.getM_b8());
+		_cpu.add_a(_cpu.getM_d8());
 	}
 
 	@Override

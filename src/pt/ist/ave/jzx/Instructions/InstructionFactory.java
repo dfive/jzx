@@ -260,52 +260,80 @@ public class InstructionFactory {
 			return new LD_AMHL(opCode);
 		case 0x7f:
 			return new LD_AA(opCode);
-			//		case 0x80:
+		case 0x80:
+			return new ADD_AB(opCode);
 		case 0x81:
 			return new ADD_AC(opCode);
-			//		case 0x82:
+		case 0x82:
+			return new ADD_AD(opCode);
 		case 0x83:
 			return new ADD_AE(opCode);
-			//		case 0x84:
+		case 0x84:
+			return new ADD_AH(opCode);
 		case 0x85:
 			return new ADD_AL(opCode);
 		case 0x86:
 			return new ADD_AMHL(opCode);
 		case 0x87:
 			return new ADD_AA(opCode);
-			//		case 0x88:
-			//		case 0x89:
-			//		case 0x8a:
-			//		case 0x8b:
-			//		case 0x8c:
-			//		case 0x8d:
-			//		case 0x8e:
-			//		case 0x8f:
+		case 0x88:
+			return new ADDC_AB(opCode);
+		case 0x89:
+			return new ADDC_AC(opCode);
+		case 0x8a:
+			return new ADDC_AD(opCode);
+		case 0x8b:
+			return new ADDC_AE(opCode);
+		case 0x8c:
+			return new ADDC_AH(opCode);
+		case 0x8d:
+			return new ADDC_AL(opCode);
+		case 0x8e:
+			return new ADDC_AMHL(opCode);
+		case 0x8f:
+			return new ADDC_AA(opCode);
 		case 0x90:
-			return new SUB_B(opCode);
+			return new SUB_AB(opCode);
 		case 0x91:
-			return new SUB_C(opCode);
-			//		case 0x92:
-			//		case 0x93:
-			//		case 0x94:
+			return new SUB_AC(opCode);
+		case 0x92:
+			return new SUB_AD(opCode);
+		case 0x93:
+			return new SUB_AE(opCode);
+		case 0x94:
+			return new SUB_AH(opCode);
 		case 0x95:
-			return new SUB_L(opCode);
-			//		case 0x96:
-			//		case 0x97:
-			//		case 0x98:
-			//		case 0x99:
-			//		case 0x9a:
-			//		case 0x9b:
-			//		case 0x9c:
-			//		case 0x9d:
-			//		case 0x9e:
-			//		case 0x9f:
-			//		case 0xa0:
+			return new SUB_AL(opCode);
+		case 0x96:
+			return new SUB_AMHL(opCode);
+		case 0x97:
+			return new SUB_AA(opCode);
+		case 0x98:
+			return new SUBC_AB(opCode);
+		case 0x99:
+			return new SUBC_AC(opCode);
+		case 0x9a:
+			return new SUBC_AD(opCode);
+		case 0x9b:
+			return new SUBC_AE(opCode);
+		case 0x9c:
+			return new SUBC_AH(opCode);
+		case 0x9d:
+			return new SUBC_AL(opCode);
+		case 0x9e:
+			return new SUBC_AMHL(opCode);
+		case 0x9f:
+			return new SUBC_AA(opCode);
+		case 0xa0:
+			return new AND_B(opCode);
 		case 0xa1:
 			return new AND_C(opCode);
-			//		case 0xa2:
-			//		case 0xa3:
-			//		case 0xa4:
+		case 0xa2:
+			return new AND_D(opCode);
+		case 0xa3:
+			return new AND_E(opCode);
+		case 0xa4:
+			return new AND_H(opCode);
 		case 0xa5:
 			return new AND_L(opCode);
 		case 0xa6:
@@ -382,7 +410,7 @@ public class InstructionFactory {
 		case 0xd5:
 			return new PUSH_DE(opCode);
 		case 0xd6:
-			return new SUB_N(opCode);
+			return new SUB_AN(opCode);
 			//		case 0xd7:
 			//		case 0xd8:
 		case 0xd9:

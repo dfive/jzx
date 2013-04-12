@@ -1,8 +1,8 @@
 package pt.ist.ave.jzx.Instructions;
 
-public class SUB_N extends Instruction {
+public class SUB_AN extends Instruction {
 
-	public SUB_N(short opCode) {
+	public SUB_AN(short opCode) {
 		super(opCode);
 	}
 

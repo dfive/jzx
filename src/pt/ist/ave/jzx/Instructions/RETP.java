@@ -1,10 +1,10 @@
 package pt.ist.ave.jzx.Instructions;
 
-public class RETPO extends Instruction {
+public class RETP extends Instruction {
 
 	private int _tstates;
 
-	public RETPO(short opCode) {
+	public RETP(short opCode) {
 		super(opCode);
 	}
 

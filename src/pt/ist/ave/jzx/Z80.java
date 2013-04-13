@@ -1597,1128 +1597,1128 @@ public class Z80 extends BaseComponent {
 //						if(instrs > 10000000)
 //							stop();
 			
-			if(instructionTable[op8] != null) {
-
-				instructionTable[op8].execute();
-				m_tstates += instructionTable[op8].incTstates();
-			} else {
+//			if(instructionTable[op8] != null) {
+//
+//				instructionTable[op8].execute();
+//				m_tstates += instructionTable[op8].incTstates();
+//			} else {
 
 				switch (op8) {
 
-//				/* MOST USED INSTRUCTION 48k. IN 100M -> 16M*/
-//				/* jr nz,D */
-//				case 0x20:
-//					if (!m_zeroF) {
-//						m_tstates += 12;
-//						m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
-//					} else {
-//						m_tstates += 7;
-//						inc16pc();
-//					}
-//					break;
-//
-//
-//					/* halt */
-//					/* MOST USED INSTRUCTION 128k. IN 100M -> 35M times*/
-//				case 0x76:
-//					dec16pc();
-//					m_tstates += 4;
-//					break;
-//
-//					/* ld a,b */
-//					/* 2 MOST USED INSTRUCTION. */
-//				case 0x78:
-//					m_tstates += 4;
-//					m_a8 = m_b8;
-//					break;
-//
-//					/* or c */
-//					/* 3 MOST USED INSTRUCTION. */
-//				case 0xB1:
-//					m_tstates += 4;
-//					or_a(m_c8);
-//					break;
-//
-//					/* nop */
-//				case 0x00:
-//					m_tstates += 4;
-//					break;
-//
-//					/* ld bc,NN */
-//				case 0x01:
-//					m_tstates += 10;
-//					bc16(m_memory.read16(m_pc16));
-//					m_pc16 = incinc16(m_pc16);
-//					break;
-//
-//					/* ld (bc),a */
-//				case 0x02:
-//					m_tstates += 7;
-//					m_memory.write8(bc16(), m_a8);
-//					break;
-//
-//					/* inc bc */
-//				case 0x03:
-//					m_tstates += 6;
-//					inc16bc();
-//					break;
-//
-//					/* inc b */
-//				case 0x04:
-//					m_tstates += 4;
-//					m_b8 = inc8(m_b8);
-//					break;
-//
-//					/* dec b */
-//				case 0x05:
-//					m_tstates += 4;
-//					m_b8 = dec8(m_b8);
-//					break;
-//
-//					/* ld b,N */
-//				case 0x06:
-//					m_tstates += 7;
-//					m_b8 = m_memory.read8(inc16pc());
-//					break;
-//
-//					/* rlca */
-//				case 0x07:
-//					m_tstates += 4;
-//					m_carryF = ((m_a8 & 0x80) != 0);
-//					m_a8 = (((m_a8 << 1) | (m_carryF ? 1 : 0)) & 0xff);
-//					m_halfcarryF = false;
-//					m_addsubtractF = false;
-//					m_3F = ((m_a8 & THREE_MASK) != 0);
-//					m_5F = ((m_a8 & FIVE_MASK) != 0);
-//					break;
-//
-//					/* ex af,af' */
-//				case 0x08:
-//					m_tstates += 4;
-//					storeFlags();
-//					work16 = af16();
-//					af16(m_af16alt);
-//					m_af16alt = work16;
-//					retrieveFlags();
-//					break;
-//
-//					/* add hl,bc */
-//				case 0x09:
-//					m_tstates += 11;
-//					add_hl(bc16());
-//					break;
-//
-//					/* ld a,(bc) */
-//				case 0x0A:
-//					m_tstates += 7;
-//					m_a8 = m_memory.read8(bc16());
-//					break;
-//
-//					/* dec bc */
-//				case 0x0B:
-//					m_tstates += 6;
-//					dec16bc();
-//					break;
-//
-//					/* inc c */
-//				case 0x0C:
-//					m_tstates += 4;
-//					m_c8 = inc8(m_c8);
-//					break;
-//
-//					/* dec c */
-//				case 0x0D:
-//					m_tstates += 4;
-//					m_c8 = dec8(m_c8);
-//					break;
-//
-//					/* ld c,N */
-//				case 0x0E:
-//					m_tstates += 7;
-//					m_c8 = m_memory.read8(inc16pc());
-//					break;
-//
-//					/* rrca */
-//				case 0x0F:
-//					m_tstates += 4;
-//					m_carryF = ((m_a8 & 0x01) != 0);
-//					m_a8 = (m_a8 >> 1) | ((m_carryF ? 1 : 0) << 7);
-//					m_halfcarryF = false;
-//					m_addsubtractF = false;
-//					m_3F = ((m_a8 & THREE_MASK) != 0);
-//					m_5F = ((m_a8 & FIVE_MASK) != 0);
-//					break;
-//
-//					/* djnz D */
-//				case 0x10:
-//					m_b8 = ((m_b8 - 1) & 0xff);
-//					if (m_b8 != 0) {
-//						m_tstates += 13;
-//						m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
-//					} else {
-//						m_tstates += 8;
-//						inc16pc();
-//					}
-//					break;
-//
-//					/* ld de,NN */
-//				case 0x11:
-//					m_tstates += 10;
-//					de16(m_memory.read16(m_pc16));
-//					m_pc16 = incinc16(m_pc16);
-//					break;
-//
-//					/* ld (de),a */
-//				case 0x12:
-//					m_tstates += 7;
-//					m_memory.write8(de16(), m_a8);
-//					break;
-//
-//					/* inc de */
-//				case 0x13:
-//					m_tstates += 6;
-//					inc16de();
-//					break;
-//
-//					/* inc d */
-//				case 0x14:
-//					m_tstates += 4;
-//					m_d8 = inc8(m_d8);
-//					break;
-//
-//					/* dec d */
-//				case 0x15:
-//					m_tstates += 4;
-//					m_d8 = dec8(m_d8);
-//					break;
-//
-//					/* ld d,N */
-//				case 0x16:
-//					m_tstates += 7;
-//					m_d8 = m_memory.read8(inc16pc());
-//					break;
-//
-//					/* rla */
-//				case 0x17:
-//					m_tstates += 4;
-//					work8 = (m_carryF ? 1 : 0);
-//					m_carryF = ((m_a8 & 0x80) != 0);
-//					m_a8 = (((m_a8 << 1) | work8) & 0xff);
-//					m_halfcarryF = false;
-//					m_addsubtractF = false;
-//					m_3F = ((m_a8 & THREE_MASK) != 0);
-//					m_5F = ((m_a8 & FIVE_MASK) != 0);
-//					break;
-//
-//					/* jr D */
-//				case 0x18:
-//					m_tstates += 12;
-//					m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
-//					m_x8 = m_pc16 >> 8;
-//					break;
-//
-//					/* add hl,de */
-//					case 0x19:
-//						m_tstates += 11;
-//						add_hl(de16());
-//						break;
-//
-//						/* ld a,(de) */
-//					case 0x1A:
-//						m_tstates += 7;
-//						m_a8 = m_memory.read8(de16());
-//						break;
-//
-//						/* dec de */
-//					case 0x1B:
-//						m_tstates += 6;
-//						dec16de();
-//						break;
-//
-//						/* inc e */
-//					case 0x1C:
-//						m_tstates += 4;
-//						m_e8 = inc8(m_e8);
-//						break;
-//
-//						/* dec e */
-//					case 0x1D:
-//						m_tstates += 4;
-//						m_e8 = dec8(m_e8);
-//						break;
-//
-//						/* ld e,N */
-//					case 0x1E:
-//						m_tstates += 7;
-//						m_e8 = m_memory.read8(inc16pc());
-//						break;
-//
-//						/* rra */
-//					case 0x1F:
-//						m_tstates += 4;
-//						work8 = (m_carryF ? 1 : 0);
-//						m_carryF = ((m_a8 & 0x01) != 0);
-//						m_a8 = (m_a8 >> 1) | (work8 << 7);
-//						m_halfcarryF = false;
-//						m_addsubtractF = false;
-//						m_3F = ((m_a8 & THREE_MASK) != 0);
-//						m_5F = ((m_a8 & FIVE_MASK) != 0);
-//						break;
-//
-//						/* ld hl,NN */
-//					case 0x21:
-//						m_tstates += 10;
-//						hl16(m_memory.read16(m_pc16));
-//						m_pc16 = incinc16(m_pc16);
-//						break;
-//
-//						/* ld (NN),hl */
-//					case 0x22:
-//						m_tstates += 16;
-//						m_memory.write16(m_memory.read16(m_pc16), hl16());
-//						m_pc16 = incinc16(m_pc16);
-//						break;
-//
-//						/* inc hl */
-//					case 0x23:
-//						m_tstates += 6;
-//						inc16hl();
-//						break;
-//
-//						/* inc h */
-//					case 0x24:
-//						m_tstates += 4;
-//						m_h8 = inc8(m_h8);
-//						break;
-//
-//						/* dec h */
-//					case 0x25:
-//						m_tstates += 4;
-//						m_h8 = dec8(m_h8);
-//						break;
-//
-//						/* ld h,N */
-//					case 0x26:
-//						m_tstates += 7;
-//						m_h8 = m_memory.read8(inc16pc());
-//						break;
-//
-//						/* daa */
-//					case 0x27:
-//						m_tstates += 4;
-//						boolean carry = m_carryF;
-//						boolean addsubtract = m_addsubtractF;
-//						if (!addsubtract) {
-//							work8 = 0;
-//							if (m_halfcarryF || (m_a8 & 0x0f) > 9) {
-//								work8 = 0x06;
-//							}
-//							if (m_carryF || (m_a8 >> 4) > 9
-//									|| ((m_a8 >> 4) >= 9 && (m_a8 & 0x0f) > 9)) {
-//								work8 |= 0x60;
-//								carry = true;
-//							}
-//						} else {
-//							if (m_carryF) {
-//								work8 = m_halfcarryF ? 0x9a : 0xa0;
-//							} else {
-//								work8 = m_halfcarryF ? 0xfa : 0x00;
-//							}
-//						}
-//						add_a(work8);
-//						m_addsubtractF = addsubtract;
-//						m_parityoverflowF = m_parityTable[m_a8];
-//						m_carryF = carry;
-//						break;
-//
-//						/* jr z,D */
-//					case 0x28:
-//						if (m_zeroF) {
-//							m_tstates += 12;
-//							m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
-//						} else {
-//							m_tstates += 7;
-//							inc16pc();
-//						}
-//						break;
-//
-//						/* add hl,hl */
-//					case 0x29:
-//						m_tstates += 11;
-//						add_hl(hl16());
-//						break;
-//
-//						/* ld hl,(NN) */
-//					case 0x2A:
-//						m_tstates += 16;
-//						hl16(m_memory.read16(m_memory.read16(m_pc16)));
-//						m_pc16 = incinc16(m_pc16);
-//						break;
-//
-//						/* dec hl */
-//					case 0x2B:
-//						m_tstates += 6;
-//						dec16hl();
-//						break;
-//
-//						/* inc l */
-//					case 0x2C:
-//						m_tstates += 4;
-//						m_l8 = inc8(m_l8);
-//						break;
-//
-//						/* dec l */
-//					case 0x2D:
-//						m_tstates += 4;
-//						m_l8 = dec8(m_l8);
-//						break;
-//
-//						/* ld l,N */
-//					case 0x2E:
-//						m_tstates += 7;
-//						m_l8 = m_memory.read8(inc16pc());
-//						break;
-//
-//						/* cpl */
-//					case 0x2F:
-//						m_tstates += 4;
-//						m_a8 ^= 0xff;
-//						m_halfcarryF = true;
-//						m_addsubtractF = true;
-//						m_3F = ((m_a8 & THREE_MASK) != 0);
-//						m_5F = ((m_a8 & FIVE_MASK) != 0);
-//						break;
-//
-//						/* jr nc,D */
-//					case 0x30:
-//						if (!m_carryF) {
-//							m_tstates += 12;
-//							m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
-//						} else {
-//							m_tstates += 7;
-//							inc16pc();
-//						}
-//						break;
-//
-//						/* ld sp,NN */
-//					case 0x31:
-//						m_tstates += 10;
-//						m_sp16 = m_memory.read16(m_pc16);
-//						m_pc16 = incinc16(m_pc16);
-//						break;
-//
-//						/* ld (NN),a */
-//					case 0x32:
-//						m_tstates += 13;
-//						m_memory.write8(m_memory.read16(m_pc16), m_a8);
-//						m_pc16 = incinc16(m_pc16);
-//						break;
-//
-//						/* inc sp */
-//					case 0x33:
-//						m_tstates += 6;
-//						inc16sp();
-//						break;
-//
-//						/* inc (hl) */
-//					case 0x34:
-//						m_tstates += 11;
-//						work8 = m_memory.read8(hl16());
-//						work8 = inc8(work8);
-//						m_memory.write8(hl16(), work8);
-//						break;
-//
-//						/* dec (hl) */
-//					case 0x35:
-//						m_tstates += 11;
-//						work8 = m_memory.read8(hl16());
-//						work8 = dec8(work8);
-//						m_memory.write8(hl16(), work8);
-//						break;
-//
-//						/* ld (hl),N */
-//					case 0x36:
-//						m_tstates += 10;
-//						m_memory.write8(hl16(), m_memory.read8(inc16pc()));
-//						break;
-//
-//						/* scf */
-//					case 0x37:
-//						m_tstates += 4;
-//						m_halfcarryF = false;
-//						m_addsubtractF = false;
-//						m_carryF = true;
-//						m_3F = ((m_a8 & THREE_MASK) != 0);
-//						m_5F = ((m_a8 & FIVE_MASK) != 0);
-//						break;
-//
-//						/* jr c,D */
-//					case 0x38:
-//						if (m_carryF) {
-//							m_tstates += 12;
-//							m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
-//						} else {
-//							m_tstates += 7;
-//							inc16pc();
-//						}
-//						break;
-//
-//						/* add hl,sp */
-//					case 0x39:
-//						m_tstates += 11;
-//						add_hl(m_sp16);
-//						break;
-//
-//						/* ld a,(NN) */
-//					case 0x3A:
-//						m_tstates += 13;
-//						m_a8 = m_memory.read8(m_memory.read16(m_pc16));
-//						m_pc16 = incinc16(m_pc16);
-//						break;
-//
-//						/* dec sp */
-//					case 0x3B:
-//						m_tstates += 6;
-//						dec16sp();
-//						break;
-//
-//						/* inc a */
-//					case 0x3C:
-//						m_tstates += 4;
-//						m_a8 = inc8(m_a8);
-//						break;
-//
-//						/* dec a */
-//					case 0x3D:
-//						m_tstates += 4;
-//						m_a8 = dec8(m_a8);
-//						break;
-//
-//						/* ld a,N */
-//					case 0x3E:
-//						m_tstates += 7;
-//						m_a8 = m_memory.read8(inc16pc());
-//						break;
-//
-//						/* ccf */
-//					case 0x3F:
-//						m_tstates += 4;
-//						m_halfcarryF = m_carryF;
-//						m_addsubtractF = false;
-//						m_carryF = !m_carryF;
-//						m_3F = ((m_a8 & THREE_MASK) != 0);
-//						m_5F = ((m_a8 & FIVE_MASK) != 0);
-//						break;
-//
-//						/* ld b,b */
-//					case 0x40:
-//						m_tstates += 4;
-//						break;
-//
-//						/* ld b,c */
-//					case 0x41:
-//						m_tstates += 4;
-//						m_b8 = m_c8;
-//						break;
-//
-//						/* ld b,d */
-//					case 0x42:
-//						m_tstates += 4;
-//						m_b8 = m_d8;
-//						break;
-//
-//						/* ld b,e */
-//					case 0x43:
-//						m_tstates += 4;
-//						m_b8 = m_e8;
-//						break;
-//
-//						/* ld b,h */
-//					case 0x44:
-//						m_tstates += 4;
-//						m_b8 = m_h8;
-//						break;
-//
-//						/* ld b,l */
-//					case 0x45:
-//						m_tstates += 4;
-//						m_b8 = m_l8;
-//						break;
-//
-//						/* ld b,(hl) */
-//					case 0x46:
-//						m_tstates += 7;
-//						m_b8 = m_memory.read8(hl16());
-//						break;
-//
-//						/* ld b,a */
-//					case 0x47:
-//						m_tstates += 4;
-//						m_b8 = m_a8;
-//						break;
-//
-//						/* ld c,b */
-//					case 0x48:
-//						m_tstates += 4;
-//						m_c8 = m_b8;
-//						break;
-//
-//						/* ld c,c */
-//					case 0x49:
-//						m_tstates += 4;
-//						break;
-//
-//						/* ld c,d */
-//					case 0x4A:
-//						m_tstates += 4;
-//						m_c8 = m_d8;
-//						break;
-//
-//						/* ld c,e */
-//					case 0x4B:
-//						m_tstates += 4;
-//						m_c8 = m_e8;
-//						break;
-//
-//						/* ld c,h */
-//					case 0x4C:
-//						m_tstates += 4;
-//						m_c8 = m_h8;
-//						break;
-//
-//						/* ld c,l */
-//					case 0x4D:
-//						m_tstates += 4;
-//						m_c8 = m_l8;
-//						break;
-//
-//						/* ld c,(hl) */
-//					case 0x4E:
-//						m_tstates += 7;
-//						m_c8 = m_memory.read8(hl16());
-//						break;
-//
-//						/* ld c,a */
-//					case 0x4F:
-//						m_tstates += 4;
-//						m_c8 = m_a8;
-//						break;
-//
-//						/* ld d,b */
-//					case 0x50:
-//						m_tstates += 4;
-//						m_d8 = m_b8;
-//						break;
-//
-//						/* ld d,c */
-//					case 0x51:
-//						m_tstates += 4;
-//						m_d8 = m_c8;
-//						break;
-//
-//						/* ld d,d */
-//					case 0x52:
-//						m_tstates += 4;
-//						break;
-//
-//						/* ld d,e */
-//					case 0x53:
-//						m_tstates += 4;
-//						m_d8 = m_e8;
-//						break;
-//
-//						/* ld d,h */
-//					case 0x54:
-//						m_tstates += 4;
-//						m_d8 = m_h8;
-//						break;
-//
-//						/* ld d,l */
-//					case 0x55:
-//						m_tstates += 4;
-//						m_d8 = m_l8;
-//						break;
-//
-//						/* ld d,(hl) */
-//					case 0x56:
-//						m_tstates += 7;
-//						m_d8 = m_memory.read8(hl16());
-//						break;
-//
-//						/* ld d,a */
-//					case 0x57:
-//						m_tstates += 4;
-//						m_d8 = m_a8;
-//						break;
-//
-//						/* ld e,b */
-//					case 0x58:
-//						m_tstates += 4;
-//						m_e8 = m_b8;
-//						break;
-//
-//						/* ld e,c */
-//					case 0x59:
-//						m_tstates += 4;
-//						m_e8 = m_c8;
-//						break;
-//
-//						/* ld e,d */
-//					case 0x5A:
-//						m_tstates += 4;
-//						m_e8 = m_d8;
-//						break;
-//
-//						/* ld e,e */
-//					case 0x5B:
-//						m_tstates += 4;
-//						break;
-//
-//						/* ld e,h */
-//					case 0x5C:
-//						m_tstates += 4;
-//						m_e8 = m_h8;
-//						break;
-//
-//						/* ld e,l */
-//					case 0x5D:
-//						m_tstates += 4;
-//						m_e8 = m_l8;
-//						break;
-//
-//						/* ld e,(hl) */
-//					case 0x5E:
-//						m_tstates += 7;
-//						m_e8 = m_memory.read8(hl16());
-//						break;
-//
-//						/* ld e,a */
-//					case 0x5F:
-//						m_tstates += 4;
-//						m_e8 = m_a8;
-//						break;
-//
-//						/* ld h,b */
-//					case 0x60:
-//						m_tstates += 4;
-//						m_h8 = m_b8;
-//						break;
-//
-//						/* ld h,c */
-//					case 0x61:
-//						m_tstates += 4;
-//						m_h8 = m_c8;
-//						break;
-//
-//						/* ld h,d */
-//					case 0x62:
-//						m_tstates += 4;
-//						m_h8 = m_d8;
-//						break;
-//
-//						/* ld h,e */
-//					case 0x63:
-//						m_tstates += 4;
-//						m_h8 = m_e8;
-//						break;
-//
-//						/* ld h,h */
-//					case 0x64:
-//						m_tstates += 4;
-//						break;
-//
-//						/* ld h,l */
-//					case 0x65:
-//						m_tstates += 4;
-//						m_h8 = m_l8;
-//						break;
-//
-//						/* ld h,(hl) */
-//					case 0x66:
-//						m_tstates += 7;
-//						m_h8 = m_memory.read8(hl16());
-//						break;
-//
-//						/* ld h,a */
-//					case 0x67:
-//						m_tstates += 4;
-//						m_h8 = m_a8;
-//						break;
-//
-//						/* ld l,b */
-//					case 0x68:
-//						m_tstates += 4;
-//						m_l8 = m_b8;
-//						break;
-//
-//						/* ld l,c */
-//					case 0x69:
-//						m_tstates += 4;
-//						m_l8 = m_c8;
-//						break;
-//
-//						/* ld l,d */
-//					case 0x6A:
-//						m_tstates += 4;
-//						m_l8 = m_d8;
-//						break;
-//
-//						/* ld l,e */
-//					case 0x6B:
-//						m_tstates += 4;
-//						m_l8 = m_e8;
-//						break;
-//
-//						/* ld l,h */
-//					case 0x6C:
-//						m_tstates += 4;
-//						m_l8 = m_h8;
-//						break;
-//
-//						/* ld l,l */
-//					case 0x6D:
-//						m_tstates += 4;
-//						break;
-//
-//						/* ld l,(hl) */
-//					case 0x6E:
-//						m_tstates += 7;
-//						m_l8 = m_memory.read8(hl16());
-//						break;
-//
-//						/* ld l,a */
-//					case 0x6F:
-//						m_tstates += 4;
-//						m_l8 = m_a8;
-//						break;
-//
-//						/* ld (hl),b */
-//					case 0x70:
-//						m_tstates += 7;
-//						m_memory.write8(hl16(), m_b8);
-//						break;
-//
-//						/* ld (hl),c */
-//					case 0x71:
-//						m_tstates += 7;
-//						m_memory.write8(hl16(), m_c8);
-//						break;
-//
-//						/* ld (hl),d */
-//					case 0x72:
-//						m_tstates += 7;
-//						m_memory.write8(hl16(), m_d8);
-//						break;
-//
-//						/* ld (hl),e */
-//					case 0x73:
-//						m_tstates += 7;
-//						m_memory.write8(hl16(), m_e8);
-//						break;
-//
-//						/* ld (hl),h */
-//					case 0x74:
-//						m_tstates += 7;
-//						m_memory.write8(hl16(), m_h8);
-//						break;
-//
-//						/* ld (hl),l */
-//					case 0x75:
-//						m_tstates += 7;
-//						m_memory.write8(hl16(), m_l8);
-//						break;
-//
-//						/* ld (hl),a */
-//					case 0x77:
-//						m_tstates += 7;
-//						m_memory.write8(hl16(), m_a8);
-//						break;
-//
-//						/* ld a,c */
-//					case 0x79:
-//						m_tstates += 4;
-//						m_a8 = m_c8;
-//						break;
-//
-//						/* ld a,d */
-//					case 0x7A:
-//						m_tstates += 4;
-//						m_a8 = m_d8;
-//						break;
-//
-//						/* ld a,e */
-//					case 0x7B:
-//						m_tstates += 4;
-//						m_a8 = m_e8;
-//						break;
-//
-//						/* ld a,h */
-//					case 0x7C:
-//						m_tstates += 4;
-//						m_a8 = m_h8;
-//						break;
-//
-//						/* ld a,l */
-//					case 0x7D:
-//						m_tstates += 4;
-//						m_a8 = m_l8;
-//						break;
-//
-//						/* ld a,(hl) */
-//					case 0x7E:
-//						m_tstates += 7;
-//						m_a8 = m_memory.read8(hl16());
-//						break;
-//
-//						/* ld a,a */
-//					case 0x7F:
-//						m_tstates += 4;
-//						break;
-//
-//						/* add a,b */
-//					case 0x80:
-//						m_tstates += 4;
-//						add_a(m_b8);
-//						break;
-//
-//						/* add a,c */
-//					case 0x81:
-//						m_tstates += 4;
-//						add_a(m_c8);
-//						break;
-//
-//						/* add a,d */
-//					case 0x82:
-//						m_tstates += 4;
-//						add_a(m_d8);
-//						break;
-//
-//						/* add a,e */
-//					case 0x83:
-//						m_tstates += 4;
-//						add_a(m_e8);
-//						break;
-//
-//						/* add a,h */
-//					case 0x84:
-//						m_tstates += 4;
-//						add_a(m_h8);
-//						break;
-//
-//						/* add a,l */
-//					case 0x85:
-//						m_tstates += 4;
-//						add_a(m_l8);
-//						break;
-//
-//						/* add a,(hl) */
-//					case 0x86:
-//						m_tstates += 7;
-//						work8 = m_memory.read8(hl16());
-//						add_a(work8);
-//						break;
-//
-//						/* add a,a */
-//					case 0x87:
-//						m_tstates += 4;
-//						add_a(m_a8);
-//						break;
-//
-//						/* adc a,b */
-//					case 0x88:
-//						m_tstates += 4;
-//						adc_a(m_b8);
-//						break;
-//
-//						/* adc a,c */
-//					case 0x89:
-//						m_tstates += 4;
-//						adc_a(m_c8);
-//						break;
-//
-//						/* adc a,d */
-//					case 0x8A:
-//						m_tstates += 4;
-//						adc_a(m_d8);
-//						break;
-//
-//						/* adc a,e */
-//					case 0x8B:
-//						m_tstates += 4;
-//						adc_a(m_e8);
-//						break;
-//
-//						/* adc a,h */
-//					case 0x8C:
-//						m_tstates += 4;
-//						adc_a(m_h8);
-//						break;
-//
-//						/* adc a,l */
-//					case 0x8D:
-//						m_tstates += 4;
-//						adc_a(m_l8);
-//						break;
-//
-//						/* adc a,(hl) */
-//					case 0x8E:
-//						m_tstates += 7;
-//						work8 = m_memory.read8(hl16());
-//						adc_a(work8);
-//						break;
-//
-//						/* adc a,a */
-//					case 0x8F:
-//						m_tstates += 4;
-//						adc_a(m_a8);
-//						break;
-//
-//						/* sub b */
-//					case 0x90:
-//						m_tstates += 4;
-//						sub_a(m_b8);
-//						break;
-//
-//						/* sub c */
-//					case 0x91:
-//						m_tstates += 4;
-//						sub_a(m_c8);
-//						break;
-//
-//						/* sub d */
-//					case 0x92:
-//						m_tstates += 4;
-//						sub_a(m_d8);
-//						break;
-//
-//						/* sub e */
-//					case 0x93:
-//						m_tstates += 4;
-//						sub_a(m_e8);
-//						break;
-//
-//						/* sub h */
-//					case 0x94:
-//						m_tstates += 4;
-//						sub_a(m_h8);
-//						break;
-//
-//						/* sub l */
-//					case 0x95:
-//						m_tstates += 4;
-//						sub_a(m_l8);
-//						break;
-//
-//						/* sub (hl) */
-//					case 0x96:
-//						m_tstates += 7;
-//						work8 = m_memory.read8(hl16());
-//						sub_a(work8);
-//						break;
-//
-//						/* sub a */
-//					case 0x97:
-//						m_tstates += 4;
-//						sub_a(m_a8);
-//						break;
-//
-//						/* sbc a,b */
-//					case 0x98:
-//						m_tstates += 4;
-//						sbc_a(m_b8);
-//						break;
-//
-//						/* sbc a,c */
-//					case 0x99:
-//						m_tstates += 4;
-//						sbc_a(m_c8);
-//						break;
-//
-//						/* sbc a,d */
-//					case 0x9A:
-//						m_tstates += 4;
-//						sbc_a(m_d8);
-//						break;
-//
-//						/* sbc a,e */
-//					case 0x9B:
-//						m_tstates += 4;
-//						sbc_a(m_e8);
-//						break;
-//
-//						/* sbc a,h */
-//					case 0x9C:
-//						m_tstates += 4;
-//						sbc_a(m_h8);
-//						break;
-//
-//						/* sbc a,l */
-//					case 0x9D:
-//						m_tstates += 4;
-//						sbc_a(m_l8);
-//						break;
-//
-//						/* sbc a,(hl) */
-//					case 0x9E:
-//						m_tstates += 7;
-//						work8 = m_memory.read8(hl16());
-//						sbc_a(work8);
-//						break;
-//
-//						/* sbc a,a */
-//					case 0x9F:
-//						m_tstates += 4;
-//						sbc_a(m_a8);
-//						break;
-//
-//						/* and b */
-//					case 0xA0:
-//						m_tstates += 4;
-//						and_a(m_b8);
-//						break;
-//
-//						/* and c */
-//					case 0xA1:
-//						m_tstates += 4;
-//						and_a(m_c8);
-//						break;
-//
-//						/* and d */
-//					case 0xA2:
-//						m_tstates += 4;
-//						and_a(m_d8);
-//						break;
-//
-//						/* and e */
-//					case 0xA3:
-//						m_tstates += 4;
-//						and_a(m_e8);
-//						break;
-//
-//						/* and h */
-//					case 0xA4:
-//						m_tstates += 4;
-//						and_a(m_h8);
-//						break;
-//
-//						/* and l */
-//					case 0xA5:
-//						m_tstates += 4;
-//						and_a(m_l8);
-//						break;
-//
-//						/* and (hl) */
-//					case 0xA6:
-//						m_tstates += 7;
-//						work8 = m_memory.read8(hl16());
-//						and_a(work8);
-//						break;
-//
-//						/* and a */
-//					case 0xA7:
-//						m_tstates += 4;
-//						and_a(m_a8);
-//						break;
+				/* MOST USED INSTRUCTION 48k. IN 100M -> 16M*/
+				/* jr nz,D */
+				case 0x20:
+					if (!m_zeroF) {
+						m_tstates += 12;
+						m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
+					} else {
+						m_tstates += 7;
+						inc16pc();
+					}
+					break;
+
+
+					/* halt */
+					/* MOST USED INSTRUCTION 128k. IN 100M -> 35M times*/
+				case 0x76:
+					dec16pc();
+					m_tstates += 4;
+					break;
+
+					/* ld a,b */
+					/* 2 MOST USED INSTRUCTION. */
+				case 0x78:
+					m_tstates += 4;
+					m_a8 = m_b8;
+					break;
+
+					/* or c */
+					/* 3 MOST USED INSTRUCTION. */
+				case 0xB1:
+					m_tstates += 4;
+					or_a(m_c8);
+					break;
+
+					/* nop */
+				case 0x00:
+					m_tstates += 4;
+					break;
+
+					/* ld bc,NN */
+				case 0x01:
+					m_tstates += 10;
+					bc16(m_memory.read16(m_pc16));
+					m_pc16 = incinc16(m_pc16);
+					break;
+
+					/* ld (bc),a */
+				case 0x02:
+					m_tstates += 7;
+					m_memory.write8(bc16(), m_a8);
+					break;
+
+					/* inc bc */
+				case 0x03:
+					m_tstates += 6;
+					inc16bc();
+					break;
+
+					/* inc b */
+				case 0x04:
+					m_tstates += 4;
+					m_b8 = inc8(m_b8);
+					break;
+
+					/* dec b */
+				case 0x05:
+					m_tstates += 4;
+					m_b8 = dec8(m_b8);
+					break;
+
+					/* ld b,N */
+				case 0x06:
+					m_tstates += 7;
+					m_b8 = m_memory.read8(inc16pc());
+					break;
+
+					/* rlca */
+				case 0x07:
+					m_tstates += 4;
+					m_carryF = ((m_a8 & 0x80) != 0);
+					m_a8 = (((m_a8 << 1) | (m_carryF ? 1 : 0)) & 0xff);
+					m_halfcarryF = false;
+					m_addsubtractF = false;
+					m_3F = ((m_a8 & THREE_MASK) != 0);
+					m_5F = ((m_a8 & FIVE_MASK) != 0);
+					break;
+
+					/* ex af,af' */
+				case 0x08:
+					m_tstates += 4;
+					storeFlags();
+					work16 = af16();
+					af16(m_af16alt);
+					m_af16alt = work16;
+					retrieveFlags();
+					break;
+
+					/* add hl,bc */
+				case 0x09:
+					m_tstates += 11;
+					add_hl(bc16());
+					break;
+
+					/* ld a,(bc) */
+				case 0x0A:
+					m_tstates += 7;
+					m_a8 = m_memory.read8(bc16());
+					break;
+
+					/* dec bc */
+				case 0x0B:
+					m_tstates += 6;
+					dec16bc();
+					break;
+
+					/* inc c */
+				case 0x0C:
+					m_tstates += 4;
+					m_c8 = inc8(m_c8);
+					break;
+
+					/* dec c */
+				case 0x0D:
+					m_tstates += 4;
+					m_c8 = dec8(m_c8);
+					break;
+
+					/* ld c,N */
+				case 0x0E:
+					m_tstates += 7;
+					m_c8 = m_memory.read8(inc16pc());
+					break;
+
+					/* rrca */
+				case 0x0F:
+					m_tstates += 4;
+					m_carryF = ((m_a8 & 0x01) != 0);
+					m_a8 = (m_a8 >> 1) | ((m_carryF ? 1 : 0) << 7);
+					m_halfcarryF = false;
+					m_addsubtractF = false;
+					m_3F = ((m_a8 & THREE_MASK) != 0);
+					m_5F = ((m_a8 & FIVE_MASK) != 0);
+					break;
+
+					/* djnz D */
+				case 0x10:
+					m_b8 = ((m_b8 - 1) & 0xff);
+					if (m_b8 != 0) {
+						m_tstates += 13;
+						m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
+					} else {
+						m_tstates += 8;
+						inc16pc();
+					}
+					break;
+
+					/* ld de,NN */
+				case 0x11:
+					m_tstates += 10;
+					de16(m_memory.read16(m_pc16));
+					m_pc16 = incinc16(m_pc16);
+					break;
+
+					/* ld (de),a */
+				case 0x12:
+					m_tstates += 7;
+					m_memory.write8(de16(), m_a8);
+					break;
+
+					/* inc de */
+				case 0x13:
+					m_tstates += 6;
+					inc16de();
+					break;
+
+					/* inc d */
+				case 0x14:
+					m_tstates += 4;
+					m_d8 = inc8(m_d8);
+					break;
+
+					/* dec d */
+				case 0x15:
+					m_tstates += 4;
+					m_d8 = dec8(m_d8);
+					break;
+
+					/* ld d,N */
+				case 0x16:
+					m_tstates += 7;
+					m_d8 = m_memory.read8(inc16pc());
+					break;
+
+					/* rla */
+				case 0x17:
+					m_tstates += 4;
+					work8 = (m_carryF ? 1 : 0);
+					m_carryF = ((m_a8 & 0x80) != 0);
+					m_a8 = (((m_a8 << 1) | work8) & 0xff);
+					m_halfcarryF = false;
+					m_addsubtractF = false;
+					m_3F = ((m_a8 & THREE_MASK) != 0);
+					m_5F = ((m_a8 & FIVE_MASK) != 0);
+					break;
+
+					/* jr D */
+				case 0x18:
+					m_tstates += 12;
+					m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
+					m_x8 = m_pc16 >> 8;
+					break;
+
+					/* add hl,de */
+					case 0x19:
+						m_tstates += 11;
+						add_hl(de16());
+						break;
+
+						/* ld a,(de) */
+					case 0x1A:
+						m_tstates += 7;
+						m_a8 = m_memory.read8(de16());
+						break;
+
+						/* dec de */
+					case 0x1B:
+						m_tstates += 6;
+						dec16de();
+						break;
+
+						/* inc e */
+					case 0x1C:
+						m_tstates += 4;
+						m_e8 = inc8(m_e8);
+						break;
+
+						/* dec e */
+					case 0x1D:
+						m_tstates += 4;
+						m_e8 = dec8(m_e8);
+						break;
+
+						/* ld e,N */
+					case 0x1E:
+						m_tstates += 7;
+						m_e8 = m_memory.read8(inc16pc());
+						break;
+
+						/* rra */
+					case 0x1F:
+						m_tstates += 4;
+						work8 = (m_carryF ? 1 : 0);
+						m_carryF = ((m_a8 & 0x01) != 0);
+						m_a8 = (m_a8 >> 1) | (work8 << 7);
+						m_halfcarryF = false;
+						m_addsubtractF = false;
+						m_3F = ((m_a8 & THREE_MASK) != 0);
+						m_5F = ((m_a8 & FIVE_MASK) != 0);
+						break;
+
+						/* ld hl,NN */
+					case 0x21:
+						m_tstates += 10;
+						hl16(m_memory.read16(m_pc16));
+						m_pc16 = incinc16(m_pc16);
+						break;
+
+						/* ld (NN),hl */
+					case 0x22:
+						m_tstates += 16;
+						m_memory.write16(m_memory.read16(m_pc16), hl16());
+						m_pc16 = incinc16(m_pc16);
+						break;
+
+						/* inc hl */
+					case 0x23:
+						m_tstates += 6;
+						inc16hl();
+						break;
+
+						/* inc h */
+					case 0x24:
+						m_tstates += 4;
+						m_h8 = inc8(m_h8);
+						break;
+
+						/* dec h */
+					case 0x25:
+						m_tstates += 4;
+						m_h8 = dec8(m_h8);
+						break;
+
+						/* ld h,N */
+					case 0x26:
+						m_tstates += 7;
+						m_h8 = m_memory.read8(inc16pc());
+						break;
+
+						/* daa */
+					case 0x27:
+						m_tstates += 4;
+						boolean carry = m_carryF;
+						boolean addsubtract = m_addsubtractF;
+						if (!addsubtract) {
+							work8 = 0;
+							if (m_halfcarryF || (m_a8 & 0x0f) > 9) {
+								work8 = 0x06;
+							}
+							if (m_carryF || (m_a8 >> 4) > 9
+									|| ((m_a8 >> 4) >= 9 && (m_a8 & 0x0f) > 9)) {
+								work8 |= 0x60;
+								carry = true;
+							}
+						} else {
+							if (m_carryF) {
+								work8 = m_halfcarryF ? 0x9a : 0xa0;
+							} else {
+								work8 = m_halfcarryF ? 0xfa : 0x00;
+							}
+						}
+						add_a(work8);
+						m_addsubtractF = addsubtract;
+						m_parityoverflowF = m_parityTable[m_a8];
+						m_carryF = carry;
+						break;
+
+						/* jr z,D */
+					case 0x28:
+						if (m_zeroF) {
+							m_tstates += 12;
+							m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
+						} else {
+							m_tstates += 7;
+							inc16pc();
+						}
+						break;
+
+						/* add hl,hl */
+					case 0x29:
+						m_tstates += 11;
+						add_hl(hl16());
+						break;
+
+						/* ld hl,(NN) */
+					case 0x2A:
+						m_tstates += 16;
+						hl16(m_memory.read16(m_memory.read16(m_pc16)));
+						m_pc16 = incinc16(m_pc16);
+						break;
+
+						/* dec hl */
+					case 0x2B:
+						m_tstates += 6;
+						dec16hl();
+						break;
+
+						/* inc l */
+					case 0x2C:
+						m_tstates += 4;
+						m_l8 = inc8(m_l8);
+						break;
+
+						/* dec l */
+					case 0x2D:
+						m_tstates += 4;
+						m_l8 = dec8(m_l8);
+						break;
+
+						/* ld l,N */
+					case 0x2E:
+						m_tstates += 7;
+						m_l8 = m_memory.read8(inc16pc());
+						break;
+
+						/* cpl */
+					case 0x2F:
+						m_tstates += 4;
+						m_a8 ^= 0xff;
+						m_halfcarryF = true;
+						m_addsubtractF = true;
+						m_3F = ((m_a8 & THREE_MASK) != 0);
+						m_5F = ((m_a8 & FIVE_MASK) != 0);
+						break;
+
+						/* jr nc,D */
+					case 0x30:
+						if (!m_carryF) {
+							m_tstates += 12;
+							m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
+						} else {
+							m_tstates += 7;
+							inc16pc();
+						}
+						break;
+
+						/* ld sp,NN */
+					case 0x31:
+						m_tstates += 10;
+						m_sp16 = m_memory.read16(m_pc16);
+						m_pc16 = incinc16(m_pc16);
+						break;
+
+						/* ld (NN),a */
+					case 0x32:
+						m_tstates += 13;
+						m_memory.write8(m_memory.read16(m_pc16), m_a8);
+						m_pc16 = incinc16(m_pc16);
+						break;
+
+						/* inc sp */
+					case 0x33:
+						m_tstates += 6;
+						inc16sp();
+						break;
+
+						/* inc (hl) */
+					case 0x34:
+						m_tstates += 11;
+						work8 = m_memory.read8(hl16());
+						work8 = inc8(work8);
+						m_memory.write8(hl16(), work8);
+						break;
+
+						/* dec (hl) */
+					case 0x35:
+						m_tstates += 11;
+						work8 = m_memory.read8(hl16());
+						work8 = dec8(work8);
+						m_memory.write8(hl16(), work8);
+						break;
+
+						/* ld (hl),N */
+					case 0x36:
+						m_tstates += 10;
+						m_memory.write8(hl16(), m_memory.read8(inc16pc()));
+						break;
+
+						/* scf */
+					case 0x37:
+						m_tstates += 4;
+						m_halfcarryF = false;
+						m_addsubtractF = false;
+						m_carryF = true;
+						m_3F = ((m_a8 & THREE_MASK) != 0);
+						m_5F = ((m_a8 & FIVE_MASK) != 0);
+						break;
+
+						/* jr c,D */
+					case 0x38:
+						if (m_carryF) {
+							m_tstates += 12;
+							m_pc16 = add16(m_pc16, (byte) m_memory.read8(m_pc16) + 1);
+						} else {
+							m_tstates += 7;
+							inc16pc();
+						}
+						break;
+
+						/* add hl,sp */
+					case 0x39:
+						m_tstates += 11;
+						add_hl(m_sp16);
+						break;
+
+						/* ld a,(NN) */
+					case 0x3A:
+						m_tstates += 13;
+						m_a8 = m_memory.read8(m_memory.read16(m_pc16));
+						m_pc16 = incinc16(m_pc16);
+						break;
+
+						/* dec sp */
+					case 0x3B:
+						m_tstates += 6;
+						dec16sp();
+						break;
+
+						/* inc a */
+					case 0x3C:
+						m_tstates += 4;
+						m_a8 = inc8(m_a8);
+						break;
+
+						/* dec a */
+					case 0x3D:
+						m_tstates += 4;
+						m_a8 = dec8(m_a8);
+						break;
+
+						/* ld a,N */
+					case 0x3E:
+						m_tstates += 7;
+						m_a8 = m_memory.read8(inc16pc());
+						break;
+
+						/* ccf */
+					case 0x3F:
+						m_tstates += 4;
+						m_halfcarryF = m_carryF;
+						m_addsubtractF = false;
+						m_carryF = !m_carryF;
+						m_3F = ((m_a8 & THREE_MASK) != 0);
+						m_5F = ((m_a8 & FIVE_MASK) != 0);
+						break;
+
+						/* ld b,b */
+					case 0x40:
+						m_tstates += 4;
+						break;
+
+						/* ld b,c */
+					case 0x41:
+						m_tstates += 4;
+						m_b8 = m_c8;
+						break;
+
+						/* ld b,d */
+					case 0x42:
+						m_tstates += 4;
+						m_b8 = m_d8;
+						break;
+
+						/* ld b,e */
+					case 0x43:
+						m_tstates += 4;
+						m_b8 = m_e8;
+						break;
+
+						/* ld b,h */
+					case 0x44:
+						m_tstates += 4;
+						m_b8 = m_h8;
+						break;
+
+						/* ld b,l */
+					case 0x45:
+						m_tstates += 4;
+						m_b8 = m_l8;
+						break;
+
+						/* ld b,(hl) */
+					case 0x46:
+						m_tstates += 7;
+						m_b8 = m_memory.read8(hl16());
+						break;
+
+						/* ld b,a */
+					case 0x47:
+						m_tstates += 4;
+						m_b8 = m_a8;
+						break;
+
+						/* ld c,b */
+					case 0x48:
+						m_tstates += 4;
+						m_c8 = m_b8;
+						break;
+
+						/* ld c,c */
+					case 0x49:
+						m_tstates += 4;
+						break;
+
+						/* ld c,d */
+					case 0x4A:
+						m_tstates += 4;
+						m_c8 = m_d8;
+						break;
+
+						/* ld c,e */
+					case 0x4B:
+						m_tstates += 4;
+						m_c8 = m_e8;
+						break;
+
+						/* ld c,h */
+					case 0x4C:
+						m_tstates += 4;
+						m_c8 = m_h8;
+						break;
+
+						/* ld c,l */
+					case 0x4D:
+						m_tstates += 4;
+						m_c8 = m_l8;
+						break;
+
+						/* ld c,(hl) */
+					case 0x4E:
+						m_tstates += 7;
+						m_c8 = m_memory.read8(hl16());
+						break;
+
+						/* ld c,a */
+					case 0x4F:
+						m_tstates += 4;
+						m_c8 = m_a8;
+						break;
+
+						/* ld d,b */
+					case 0x50:
+						m_tstates += 4;
+						m_d8 = m_b8;
+						break;
+
+						/* ld d,c */
+					case 0x51:
+						m_tstates += 4;
+						m_d8 = m_c8;
+						break;
+
+						/* ld d,d */
+					case 0x52:
+						m_tstates += 4;
+						break;
+
+						/* ld d,e */
+					case 0x53:
+						m_tstates += 4;
+						m_d8 = m_e8;
+						break;
+
+						/* ld d,h */
+					case 0x54:
+						m_tstates += 4;
+						m_d8 = m_h8;
+						break;
+
+						/* ld d,l */
+					case 0x55:
+						m_tstates += 4;
+						m_d8 = m_l8;
+						break;
+
+						/* ld d,(hl) */
+					case 0x56:
+						m_tstates += 7;
+						m_d8 = m_memory.read8(hl16());
+						break;
+
+						/* ld d,a */
+					case 0x57:
+						m_tstates += 4;
+						m_d8 = m_a8;
+						break;
+
+						/* ld e,b */
+					case 0x58:
+						m_tstates += 4;
+						m_e8 = m_b8;
+						break;
+
+						/* ld e,c */
+					case 0x59:
+						m_tstates += 4;
+						m_e8 = m_c8;
+						break;
+
+						/* ld e,d */
+					case 0x5A:
+						m_tstates += 4;
+						m_e8 = m_d8;
+						break;
+
+						/* ld e,e */
+					case 0x5B:
+						m_tstates += 4;
+						break;
+
+						/* ld e,h */
+					case 0x5C:
+						m_tstates += 4;
+						m_e8 = m_h8;
+						break;
+
+						/* ld e,l */
+					case 0x5D:
+						m_tstates += 4;
+						m_e8 = m_l8;
+						break;
+
+						/* ld e,(hl) */
+					case 0x5E:
+						m_tstates += 7;
+						m_e8 = m_memory.read8(hl16());
+						break;
+
+						/* ld e,a */
+					case 0x5F:
+						m_tstates += 4;
+						m_e8 = m_a8;
+						break;
+
+						/* ld h,b */
+					case 0x60:
+						m_tstates += 4;
+						m_h8 = m_b8;
+						break;
+
+						/* ld h,c */
+					case 0x61:
+						m_tstates += 4;
+						m_h8 = m_c8;
+						break;
+
+						/* ld h,d */
+					case 0x62:
+						m_tstates += 4;
+						m_h8 = m_d8;
+						break;
+
+						/* ld h,e */
+					case 0x63:
+						m_tstates += 4;
+						m_h8 = m_e8;
+						break;
+
+						/* ld h,h */
+					case 0x64:
+						m_tstates += 4;
+						break;
+
+						/* ld h,l */
+					case 0x65:
+						m_tstates += 4;
+						m_h8 = m_l8;
+						break;
+
+						/* ld h,(hl) */
+					case 0x66:
+						m_tstates += 7;
+						m_h8 = m_memory.read8(hl16());
+						break;
+
+						/* ld h,a */
+					case 0x67:
+						m_tstates += 4;
+						m_h8 = m_a8;
+						break;
+
+						/* ld l,b */
+					case 0x68:
+						m_tstates += 4;
+						m_l8 = m_b8;
+						break;
+
+						/* ld l,c */
+					case 0x69:
+						m_tstates += 4;
+						m_l8 = m_c8;
+						break;
+
+						/* ld l,d */
+					case 0x6A:
+						m_tstates += 4;
+						m_l8 = m_d8;
+						break;
+
+						/* ld l,e */
+					case 0x6B:
+						m_tstates += 4;
+						m_l8 = m_e8;
+						break;
+
+						/* ld l,h */
+					case 0x6C:
+						m_tstates += 4;
+						m_l8 = m_h8;
+						break;
+
+						/* ld l,l */
+					case 0x6D:
+						m_tstates += 4;
+						break;
+
+						/* ld l,(hl) */
+					case 0x6E:
+						m_tstates += 7;
+						m_l8 = m_memory.read8(hl16());
+						break;
+
+						/* ld l,a */
+					case 0x6F:
+						m_tstates += 4;
+						m_l8 = m_a8;
+						break;
+
+						/* ld (hl),b */
+					case 0x70:
+						m_tstates += 7;
+						m_memory.write8(hl16(), m_b8);
+						break;
+
+						/* ld (hl),c */
+					case 0x71:
+						m_tstates += 7;
+						m_memory.write8(hl16(), m_c8);
+						break;
+
+						/* ld (hl),d */
+					case 0x72:
+						m_tstates += 7;
+						m_memory.write8(hl16(), m_d8);
+						break;
+
+						/* ld (hl),e */
+					case 0x73:
+						m_tstates += 7;
+						m_memory.write8(hl16(), m_e8);
+						break;
+
+						/* ld (hl),h */
+					case 0x74:
+						m_tstates += 7;
+						m_memory.write8(hl16(), m_h8);
+						break;
+
+						/* ld (hl),l */
+					case 0x75:
+						m_tstates += 7;
+						m_memory.write8(hl16(), m_l8);
+						break;
+
+						/* ld (hl),a */
+					case 0x77:
+						m_tstates += 7;
+						m_memory.write8(hl16(), m_a8);
+						break;
+
+						/* ld a,c */
+					case 0x79:
+						m_tstates += 4;
+						m_a8 = m_c8;
+						break;
+
+						/* ld a,d */
+					case 0x7A:
+						m_tstates += 4;
+						m_a8 = m_d8;
+						break;
+
+						/* ld a,e */
+					case 0x7B:
+						m_tstates += 4;
+						m_a8 = m_e8;
+						break;
+
+						/* ld a,h */
+					case 0x7C:
+						m_tstates += 4;
+						m_a8 = m_h8;
+						break;
+
+						/* ld a,l */
+					case 0x7D:
+						m_tstates += 4;
+						m_a8 = m_l8;
+						break;
+
+						/* ld a,(hl) */
+					case 0x7E:
+						m_tstates += 7;
+						m_a8 = m_memory.read8(hl16());
+						break;
+
+						/* ld a,a */
+					case 0x7F:
+						m_tstates += 4;
+						break;
+
+						/* add a,b */
+					case 0x80:
+						m_tstates += 4;
+						add_a(m_b8);
+						break;
+
+						/* add a,c */
+					case 0x81:
+						m_tstates += 4;
+						add_a(m_c8);
+						break;
+
+						/* add a,d */
+					case 0x82:
+						m_tstates += 4;
+						add_a(m_d8);
+						break;
+
+						/* add a,e */
+					case 0x83:
+						m_tstates += 4;
+						add_a(m_e8);
+						break;
+
+						/* add a,h */
+					case 0x84:
+						m_tstates += 4;
+						add_a(m_h8);
+						break;
+
+						/* add a,l */
+					case 0x85:
+						m_tstates += 4;
+						add_a(m_l8);
+						break;
+
+						/* add a,(hl) */
+					case 0x86:
+						m_tstates += 7;
+						work8 = m_memory.read8(hl16());
+						add_a(work8);
+						break;
+
+						/* add a,a */
+					case 0x87:
+						m_tstates += 4;
+						add_a(m_a8);
+						break;
+
+						/* adc a,b */
+					case 0x88:
+						m_tstates += 4;
+						adc_a(m_b8);
+						break;
+
+						/* adc a,c */
+					case 0x89:
+						m_tstates += 4;
+						adc_a(m_c8);
+						break;
+
+						/* adc a,d */
+					case 0x8A:
+						m_tstates += 4;
+						adc_a(m_d8);
+						break;
+
+						/* adc a,e */
+					case 0x8B:
+						m_tstates += 4;
+						adc_a(m_e8);
+						break;
+
+						/* adc a,h */
+					case 0x8C:
+						m_tstates += 4;
+						adc_a(m_h8);
+						break;
+
+						/* adc a,l */
+					case 0x8D:
+						m_tstates += 4;
+						adc_a(m_l8);
+						break;
+
+						/* adc a,(hl) */
+					case 0x8E:
+						m_tstates += 7;
+						work8 = m_memory.read8(hl16());
+						adc_a(work8);
+						break;
+
+						/* adc a,a */
+					case 0x8F:
+						m_tstates += 4;
+						adc_a(m_a8);
+						break;
+
+						/* sub b */
+					case 0x90:
+						m_tstates += 4;
+						sub_a(m_b8);
+						break;
+
+						/* sub c */
+					case 0x91:
+						m_tstates += 4;
+						sub_a(m_c8);
+						break;
+
+						/* sub d */
+					case 0x92:
+						m_tstates += 4;
+						sub_a(m_d8);
+						break;
+
+						/* sub e */
+					case 0x93:
+						m_tstates += 4;
+						sub_a(m_e8);
+						break;
+
+						/* sub h */
+					case 0x94:
+						m_tstates += 4;
+						sub_a(m_h8);
+						break;
+
+						/* sub l */
+					case 0x95:
+						m_tstates += 4;
+						sub_a(m_l8);
+						break;
+
+						/* sub (hl) */
+					case 0x96:
+						m_tstates += 7;
+						work8 = m_memory.read8(hl16());
+						sub_a(work8);
+						break;
+
+						/* sub a */
+					case 0x97:
+						m_tstates += 4;
+						sub_a(m_a8);
+						break;
+
+						/* sbc a,b */
+					case 0x98:
+						m_tstates += 4;
+						sbc_a(m_b8);
+						break;
+
+						/* sbc a,c */
+					case 0x99:
+						m_tstates += 4;
+						sbc_a(m_c8);
+						break;
+
+						/* sbc a,d */
+					case 0x9A:
+						m_tstates += 4;
+						sbc_a(m_d8);
+						break;
+
+						/* sbc a,e */
+					case 0x9B:
+						m_tstates += 4;
+						sbc_a(m_e8);
+						break;
+
+						/* sbc a,h */
+					case 0x9C:
+						m_tstates += 4;
+						sbc_a(m_h8);
+						break;
+
+						/* sbc a,l */
+					case 0x9D:
+						m_tstates += 4;
+						sbc_a(m_l8);
+						break;
+
+						/* sbc a,(hl) */
+					case 0x9E:
+						m_tstates += 7;
+						work8 = m_memory.read8(hl16());
+						sbc_a(work8);
+						break;
+
+						/* sbc a,a */
+					case 0x9F:
+						m_tstates += 4;
+						sbc_a(m_a8);
+						break;
+
+						/* and b */
+					case 0xA0:
+						m_tstates += 4;
+						and_a(m_b8);
+						break;
+
+						/* and c */
+					case 0xA1:
+						m_tstates += 4;
+						and_a(m_c8);
+						break;
+
+						/* and d */
+					case 0xA2:
+						m_tstates += 4;
+						and_a(m_d8);
+						break;
+
+						/* and e */
+					case 0xA3:
+						m_tstates += 4;
+						and_a(m_e8);
+						break;
+
+						/* and h */
+					case 0xA4:
+						m_tstates += 4;
+						and_a(m_h8);
+						break;
+
+						/* and l */
+					case 0xA5:
+						m_tstates += 4;
+						and_a(m_l8);
+						break;
+
+						/* and (hl) */
+					case 0xA6:
+						m_tstates += 7;
+						work8 = m_memory.read8(hl16());
+						and_a(work8);
+						break;
+
+						/* and a */
+					case 0xA7:
+						m_tstates += 4;
+						and_a(m_a8);
+						break;
 
 						/* xor b */
 					case 0xA8:
@@ -3413,7 +3413,7 @@ public class Z80 extends BaseComponent {
 					}
 				}
 			}
-		}
+//		}
 		System.out.println("END");
 		dump();
 	}
@@ -3425,11 +3425,11 @@ public class Z80 extends BaseComponent {
 		int work8 = 0;
 		
 		//Descomentar para contar instruções e ver as mais usadas
-			instructionCounter[op8]++;
-			instrs++;
-			if(instrs > 100000){
-				stop();
-			}
+//			instructionCounter[op8]++;
+//			instrs++;
+//			if(instrs > 10000000){
+//				stop();
+//			}
 		
 		switch (op8) {
 		/* rlc b */

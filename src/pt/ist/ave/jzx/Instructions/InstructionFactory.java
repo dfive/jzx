@@ -340,39 +340,54 @@ public class InstructionFactory {
 			return new AND_MHL(opCode);
 		case 0xa7:
 			return new AND_A(opCode);
-			//		case 0xa8:
-			//		case 0xa9:
-			//		case 0xaa:
-			//		case 0xab:
-			//		case 0xac:
-			//		case 0xad:
-			//		case 0xae:
+		case 0xa8:
+			return new XOR_B(opCode);
+		case 0xa9:
+			return new XOR_C(opCode);
+		case 0xaa:
+			return new XOR_D(opCode);
+		case 0xab:
+			return new XOR_E(opCode);
+		case 0xac:
+			return new XOR_H(opCode);
+		case 0xad:
+			return new XOR_L(opCode);
+		case 0xae:
+			return new XOR_MHL(opCode);
 		case 0xaf:
 			return new XOR_A(opCode);
 		case 0xb0:
 			return new OR_B(opCode);
 		case 0xb1:
 			return new OR_C(opCode);
-			//		case 0xb2:
-			//		case 0xb3:
+		case 0xb2:
+			return new OR_D(opCode);
+		case 0xb3:
+			return new OR_E(opCode);
 		case 0xb4:
 			return new OR_H(opCode);
-			//		case 0xb5:
+		case 0xb5:
+			return new OR_L(opCode);
 		case 0xb6:
 			return new OR_MHL(opCode);
 		case 0xb7:
 			return new OR_A(opCode);
-			//		case 0xb8:
+		case 0xb8:
+			return new CP_B(opCode);
 		case 0xb9:
 			return new CP_C(opCode);
-			//		case 0xba:
+		case 0xba:
+			return new CP_D(opCode);
 		case 0xbb:
 			return new CP_E(opCode);
-			//		case 0xbc:
+		case 0xbc:
+			return new CP_H(opCode);
 		case 0xbd:
 			return new CP_L(opCode);
-			//		case 0xbe:
-			//		case 0xbf:
+		case 0xbe:
+			return new CP_MHL(opCode);
+		case 0xbf:
+			return new CP_A(opCode);
 		case 0xc0:
 			return new RETNZ(opCode);
 		case 0xc1:
@@ -381,12 +396,14 @@ public class InstructionFactory {
 			return new JPNZ_NN(opCode);
 		case 0xc3:
 			return new JP_NN(opCode);
-			//		case 0xc4:
+		case 0xc4:
+			return new CALLNZ_NN(opCode);
 		case 0xc5:
 			return new PUSH_BC(opCode);
 		case 0xc6:
 			return new ADD_AN(opCode);
-			//		case 0xc7:
+		case 0xc7:
+			return new RST_0(opCode);
 		case 0xc8:
 			return new RETZ(opCode);
 		case 0xc9:
@@ -395,39 +412,56 @@ public class InstructionFactory {
 			return new JPZ_NN(opCode);
 		case 0xcb:
 			return new DECODECB(opCode);
-
-			//		case 0xcc:
+		case 0xcc:
+			return new CALLZ_NN(opCode);
 		case 0xcd:
 			return new CALL_NN(opCode);
-			//		case 0xce:
-			//		case 0xcf:
-			//		case 0xd0:
+		case 0xce:
+			return new ADDC_AN(opCode);
+		case 0xcf:
+			return new RST_8(opCode);
+		case 0xd0:
+			return new RETNC(opCode);
 		case 0xd1:
 			return new POP_DE(opCode);
-			//		case 0xd2:
-			//		case 0xd3:
-			//		case 0xd4:
+		case 0xd2:
+			return new JPNC_NN(opCode);
+		case 0xd3:
+			return new OUT_MNA(opCode);
+		case 0xd4:
+			return new CALLNC_NN(opCode);
 		case 0xd5:
 			return new PUSH_DE(opCode);
 		case 0xd6:
 			return new SUB_AN(opCode);
-			//		case 0xd7:
-			//		case 0xd8:
+		case 0xd7:
+			return new RST_10(opCode);
+		case 0xd8:
+			return new RETC(opCode);
 		case 0xd9:
 			return new EXX(opCode);
-			//		case 0xda:
+		case 0xda:
+			return new JPC_NN(opCode);
 		case 0xdb:
 			return new IN_AN(opCode);
-			//		case 0xdc:
-			//		case 0xdd:
-			//		case 0xde:
-			//		case 0xdf:
-			//		case 0xe0:
+		case 0xdc:
+			return new CALLC_NN(opCode);
+		case 0xdd:
+			return new DECODEXX(opCode);
+		case 0xde:
+			return new SUBC_AN(opCode);
+		case 0xdf:
+			return new RST_18(opCode);
+		case 0xe0:
+			return new RETPO(opCode);
 		case 0xe1:
 			return new POP_HL(opCode);
-			//		case 0xe2:
-			//		case 0xe3:
-			//		case 0xe4:
+		case 0xe2:
+			return new JPPO_NN(opCode);
+		case 0xe3:
+			return new EX_MSPHL(opCode);
+		case 0xe4:
+			return new CALLPO_NN(opCode);
 		case 0xe5:
 			return new PUSH_HL(opCode);
 		case 0xe6:

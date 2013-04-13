@@ -12,11 +12,17 @@ public class DECODEXX extends Instruction {
 
 	@Override
 	public void execute() {
-
 		int op8 = _cpu.mone8();
-		_cpu.setM_xx16(_cpu.getM_iy16());
-		_cpu.decodeXX(op8);
-		_cpu.setM_iy16(_cpu.getM_xx16());
+		
+		if(_opCode == 0xdd) {
+			_cpu.setM_xx16(_cpu.getM_ix16());
+			_cpu.decodeXX(op8);
+			_cpu.setM_ix16(_cpu.getM_xx16());		
+		}else if (_opCode == 0xfd) {
+			_cpu.setM_xx16(_cpu.getM_iy16());
+			_cpu.decodeXX(op8);
+			_cpu.setM_iy16(_cpu.getM_xx16());
+		}
 	}
 
 	@Override

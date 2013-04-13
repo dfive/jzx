@@ -1530,7 +1530,6 @@ public class Z80 extends BaseComponent {
 	 */
 	public void stop() {
 		m_stop = true;
-		this.dump();
 	}
 
 	/**
@@ -1567,21 +1566,27 @@ public class Z80 extends BaseComponent {
 
 
 		}
+		System.out.println("TOTAL TIME " + count);
 
-
-		for (Integer key : teste.keySet()) {
-			System.out.println("Run instruction " + teste.get(key) + ": " + key + " times." );
-		}
-
-		System.out.println("MAX: " + maxindex + " - " + max);
+//		for (Integer key : teste.keySet()) {
+//			System.out.println("Run instruction " + teste.get(key) + ": " + key + " times." );
+//		}
+//
+//		System.out.println("MAX: " + maxindex + " - " + max);
 	}
 
 	/**
 	 * Decode one instruction: call <TT>mone8()</TT> to retrieve the opcode,
 	 * decode it and execute it.
 	 */
+	
+	private long time = 0;
+	private long count = 0;
+	{
+		instructionTable[0x76].setCPU(this);
+	}
 	public void emulate() {
-				instructionTable[0x76].setCPU(this);
+				
 
 		while (true) {
 			m_spectrum.update();
@@ -1592,17 +1597,19 @@ public class Z80 extends BaseComponent {
 			int op8 = mone8();
 
 			// Descomentar para contar instruções e ver as mais usadas
-//						instructionCounter[op8]++;
-//						instrs++;
-//						if(instrs > 10000000)
-//							stop();
+						instructionCounter[op8]++;
+						instrs++;
+						if(instrs > 40000000)
+							stop();
 			
 //			if(instructionTable[op8] != null) {
-//
 //				instructionTable[op8].execute();
 //				m_tstates += instructionTable[op8].incTstates();
+//				
 //			} else {
 
+ 
+						time = System.nanoTime();
 				switch (op8) {
 
 				/* MOST USED INSTRUCTION 48k. IN 100M -> 16M*/
@@ -3398,7 +3405,7 @@ public class Z80 extends BaseComponent {
 						m_pc16 = 0x38;
 						break;
 				}
-
+				count = System.nanoTime() - time;
 				if (m_stop) {
 					break;
 				}
@@ -3413,7 +3420,8 @@ public class Z80 extends BaseComponent {
 					}
 				}
 			}
-//		}
+		//}
+		
 		System.out.println("END");
 		dump();
 	}

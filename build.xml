@@ -42,13 +42,13 @@
 		<java classname="${main}" fork="true">
 			<classpath refid="project.classpath" />
 			<arg value="-scale" />
-			<arg value="2" />
+			<arg value="3" />
 
 			<arg value="-mode" />
 			<arg value="128" />
 			
 			<arg value="-snapshot" />
-			<arg value="etc/RenegadeL3.z80" />
+			<arg value="etc/assm.z80" />
 		</java>
 	</target>
 	<target name="RenegadeL1" description="Run Renegade form level 1" depends="compile">

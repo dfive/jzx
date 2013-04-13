@@ -649,6 +649,8 @@ public class Z80 extends BaseComponent {
 	private static final Instruction[] instructionTable = new Instruction[256];
 
 	private static final int[] instructionCounter = new int[255];
+
+	private static final int MAX_CACHE_CAPACITY = 255;
 	private static long instrs = 0;
 
 	/** Inicialização da tabela */
@@ -1574,6 +1576,12 @@ public class Z80 extends BaseComponent {
 		//		System.out.println("MAX: " + maxindex + " - " + max);
 	}
 
+	/*
+	 * Mantains the most used instructions in cache
+	 * in a way that improves the performace in the access to the most used instructions
+	 */
+	private InstructionsCache instructionsCache;
+	
 	/**
 	 * Decode one instruction: call <TT>mone8()</TT> to retrieve the opcode,
 	 * decode it and execute it.
@@ -1584,6 +1592,7 @@ public class Z80 extends BaseComponent {
 	
 	{
 		instructionTable[0x76].setCPU(this);
+		instructionsCache = new InstructionsCache(MAX_CACHE_CAPACITY);
 	}
 	
 	public void emulate() {
@@ -1598,10 +1607,19 @@ public class Z80 extends BaseComponent {
 			if(instrs > 40000000){
 				stop();
 			}
-			instructionTable[op8].execute();
-			m_tstates += instructionTable[op8].incTstates();
 			
-			count = System.nanoTime() - time;
+			if(instructionsCache.isHit(op8)){
+				instructionsCache.get(op8).execute();
+				m_tstates += instructionTable[op8].incTstates();
+				//inc Program Counter
+//				inc16pc();
+			} else {
+				instructionTable[op8].execute();
+				m_tstates += instructionTable[op8].incTstates();
+				//we can insert this in the cache in an assyncronou way!!
+				instructionsCache.addInstruction(op8, instructionTable[op8]);
+			}
+//			count = System.nanoTime() - time;
 			if (m_stop) {
 				break;
 			}

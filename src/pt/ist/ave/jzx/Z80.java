@@ -1595,30 +1595,43 @@ public class Z80 extends BaseComponent {
 		instructionsCache = new InstructionsCache(MAX_CACHE_CAPACITY);
 	}
 	
+	private int myMone8(){
+		m_r8 = (m_r8 & 0x80) | ((m_r8 + 1) & 0x7f);
+
+		return m_memory.read8(inc16pc());
+	}
+	
 	public void emulate() {
 
 		while (true) {
 			m_spectrum.update();
 
 			int op8 = mone8();
-
+			/**
+			 * Count the number of instructions
 			instructionCounter[op8]++;
 			instrs++;
 			if(instrs > 40000000){
 				stop();
 			}
-			
-			if(instructionsCache.isHit(op8)){
-				instructionsCache.get(op8).execute();
-				m_tstates += instructionTable[op8].incTstates();
-				//inc Program Counter
+			*/
+//			int op8 = m_pc16;
+//			if(instructionsCache.isHit(op8)){
+//				//inc Program Counter and refresh the registers
+//				m_r8 = (m_r8 & 0x80) | ((m_r8 + 1) & 0x7f);
 //				inc16pc();
-			} else {
+//				//execute the insttruction from the cache
+//				Instruction cachedInstruction = instructionsCache.get(op8);
+//				cachedInstruction.execute();
+//				m_tstates += cachedInstruction.incTstates();
+//			} else {
+//				op8 = mone8();
 				instructionTable[op8].execute();
 				m_tstates += instructionTable[op8].incTstates();
 				//we can insert this in the cache in an assyncronou way!!
 				instructionsCache.addInstruction(op8, instructionTable[op8]);
-			}
+//			}
+				
 //			count = System.nanoTime() - time;
 			if (m_stop) {
 				break;

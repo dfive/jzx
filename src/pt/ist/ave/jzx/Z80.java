@@ -1601,55 +1601,75 @@ public class Z80 extends BaseComponent {
 		return m_memory.read8(inc16pc());
 	}
 	
+	private void updateRefreshRegister(){
+		m_r8 = (m_r8 & 0x80) | ((m_r8 + 1) & 0x7f);
+	}
+	
 	public void emulate() {
-
 		while (true) {
 			m_spectrum.update();
 
-			int op8 = mone8();
-			/**
-			 * Count the number of instructions
-			instructionCounter[op8]++;
+//			int op8 = mone8();
+			updateRefreshRegister();
+			Instruction instruction;
+//			if(instructionsCache.isHit(m_pc16)){
+//				instruction = instructionsCache.get(m_pc16);
+//			} else {
+				int opcode = m_memory.read8(m_pc16);
+				instruction = instructionTable[opcode];
+				instructionsCache.addInstruction(m_pc16, instruction);
+//			}
+			
+			inc16pc();
+			
+			instruction.execute();
+			
+			m_tstates += instruction.incTstates();
+			
+/**
+ * Count the number of instructions
+instructionCounter[op8]++;
+instrs++;
+if(instrs > 40000000){
+	stop();
+}
+*/
 			instrs++;
 			if(instrs > 40000000){
 				stop();
 			}
-			*/
-//			int op8 = m_pc16;
-//			if(instructionsCache.isHit(op8)){
-//				//inc Program Counter and refresh the registers
-//				m_r8 = (m_r8 & 0x80) | ((m_r8 + 1) & 0x7f);
-//				inc16pc();
-//				//execute the insttruction from the cache
-//				Instruction cachedInstruction = instructionsCache.get(op8);
-//				cachedInstruction.execute();
-//				m_tstates += cachedInstruction.incTstates();
-//			} else {
-//				op8 = mone8();
-				instructionTable[op8].execute();
-				m_tstates += instructionTable[op8].incTstates();
-				//we can insert this in the cache in an assyncronou way!!
-				instructionsCache.addInstruction(op8, instructionTable[op8]);
-//			}
-				
+
 //			count = System.nanoTime() - time;
 			if (m_stop) {
 				break;
 			}
 
-//			synchronized (this) {
-//				while (m_pause) {
-//					try {
-//						wait();
-//					} catch (InterruptedException ie) {
-//						m_logger.log(ILogger.C_ERROR, ie);
-//					}
-//				}
-//			}
+			synchronized (this) {
+				while (m_pause) {
+					try {
+						wait();
+					} catch (InterruptedException ie) {
+						m_logger.log(ILogger.C_ERROR, ie);
+					}
+				}
+			}
 		}
 
 		System.out.println("END");
 		dump();
+	}
+	
+	
+	private void originalEmulate(){
+		m_spectrum.update();
+
+		int op8 = mone8();
+		
+		if(instructionTable[op8] != null) {
+
+			instructionTable[op8].execute();
+			m_tstates += instructionTable[op8].incTstates();
+		}
 	}
 	/**
 	 * Decode the instructions whose first opcode is 0xCB.

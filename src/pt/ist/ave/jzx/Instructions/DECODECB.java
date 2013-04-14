@@ -9,7 +9,6 @@ public class DECODECB extends Instruction {
 
 	@Override
 	public void execute() {
-		
 		int op8 = _cpu.mone8();
 		_cpu.decodeCB(op8);
 	}

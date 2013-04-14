@@ -27,9 +27,9 @@ public class InstructionsCache {
 	 * otherwise it uses some policy of substitution.
 	 */
 	public void addInstruction(Integer memoryPosition, Instruction instruction){
-		if(instructions.size()<maxCapacity){
+//		if(instructions.size()<maxCapacity){
 			instructions.put(memoryPosition, instruction);
-		}
+//		}
 	}
 	
 	/*

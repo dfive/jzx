@@ -12,7 +12,7 @@ public class RETM extends Instruction {
 	public void execute() {
 		_tstates = 5;
 		if (_cpu.getM_signF()) {
-			_tstates += 6;
+			_tstates = 11;
 			_cpu.setM_pc16(_cpu.pop16());
 		}
 	}

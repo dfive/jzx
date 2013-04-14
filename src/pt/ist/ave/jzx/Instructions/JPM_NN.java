@@ -17,7 +17,6 @@ public class JPM_NN extends Instruction {
 
 	@Override
 	public int incTstates() {
-//		m_tstates += 10;
 		return 10;
 	}
 

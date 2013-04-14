@@ -12,7 +12,7 @@ public class JRNZ_D extends Instruction {
 	private int getAdd(){
 		int m_pc16 = _cpu.getM_pc16();
 		if(!addsCache.containsKey(m_pc16)){
-			addsCache.put(m_pc16, _cpu.add16(m_pc16, (byte) readNextMemoryPosition() + 1));
+			addsCache.put(m_pc16, _cpu.add16(m_pc16, (byte) readNextMemoryPosition8() + 1));
 		}
 		return addsCache.get(m_pc16);
 	}

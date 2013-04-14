@@ -10,7 +10,6 @@ public class LD_AB extends Instruction {
 
 	@Override
 	public void execute() {
-//		Z80.m_a8 = Z80.m_b8;
 		_cpu.setM_a8(_cpu.getM_b8());
 	}
 

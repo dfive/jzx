@@ -10,8 +10,10 @@ public abstract class Instruction {
 	
 	protected static Z80 _cpu;
 	
-	private static HashMap<Integer, Integer> memoryCache = new HashMap<Integer, Integer>();
+	private static HashMap<Integer, Integer> memoryCache8 = new HashMap<Integer, Integer>();
+	private static HashMap<Integer, Integer> memoryCache16 = new HashMap<Integer, Integer>();
 
+	
 	public Instruction(short opCode) {
 		_opCode = opCode;
 	}
@@ -20,12 +22,20 @@ public abstract class Instruction {
 		_cpu = cpu;
 	}
 	
-	public static int readNextMemoryPosition(){
+	public static int readNextMemoryPosition8(){
 		int m_pc16 = _cpu.getM_pc16();
-		if(!memoryCache.containsKey(m_pc16)){
-			memoryCache.put(m_pc16,_cpu.getM_memory().read8(m_pc16));
+		if(!memoryCache8.containsKey(m_pc16)){
+			memoryCache8.put(m_pc16,_cpu.getM_memory().read8(m_pc16));
 		}
-		return memoryCache.get(m_pc16);
+		return memoryCache8.get(m_pc16);
+	}
+	
+	public static int readNextMemoryPosition16(){
+		int m_pc16 = _cpu.getM_pc16();
+		if(!memoryCache8.containsKey(m_pc16)){
+			memoryCache8.put(m_pc16,_cpu.getM_memory().read16(m_pc16));
+		}
+		return memoryCache8.get(m_pc16);
 	}
 	
 	public abstract void execute();

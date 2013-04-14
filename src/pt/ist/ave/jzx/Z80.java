@@ -1564,8 +1564,12 @@ public class Z80 extends BaseComponent {
 				maxindex = i;
 			}
 			teste.put(instructionCounter[i], i);
-
-
+		}
+		
+		System.out.println("NUM CACHE MISSES: " + numMiss);
+		System.out.println("NUM CACHE HITS: " + numHits);
+		if(numMiss>0 && numHits>0){
+			System.out.println("HIT RATE: " + (numHits*100) / (numMiss + numHits));
 		}
 		System.out.println("TOTAL TIME " + count);
 
@@ -1589,17 +1593,14 @@ public class Z80 extends BaseComponent {
 
 	private long time = 0;
 	private long count = 0;
+	private long numHits = 0;
+	private long numMiss = 0;
 	
 	{
 		instructionTable[0x76].setCPU(this);
 		instructionsCache = new InstructionsCache(MAX_CACHE_CAPACITY);
 	}
-	
-	private int myMone8(){
-		m_r8 = (m_r8 & 0x80) | ((m_r8 + 1) & 0x7f);
 
-		return m_memory.read8(inc16pc());
-	}
 	
 	private void updateRefreshRegister(){
 		m_r8 = (m_r8 & 0x80) | ((m_r8 + 1) & 0x7f);
@@ -1608,17 +1609,27 @@ public class Z80 extends BaseComponent {
 	public void emulate() {
 		while (true) {
 			m_spectrum.update();
-
-//			int op8 = mone8();
 			updateRefreshRegister();
 			Instruction instruction;
-//			if(instructionsCache.isHit(m_pc16)){
-//				instruction = instructionsCache.get(m_pc16);
-//			} else {
+			time = System.nanoTime();
+			if(instructionsCache.isHit(m_pc16)){
+				numHits++;
+				instruction = instructionsCache.get(m_pc16);
+			} else {
+				numMiss++;
 				int opcode = m_memory.read8(m_pc16);
+				instructionCounter[opcode]++;
 				instruction = instructionTable[opcode];
 				instructionsCache.addInstruction(m_pc16, instruction);
-//			}
+			}
+			
+			//original code - START:
+//			int opcode = m_memory.read8(m_pc16);
+//			instructionCounter[opcode]++;
+//			instruction = instructionTable[opcode];
+//			numMiss++;
+//			numHits++;
+			//original code - END:
 			
 			inc16pc();
 			
@@ -1626,20 +1637,15 @@ public class Z80 extends BaseComponent {
 			
 			m_tstates += instruction.incTstates();
 			
-/**
- * Count the number of instructions
-instructionCounter[op8]++;
-instrs++;
-if(instrs > 40000000){
-	stop();
-}
-*/
+			count += System.nanoTime() - time;
+			
 			instrs++;
-			if(instrs > 40000000){
+			if(instrs > 45000000){
 				stop();
 			}
 
-//			count = System.nanoTime() - time;
+			
+			
 			if (m_stop) {
 				break;
 			}
@@ -1659,18 +1665,6 @@ if(instrs > 40000000){
 		dump();
 	}
 	
-	
-	private void originalEmulate(){
-		m_spectrum.update();
-
-		int op8 = mone8();
-		
-		if(instructionTable[op8] != null) {
-
-			instructionTable[op8].execute();
-			m_tstates += instructionTable[op8].incTstates();
-		}
-	}
 	/**
 	 * Decode the instructions whose first opcode is 0xCB.
 	 */

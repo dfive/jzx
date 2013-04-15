@@ -10,7 +10,7 @@ public class InstructionsCache {
 	/*
 	 * maps MemoryPosition |-> Decoded Instruction
 	 */
-	private HashMap<Integer, Instruction> instructions;
+	private static HashMap<Integer, Instruction> instructions;
 	
 	/*
 	 * the maximum number of instructions that the cache keeps in memory
@@ -27,9 +27,7 @@ public class InstructionsCache {
 	 * otherwise it uses some policy of substitution.
 	 */
 	public void addInstruction(Integer memoryPosition, Instruction instruction){
-//		if(instructions.size()<maxCapacity){
 			instructions.put(memoryPosition, instruction);
-//		}
 	}
 	
 	/*
@@ -44,5 +42,11 @@ public class InstructionsCache {
 	 */
 	public Instruction get(Integer memoryPosition){
 		return instructions.get(memoryPosition);
+	}
+	
+	public static void clearCache(){
+		if(instructions!=null){
+			instructions.clear();
+		}
 	}
 }

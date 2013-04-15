@@ -32,10 +32,15 @@ public abstract class Instruction {
 	
 	public static int readNextMemoryPosition16(){
 		int m_pc16 = _cpu.getM_pc16();
-		if(!memoryCache8.containsKey(m_pc16)){
-			memoryCache8.put(m_pc16,_cpu.getM_memory().read16(m_pc16));
+		if(!memoryCache16.containsKey(m_pc16)){
+			memoryCache16.put(m_pc16,_cpu.getM_memory().read16(m_pc16));
 		}
-		return memoryCache8.get(m_pc16);
+		return memoryCache16.get(m_pc16);
+	}
+	
+	public static void cleanCaches(){
+		memoryCache8.clear();
+		memoryCache16.clear();
 	}
 	
 	public abstract void execute();

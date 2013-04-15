@@ -5,6 +5,8 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
+import pt.ist.ave.jzx.Instructions.Instruction;
+
 /**
  * Base class extended by all memory components that comprise the emulator.
  * <P>
@@ -199,7 +201,7 @@ public abstract class BaseMemory extends BaseComponent {
 					"Ignored attempt to page RAM at 0x0000");
 			return;
 		}
-
+		
 		m_frameToPage[frame] = page;
 		m_frame[frame] = m_page[page];
 	}

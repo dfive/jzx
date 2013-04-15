@@ -123,7 +123,7 @@ public abstract class BaseSpectrum extends BaseComponent {
 
 		m_container.add(m_screen, BorderLayout.CENTER);
 		m_container.add(m_status, BorderLayout.SOUTH);
-	
+
 	}
 
 	/**
@@ -299,9 +299,9 @@ public abstract class BaseSpectrum extends BaseComponent {
 		int tStates = m_cpu.getTStates();
 
 		if (tStates >= m_cyclesLine) {
-			
-//			System.out.println("TSTATES: " + tStates);
-			
+
+			//			System.out.println("TSTATES: " + tStates);
+
 			tStates -= m_cyclesLine;
 			m_cpu.setTStates(tStates);
 
@@ -315,15 +315,15 @@ public abstract class BaseSpectrum extends BaseComponent {
 
 				m_frames++;
 				long elapsed = System.currentTimeMillis() - m_fpsTimer;
-//				long tau = System.currentTimeMillis();
+				//				long tau = System.currentTimeMillis();
 				if (elapsed > 1000L) {
 					long fps = ((m_frames * 1000L) / elapsed);
-//					m_status.setText("FPS: " + fps + "    " + (clock - tau)/1000);
+					//					m_status.setText("FPS: " + fps + "    " + (clock - tau)/1000);
 					m_status.setText("FPS: " + fps);
 					m_fpsTimer = System.currentTimeMillis();
 					m_frames = 0;
 				}
-				
+
 
 				// Fire an interrupt per frame
 				m_interrupts++;
@@ -334,6 +334,7 @@ public abstract class BaseSpectrum extends BaseComponent {
 					m_interrupts = 0;
 					m_screen.flash();
 				}
+
 
 				m_screen.repaint();
 

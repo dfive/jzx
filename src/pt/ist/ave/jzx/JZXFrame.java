@@ -59,7 +59,7 @@ public class JZXFrame {
 				System.exit(0);
 			}
 		});
-
+		
 		ConsoleLogger logger = new ConsoleLogger();
 		BaseSpectrum spectrum = null;
 		Z80Loader loader = null;

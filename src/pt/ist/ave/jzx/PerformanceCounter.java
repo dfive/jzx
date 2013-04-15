@@ -17,6 +17,7 @@ import java.util.Hashtable;
  *         me.
  */
 public class PerformanceCounter {
+	
 	/**
 	 * Store the total amount of time performed by a particular action and the
 	 * number of times that action was performed.
@@ -27,7 +28,7 @@ public class PerformanceCounter {
 	}
 
 	/** Enable or disable the performance counter functionality. */
-	private static boolean s_enable = false;
+	private static boolean s_enable = true;
 
 	/**
 	 * Skip this many events of any given time before recording times for that
@@ -41,6 +42,12 @@ public class PerformanceCounter {
 	/** The list of {@link Pair} objects for an event of a given type. */
 	private static Hashtable<String, Pair> s_timePairs = new Hashtable<String, Pair>();
 
+	/** The list of {@link Pair} objects for an event of a given type. */
+	private static Hashtable<String, Integer> s_cacheHits = new Hashtable<String, Integer>();
+	
+	/** The list of {@link Pair} objects for an event of a given type. */
+	private static Hashtable<String, Integer> s_cacheMisses = new Hashtable<String, Integer>();
+	
 	/** Enable or disable the counter functionality. */
 	public static void setEnable(boolean flag) {
 		s_enable = flag;
@@ -118,6 +125,26 @@ public class PerformanceCounter {
 			}
 		}
 	}
+	
+	public static synchronized void cacheHit(String cacheName){
+		int numHits = 0;
+		if(s_cacheHits.contains(cacheName)){
+			numHits = s_cacheHits.get(cacheName);
+			s_cacheHits.remove(cacheName);
+		}
+		numHits += 1;
+		s_cacheHits.put(cacheName, numHits);
+	}
+	
+	public static synchronized void cacheMiss(String cacheName){
+		int numHits = 0;
+		if(s_cacheMisses.contains(cacheName)){
+			numHits = s_cacheMisses.get(cacheName);
+			s_cacheMisses.remove(cacheName);
+		}
+		numHits += 1;
+		s_cacheMisses.put(cacheName, numHits);
+	}
 
 	/**
 	 * Report all the performance events gathered thus far.
@@ -126,15 +153,23 @@ public class PerformanceCounter {
 		if (!s_enable) {
 			return;
 		}
-
-		for (Enumeration<String> keys = s_timePairs.keys(); keys
-				.hasMoreElements();) {
+		System.out.println("###### cache report: ###############");
+		for(String cacheName : s_cacheHits.keySet()){
+			int numHits =  s_cacheHits.contains(cacheName) ? s_cacheHits.get(cacheName) : 0;
+			int numMisses = s_cacheMisses.contains(cacheName) ? s_cacheMisses.get(cacheName) : 0;
+			int hitRate = (numHits>0 && numMisses > 0) ? (numHits*100/(numHits+numMisses)) : 0;
+			String logggg = ("Cache " + cacheName + " hits: " + numHits + "misses: " + numMisses + "hit rate: " + hitRate + "%");
+			System.out.println(logggg);
+		}
+		System.out.println("###### timers report: ###############");
+		for (Enumeration<String> keys = s_timePairs.keys(); keys.hasMoreElements();) {
 			String name = (String) keys.nextElement();
 			Pair pair = (Pair) s_timePairs.get(name);
 
 			int count = pair.count - s_warmup;
-			System.out.println(name + "=" + (pair.time / count) + " (" + count
-					+ ")");
+			System.out.println(name + "=" + (pair.time / count) + " (" + count + ")");
 		}
+		
+
 	}
 }

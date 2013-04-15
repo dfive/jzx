@@ -1,10 +1,13 @@
 package pt.ist.ave.jzx;
 
 import java.util.TreeMap;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
 
 import pt.ist.ave.jzx.Instructions.Instruction;
 import pt.ist.ave.jzx.Instructions.InstructionFactory;
-import pt.ist.ave.jzx.ILogger;
 
 /**
  * The Z80 CPU component of the Spectrum emulator.
@@ -19,6 +22,8 @@ import pt.ist.ave.jzx.ILogger;
  * @see BaseSpectrum
  */
 public class Z80 extends BaseComponent {
+	private static final String INSTRUCTION_CACHE = "InstructionCache";
+
 	/**
 	 * Indicates that the <TT>emulate()</TT> method should end.
 	 */
@@ -648,9 +653,9 @@ public class Z80 extends BaseComponent {
 	/** Tabela com as instancias das instruções do cpu */
 	private static final Instruction[] instructionTable = new Instruction[256];
 
-	private static final int[] instructionCounter = new int[256];
+	private static final int[] instructionCounter = new int[255];
 
-	private static final int MAX_CACHE_CAPACITY = 256;
+	private static final int MAX_CACHE_CAPACITY = 255;
 	private static long instrs = 0;
 
 	/** Inicialização da tabela */
@@ -1597,7 +1602,7 @@ public class Z80 extends BaseComponent {
 	private long numMiss = 0;
 
 	{
-		instructionTable[0x76].setCPU(this);
+		Instruction.setCPU(this);
 		instructionsCache = new InstructionsCache(MAX_CACHE_CAPACITY);
 	}
 
@@ -1606,27 +1611,30 @@ public class Z80 extends BaseComponent {
 		m_r8 = (m_r8 & 0x80) | ((m_r8 + 1) & 0x7f);
 	}
 
-	public void emulate() {
+	public void emulate(){
+		original_emulate();
+	}
+
+	public void original_emulate() {
 		while (true) {
 			m_spectrum.update();
+
 			updateRefreshRegister();
 			Instruction instruction;
-			//			time = System.nanoTime();
-			//			if(instructionsCache.isHit(m_pc16)){
-			//				numHits++;
-			//				instruction = instructionsCache.get(m_pc16);
-			//			} else {
-			numMiss++;
+//			if(instructionsCache.isHit(m_pc16)){
+//				PerformanceCounter.cacheHit(INSTRUCTION_CACHE);
+//				instruction = instructionsCache.get(m_pc16);
+//			} else {
+//				PerformanceCounter.cacheMiss(INSTRUCTION_CACHE);
+//				int opcode = m_memory.read8(m_pc16);
+//				instruction = instructionTable[opcode];
+//				instructionsCache.addInstruction(m_pc16, instruction);
+//			}
+
+			//original code - START:
 			int opcode = m_memory.read8(m_pc16);
 			instructionCounter[opcode]++;
 			instruction = instructionTable[opcode];
-			instructionsCache.addInstruction(m_pc16, instruction);
-			//			}
-
-			//original code - START:
-			//			int opcode = m_memory.read8(m_pc16);
-			//			instructionCounter[opcode]++;
-			//			instruction = instructionTable[opcode];
 			//			numMiss++;
 			//			numHits++;
 			//original code - END:
@@ -1636,16 +1644,7 @@ public class Z80 extends BaseComponent {
 			instruction.execute();
 
 			m_tstates += instruction.incTstates();
-
-//			count += System.nanoTime() - time;
-
-			instrs++;
-			if(instrs > 45000000){
-				stop();
-			}
-
-
-
+			
 			if (m_stop) {
 				break;
 			}
@@ -1662,7 +1661,6 @@ public class Z80 extends BaseComponent {
 		}
 
 		System.out.println("END");
-		dump();
 	}
 
 	/**
@@ -1916,10 +1914,10 @@ public class Z80 extends BaseComponent {
 			m_tstates += 19;
 			work16 = add16(m_xx16, (byte) m_memory.read8(inc16pc()));
 			m_x8 = work16 >> 8;
-		m_h8 = m_memory.read8(work16);
-		break;
+			m_h8 = m_memory.read8(work16);
+			break;
 
-		/* ld hx,a */
+			/* ld hx,a */
 		case 0x67:
 			m_tstates += 8;
 			xx16high8(m_a8);

@@ -1565,7 +1565,7 @@ public class Z80 extends BaseComponent {
 			}
 			teste.put(instructionCounter[i], i);
 		}
-		
+
 		System.out.println("NUM CACHE MISSES: " + numMiss);
 		System.out.println("NUM CACHE HITS: " + numHits);
 		if(numMiss>0 && numHits>0){
@@ -1585,7 +1585,7 @@ public class Z80 extends BaseComponent {
 	 * in a way that improves the performace in the access to the most used instructions
 	 */
 	private InstructionsCache instructionsCache;
-	
+
 	/**
 	 * Decode one instruction: call <TT>mone8()</TT> to retrieve the opcode,
 	 * decode it and execute it.
@@ -1595,57 +1595,57 @@ public class Z80 extends BaseComponent {
 	private long count = 0;
 	private long numHits = 0;
 	private long numMiss = 0;
-	
+
 	{
 		instructionTable[0x76].setCPU(this);
 		instructionsCache = new InstructionsCache(MAX_CACHE_CAPACITY);
 	}
 
-	
+
 	private void updateRefreshRegister(){
 		m_r8 = (m_r8 & 0x80) | ((m_r8 + 1) & 0x7f);
 	}
-	
+
 	public void emulate() {
 		while (true) {
 			m_spectrum.update();
 			updateRefreshRegister();
 			Instruction instruction;
-			time = System.nanoTime();
-			if(instructionsCache.isHit(m_pc16)){
-				numHits++;
-				instruction = instructionsCache.get(m_pc16);
-			} else {
-				numMiss++;
-				int opcode = m_memory.read8(m_pc16);
-				instructionCounter[opcode]++;
-				instruction = instructionTable[opcode];
-				instructionsCache.addInstruction(m_pc16, instruction);
-			}
-			
+			//			time = System.nanoTime();
+			//			if(instructionsCache.isHit(m_pc16)){
+			//				numHits++;
+			//				instruction = instructionsCache.get(m_pc16);
+			//			} else {
+			numMiss++;
+			int opcode = m_memory.read8(m_pc16);
+			instructionCounter[opcode]++;
+			instruction = instructionTable[opcode];
+			instructionsCache.addInstruction(m_pc16, instruction);
+			//			}
+
 			//original code - START:
-//			int opcode = m_memory.read8(m_pc16);
-//			instructionCounter[opcode]++;
-//			instruction = instructionTable[opcode];
-//			numMiss++;
-//			numHits++;
+			//			int opcode = m_memory.read8(m_pc16);
+			//			instructionCounter[opcode]++;
+			//			instruction = instructionTable[opcode];
+			//			numMiss++;
+			//			numHits++;
 			//original code - END:
-			
+
 			inc16pc();
-			
+
 			instruction.execute();
-			
+
 			m_tstates += instruction.incTstates();
-			
-			count += System.nanoTime() - time;
-			
+
+//			count += System.nanoTime() - time;
+
 			instrs++;
 			if(instrs > 45000000){
 				stop();
 			}
 
-			
-			
+
+
 			if (m_stop) {
 				break;
 			}
@@ -1664,7 +1664,7 @@ public class Z80 extends BaseComponent {
 		System.out.println("END");
 		dump();
 	}
-	
+
 	/**
 	 * Decode the instructions whose first opcode is 0xCB.
 	 */
@@ -3388,46 +3388,46 @@ public class Z80 extends BaseComponent {
 			m_tstates += 15;
 			work16 = add16(m_xx16, (byte) m_memory.read8(inc16pc()));
 			m_x8 = work16 >> 8;
-						m_b8 = m_memory.read8(work16);
-						break;
+		m_b8 = m_memory.read8(work16);
+		break;
 
-						/* ld c,hx */
-						case 0x4C:
-							m_tstates += 8;
-							m_c8 = xx16high8();
-							break;
+		/* ld c,hx */
+		case 0x4C:
+			m_tstates += 8;
+			m_c8 = xx16high8();
+			break;
 
-							/* ld c,lx */
-						case 0x4D:
-							m_tstates += 8;
-							m_c8 = xx16low8();
-							break;
+			/* ld c,lx */
+		case 0x4D:
+			m_tstates += 8;
+			m_c8 = xx16low8();
+			break;
 
-							/* ld c,(xx+d) */
-						case 0x4E:
-							m_tstates += 15;
-							work16 = add16(m_xx16, (byte) m_memory.read8(inc16pc()));
-							m_x8 = work16 >> 8;
-						m_c8 = m_memory.read8(work16);
-						break;
+			/* ld c,(xx+d) */
+		case 0x4E:
+			m_tstates += 15;
+			work16 = add16(m_xx16, (byte) m_memory.read8(inc16pc()));
+			m_x8 = work16 >> 8;
+		m_c8 = m_memory.read8(work16);
+		break;
 
-						/* ld d,hx */
-						case 0x54:
-							m_tstates += 8;
-							m_d8 = xx16high8();
-							break;
+		/* ld d,hx */
+		case 0x54:
+			m_tstates += 8;
+			m_d8 = xx16high8();
+			break;
 
-							/* ld d,lx */
-						case 0x55:
-							m_tstates += 8;
-							m_d8 = xx16low8();
-							break;
+			/* ld d,lx */
+		case 0x55:
+			m_tstates += 8;
+			m_d8 = xx16low8();
+			break;
 
-							/* ld d,(xx+d) */
-						case 0x56:
-							m_tstates += 19;
-							work16 = add16(m_xx16, (byte) m_memory.read8(inc16pc()));
-							m_x8 = work16 >> 8;
+			/* ld d,(xx+d) */
+		case 0x56:
+			m_tstates += 19;
+			work16 = add16(m_xx16, (byte) m_memory.read8(inc16pc()));
+			m_x8 = work16 >> 8;
 		m_d8 = m_memory.read8(work16);
 		break;
 

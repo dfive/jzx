@@ -1,93 +1,13 @@
 package pt.ist.ave.jzx.Instructions;
 
-import pt.ist.ave.jzx.Instructions.ld.LD_AA;
-import pt.ist.ave.jzx.Instructions.ld.LD_AB;
-import pt.ist.ave.jzx.Instructions.ld.LD_AC;
-import pt.ist.ave.jzx.Instructions.ld.LD_AD;
-import pt.ist.ave.jzx.Instructions.ld.LD_AE;
-import pt.ist.ave.jzx.Instructions.ld.LD_AH;
-import pt.ist.ave.jzx.Instructions.ld.LD_AL;
-import pt.ist.ave.jzx.Instructions.ld.LD_AMBC;
-import pt.ist.ave.jzx.Instructions.ld.LD_AMDE;
-import pt.ist.ave.jzx.Instructions.ld.LD_AMHL;
-import pt.ist.ave.jzx.Instructions.ld.LD_AMNN;
-import pt.ist.ave.jzx.Instructions.ld.LD_AN;
-import pt.ist.ave.jzx.Instructions.ld.LD_BA;
-import pt.ist.ave.jzx.Instructions.ld.LD_BB;
-import pt.ist.ave.jzx.Instructions.ld.LD_BC;
-import pt.ist.ave.jzx.Instructions.ld.LD_BCNN;
-import pt.ist.ave.jzx.Instructions.ld.LD_BD;
-import pt.ist.ave.jzx.Instructions.ld.LD_BE;
-import pt.ist.ave.jzx.Instructions.ld.LD_BH;
-import pt.ist.ave.jzx.Instructions.ld.LD_BL;
-import pt.ist.ave.jzx.Instructions.ld.LD_BMHL;
-import pt.ist.ave.jzx.Instructions.ld.LD_BN;
-import pt.ist.ave.jzx.Instructions.ld.LD_CA;
-import pt.ist.ave.jzx.Instructions.ld.LD_CB;
-import pt.ist.ave.jzx.Instructions.ld.LD_CC;
-import pt.ist.ave.jzx.Instructions.ld.LD_CD;
-import pt.ist.ave.jzx.Instructions.ld.LD_CE;
-import pt.ist.ave.jzx.Instructions.ld.LD_CH;
-import pt.ist.ave.jzx.Instructions.ld.LD_CL;
-import pt.ist.ave.jzx.Instructions.ld.LD_CMHL;
-import pt.ist.ave.jzx.Instructions.ld.LD_DA;
-import pt.ist.ave.jzx.Instructions.ld.LD_DB;
-import pt.ist.ave.jzx.Instructions.ld.LD_DC;
-import pt.ist.ave.jzx.Instructions.ld.LD_DD;
-import pt.ist.ave.jzx.Instructions.ld.LD_DE;
-import pt.ist.ave.jzx.Instructions.ld.LD_DENN;
-import pt.ist.ave.jzx.Instructions.ld.LD_DH;
-import pt.ist.ave.jzx.Instructions.ld.LD_DL;
-import pt.ist.ave.jzx.Instructions.ld.LD_DMHL;
-import pt.ist.ave.jzx.Instructions.ld.LD_DN;
-import pt.ist.ave.jzx.Instructions.ld.LD_EA;
-import pt.ist.ave.jzx.Instructions.ld.LD_EB;
-import pt.ist.ave.jzx.Instructions.ld.LD_EC;
-import pt.ist.ave.jzx.Instructions.ld.LD_ED;
-import pt.ist.ave.jzx.Instructions.ld.LD_EE;
-import pt.ist.ave.jzx.Instructions.ld.LD_EH;
-import pt.ist.ave.jzx.Instructions.ld.LD_EL;
-import pt.ist.ave.jzx.Instructions.ld.LD_EMHL;
-import pt.ist.ave.jzx.Instructions.ld.LD_EN;
-import pt.ist.ave.jzx.Instructions.ld.LD_HA;
-import pt.ist.ave.jzx.Instructions.ld.LD_HB;
-import pt.ist.ave.jzx.Instructions.ld.LD_HC;
-import pt.ist.ave.jzx.Instructions.ld.LD_HD;
-import pt.ist.ave.jzx.Instructions.ld.LD_HE;
-import pt.ist.ave.jzx.Instructions.ld.LD_HH;
-import pt.ist.ave.jzx.Instructions.ld.LD_HL;
-import pt.ist.ave.jzx.Instructions.ld.LD_HLMNN;
-import pt.ist.ave.jzx.Instructions.ld.LD_HLNN;
-import pt.ist.ave.jzx.Instructions.ld.LD_HMHL;
-import pt.ist.ave.jzx.Instructions.ld.LD_HN;
-import pt.ist.ave.jzx.Instructions.ld.LD_LA;
-import pt.ist.ave.jzx.Instructions.ld.LD_LB;
-import pt.ist.ave.jzx.Instructions.ld.LD_LC;
-import pt.ist.ave.jzx.Instructions.ld.LD_LD;
-import pt.ist.ave.jzx.Instructions.ld.LD_LE;
-import pt.ist.ave.jzx.Instructions.ld.LD_LH;
-import pt.ist.ave.jzx.Instructions.ld.LD_LL;
-import pt.ist.ave.jzx.Instructions.ld.LD_LMHL;
-import pt.ist.ave.jzx.Instructions.ld.LD_LN;
-import pt.ist.ave.jzx.Instructions.ld.LD_MBCA;
-import pt.ist.ave.jzx.Instructions.ld.LD_MDEA;
-import pt.ist.ave.jzx.Instructions.ld.LD_MHLA;
-import pt.ist.ave.jzx.Instructions.ld.LD_MHLB;
-import pt.ist.ave.jzx.Instructions.ld.LD_MHLC;
-import pt.ist.ave.jzx.Instructions.ld.LD_MHLD;
-import pt.ist.ave.jzx.Instructions.ld.LD_MHLE;
-import pt.ist.ave.jzx.Instructions.ld.LD_MHLH;
-import pt.ist.ave.jzx.Instructions.ld.LD_MHLL;
-import pt.ist.ave.jzx.Instructions.ld.LD_MHLN;
-import pt.ist.ave.jzx.Instructions.ld.LD_MNNA;
-import pt.ist.ave.jzx.Instructions.ld.LD_MNNHL;
-import pt.ist.ave.jzx.Instructions.ld.LD_SPHL;
-import pt.ist.ave.jzx.Instructions.ld.LD_SPNN;
+import pt.ist.ave.jzx.Instructions.ld.*;
 
 public class InstructionFactory {
 
 	public static Instruction getInstruction(short opCode) {
 		switch(opCode) {
+		case 0x00:
+			return new NOP(opCode);
 		case 0x01:
 			return new LD_BCNN(opCode);
 		case 0x02:
@@ -597,7 +517,7 @@ public class InstructionFactory {
 		case 0xfe:
 			return new CP_N(opCode);
 		case 0xff:
-			return new RST(opCode);
+			return new RST_38(opCode);
 		}
 		return null;
 	}

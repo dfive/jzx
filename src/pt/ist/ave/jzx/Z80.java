@@ -648,9 +648,9 @@ public class Z80 extends BaseComponent {
 	/** Tabela com as instancias das instruções do cpu */
 	private static final Instruction[] instructionTable = new Instruction[256];
 
-	private static final int[] instructionCounter = new int[255];
+	private static final int[] instructionCounter = new int[256];
 
-	private static final int MAX_CACHE_CAPACITY = 255;
+	private static final int MAX_CACHE_CAPACITY = 256;
 	private static long instrs = 0;
 
 	/** Inicialização da tabela */

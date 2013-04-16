@@ -59,6 +59,10 @@ public abstract class BaseComponent {
 	 * The ILogger object used to log error and output information.
 	 */
 	protected ILogger m_logger;
+	
+	public ILogger getM_logger() {
+		return m_logger;
+	}
 
 	/**
 	 * Trivial accessor for the BaseSpectrum instance.

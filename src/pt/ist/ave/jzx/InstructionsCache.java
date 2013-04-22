@@ -2,7 +2,7 @@ package pt.ist.ave.jzx;
 
 import java.util.HashMap;
 
-import pt.ist.ave.jzx.Instructions.Instruction;
+import pt.ist.ave.jzx.instructions.Instruction;
 
 
 public class InstructionsCache {

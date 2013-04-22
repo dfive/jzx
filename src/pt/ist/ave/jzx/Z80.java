@@ -1,8 +1,9 @@
 package pt.ist.ave.jzx;
 
 import java.util.TreeMap;
-import pt.ist.ave.jzx.Instructions.Instruction;
-import pt.ist.ave.jzx.Instructions.InstructionFactory;
+
+import pt.ist.ave.jzx.instructions.Instruction;
+import pt.ist.ave.jzx.instructions.InstructionFactory;
 
 /**
  * The Z80 CPU component of the Spectrum emulator.
@@ -92,7 +93,7 @@ public class Z80 extends BaseComponent {
 	 * @see #storeFlags
 	 * @see #retrieveFlags
 	 */
-	public boolean m_carryF, m_addsubtractF, m_parityoverflowF, m_halfcarryF,
+	private boolean m_carryF, m_addsubtractF, m_parityoverflowF, m_halfcarryF,
 	m_zeroF, m_signF, m_5F, m_3F;
 
 

@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
 
-import pt.ist.ave.jzx.Instructions.Instruction;
+import pt.ist.ave.jzx.instructions.Instruction;
 
 /**
  * Base class extended by all memory components that comprise the emulator.

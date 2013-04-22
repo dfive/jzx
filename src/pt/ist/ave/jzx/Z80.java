@@ -4,6 +4,9 @@ import java.util.TreeMap;
 
 import pt.ist.ave.jzx.instructions.Instruction;
 import pt.ist.ave.jzx.instructions.InstructionFactory;
+import pt.ist.ave.jzx.operations.ADD_HL;
+import pt.ist.ave.jzx.operations.ADD_XX;
+import pt.ist.ave.jzx.operations.Operation;
 
 /**
  * The Z80 CPU component of the Spectrum emulator.
@@ -95,6 +98,15 @@ public class Z80 extends BaseComponent {
 	 */
 	private boolean m_carryF, m_addsubtractF, m_parityoverflowF, m_halfcarryF,
 	m_zeroF, m_signF, m_5F, m_3F;
+	
+	/**
+	 * Last operation performed that refreshed flag values. Access this variable
+	 * to get the value of the pretended flag.
+	 *   
+	 * @see #storeFlags
+	 * @see #retrieveFlags
+	 */
+	private Operation _lastOperation;
 
 
 	//	public static short[] registers8bit = new short[8];	
@@ -1026,6 +1038,8 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public void add_xx(int val16) {
+		_lastOperation = new ADD_XX(val16);
+		
 		int work32 = m_xx16 + val16;
 		int idx = ((m_xx16 & 0x800) >> 9) | ((val16 & 0x800) >> 10)
 				| ((work32 & 0x800) >> 11);
@@ -1043,6 +1057,8 @@ public class Z80 extends BaseComponent {
 	 * Add a 16-bit value to the HL register and set the appropriate flags.
 	 */
 	public void add_hl(int val16) {
+		_lastOperation = new ADD_HL(val16);
+		
 		m_x8 = m_h8;
 
 		int hl16 = hl16();
@@ -1599,6 +1615,7 @@ public class Z80 extends BaseComponent {
 
 	{
 		Instruction.setCPU(this);
+		Operation.setCpu(this);
 		instructionsCache = new InstructionsCache(MAX_CACHE_CAPACITY);
 	}
 

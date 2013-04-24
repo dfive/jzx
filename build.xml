@@ -6,12 +6,11 @@
 	<property name="test" value="test" />
 	<property name="etc" value="etc" />
 	<property name="roms" value="roms" />
-	<!--property name="resources" value="resources" /-->
+	<!--property name="resources" value="resources" / -->
 	<property name="main" value="${base}.JZXFrame" />
 
-	<!--path id="external.jars">
-		<fileset dir="${resources}" includes="**/*.jar" />
-	</path-->
+	<!--path id="external.jars"> <fileset dir="${resources}" includes="**/*.jar" 
+		/> </path -->
 
 	<path id="project.classpath">
 		<pathelement location="${src}" />
@@ -27,10 +26,8 @@
 			<src path="${src}" />
 			<classpath refid="project.classpath" />
 		</javac>
-		<!--javac destdir="${build}" includeantruntime="false">
-			<src path="${test}" />
-			<classpath refid="project.classpath" />
-		</javac-->
+		<!--javac destdir="${build}" includeantruntime="false"> <src path="${test}" 
+			/> <classpath refid="project.classpath" /> </javac -->
 	</target>
 
 
@@ -46,12 +43,35 @@
 
 			<arg value="-mode" />
 			<arg value="128" />
-			
+
 			<arg value="-snapshot" />
 			<arg value="etc/assm.z80" />
 		</java>
 	</target>
-	<target name="RenegadeL1" description="Run Renegade form level 1" depends="compile">
+
+	<target name="debug-Bombjack" depends="compile">
+
+		<java classname="${main}" fork="true">
+			<classpath refid="project.classpath" />
+			
+			<arg value="-scale" />
+			<arg value="2" />
+
+			<arg value="-mode" />
+			<arg value="128" />
+
+			<arg value="-snapshot" />
+			<arg value="etc/RenegadeL2.z80" />
+
+			<jvmarg value="-Xdebug" />
+			<jvmarg
+				value="-Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=5432" />
+		</java>
+
+	</target>
+
+	<target name="RenegadeL1" description="Run Renegade form level 1"
+		depends="compile">
 		<java classname="${main}" fork="true">
 			<classpath refid="project.classpath" />
 			<arg value="-scale" />
@@ -59,12 +79,13 @@
 
 			<arg value="-mode" />
 			<arg value="128" />
-			
+
 			<arg value="-snapshot" />
 			<arg value="etc/RenegadeL1.z80" />
 		</java>
 	</target>
-	<target name="RenegadeL2" description="Run Renegade form level 2" depends="compile">
+	<target name="RenegadeL2" description="Run Renegade form level 2"
+		depends="compile">
 		<java classname="${main}" fork="true">
 			<classpath refid="project.classpath" />
 			<arg value="-scale" />
@@ -72,12 +93,13 @@
 
 			<arg value="-mode" />
 			<arg value="128" />
-			
+
 			<arg value="-snapshot" />
 			<arg value="etc/RenegadeL2.z80" />
 		</java>
 	</target>
-	<target name="RenegadeL3" description="Run Renegade form level 3" depends="compile">
+	<target name="RenegadeL3" description="Run Renegade form level 3"
+		depends="compile">
 		<java classname="${main}" fork="true">
 			<classpath refid="project.classpath" />
 			<arg value="-scale" />
@@ -85,25 +107,12 @@
 
 			<arg value="-mode" />
 			<arg value="128" />
-			
+
 			<arg value="-snapshot" />
 			<arg value="etc/RenegadeL3.z80" />
 		</java>
 	</target>
 	<target name="Bombjack" depends="compile">
-			<java classname="${main}" fork="true">
-				<classpath refid="project.classpath" />
-				<arg value="-scale" />
-				<arg value="2" />
-
-				<arg value="-mode" />
-				<arg value="128" />
-				
-				<arg value="-snapshot" />
-				<arg value="etc/bombjack.z80" />
-			</java>
-		</target>
-			<target name="Lemans" depends="compile">
 		<java classname="${main}" fork="true">
 			<classpath refid="project.classpath" />
 			<arg value="-scale" />
@@ -111,7 +120,20 @@
 
 			<arg value="-mode" />
 			<arg value="128" />
-			
+
+			<arg value="-snapshot" />
+			<arg value="etc/bombjack.z80" />
+		</java>
+	</target>
+	<target name="Lemans" depends="compile">
+		<java classname="${main}" fork="true">
+			<classpath refid="project.classpath" />
+			<arg value="-scale" />
+			<arg value="2" />
+
+			<arg value="-mode" />
+			<arg value="128" />
+
 			<arg value="-snapshot" />
 			<arg value="etc/Lemans.z80" />
 		</java>

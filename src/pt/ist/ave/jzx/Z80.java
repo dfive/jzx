@@ -1616,8 +1616,6 @@ public class Z80 extends BaseComponent {
 	private long numHits = 0;
 	private long numMiss = 0;
 
-	private boolean m_waiting_update;
-
 	{
 		Instruction.setCPU(this);
 		Operation.setCpu(this);
@@ -1631,118 +1629,68 @@ public class Z80 extends BaseComponent {
 
 
 	public void emulate() {
-		final CyclicBarrier barrier = new CyclicBarrier(2);
-
-		asyncUpdate(barrier);
-		asyncEmulate(barrier);
-		
-//		while (true) {
-//			emulateOne();
-//
-//			if (m_stop) {
-//				break;
-//			}
-//
-//			synchronized (this) {
-//				while (m_pause) {
-//					try {
-//						wait();
-//					} catch (InterruptedException ie) {
-//						m_logger.log(ILogger.C_ERROR, ie);
-//					}
-//				}
-//			}
-//
-//			try {
-//				barrier.await();
-//			} catch (InterruptedException e) {
-//				e.printStackTrace();
-//			} catch (BrokenBarrierException e) {
-//				e.printStackTrace();
-//			}
-//		}
+		final CyclicBarrier barrier = new CyclicBarrier(1);
+		final Object lock = new Object();
+		asyncUpdate(barrier, lock);
+		asyncEmulate(barrier, lock);
 	}
-	
+
 	private AtomicBoolean isUpdateDone = new AtomicBoolean(false);
-	private AtomicBoolean isEmulateDone = new AtomicBoolean(false);
-	
-	private void asyncUpdate(final CyclicBarrier barrier) {
+
+	private void asyncUpdate(final CyclicBarrier barrier, final Object lock) {
 		new Thread(new Runnable() {
 
 			@Override
 			public void run() {
 				while(true) {
-
-					m_spectrum.update();
 					
+					//WARNING: ACTIVE WAIT FOR THE EMULATE TO FINISH 
+					//[this should not happen but we never know..]
+					// while(isUpdateDone.get()==true);
+					//I THINK THAT ACTUALLY THIS SYNC IS NOT NEEDED BECAUSE IN THE WORST CASE WE UPDATE
+					//MORE TIMES THAN WHAT WE NEED AND THE RISK PAYS OFF.
+					
+					m_spectrum.update();
+
 					isUpdateDone.set(true);
 					
-//					try {
-//						barrier.await();
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//					} catch (BrokenBarrierException e) {
-//						e.printStackTrace();
-//					}
 				}
 			}
 		}).start();
 	}
 
-	private void asyncEmulate(final CyclicBarrier barrier) {
-//		new Thread(new Runnable() {
+	private void asyncEmulate(final CyclicBarrier barrier, final Object lock) {
+		while (true) {
+			PerformanceCounter.start("emulate");
+			emulateOne();
 
-//			@Override
-//			public void run() {
-				while (true) {
-					emulateOne();
+			if (m_stop) {
+				break;
+			}
 
-					if (m_stop) {
-						break;
-					}
-					
-					while (m_pause) {
-						try {
-							wait();
-						} catch (InterruptedException ie) {
-							m_logger.log(ILogger.C_ERROR, ie);
-						}
-					}
+			while (m_pause) {
+				pauseMode();
+			}
 
-//					try {
-//						barrier.await();
-//					} catch (InterruptedException e) {
-//						e.printStackTrace();
-//						m_logger.log(ILogger.C_ERROR, e);
-//					} catch (BrokenBarrierException e) {
-//						e.printStackTrace();
-//						m_logger.log(ILogger.C_ERROR, e);
-//					}
-					
-					while(!isUpdateDone.getAndSet(false)) {
-					
-					}
-					
-				}		
-//			}				
-//		}).start();
+			//WARNING: ACTIVE WAIT FOR THE UPDATE TO FINISH
+			PerformanceCounter.start("emulate - WAIT");
+			
+			while(!isUpdateDone.getAndSet(false));
+			
+			PerformanceCounter.end("emulate - WAIT");
+			PerformanceCounter.end("emulate");
+
+		}
 	}
 
 	private void emulateOne(){
 		updateRefreshRegister();
 		Instruction instruction;
 		int opcode = m_memory.read8(m_pc16);
-		instructionCounter[opcode]++;
 		instruction = instructionTable[opcode];
 		inc16pc();
-
 		instruction.execute();
-
 		m_tstates += instruction.incTstates();
-		
-//		synchronized (this) {
-
-//		}
 	}
 
 	/**
@@ -1785,12 +1733,12 @@ public class Z80 extends BaseComponent {
 
 		retrieveFlags();
 	}
-
-	public boolean isM_waiting_update() {
-		return m_waiting_update;
-	}
-
-	public void setM_waiting_update(boolean m_waiting_update) {
-		this.m_waiting_update = m_waiting_update;
+	
+	private void pauseMode() {
+		try {
+			wait();
+		} catch (InterruptedException ie) {
+			m_logger.log(ILogger.C_ERROR, ie);
+		}
 	}
 }

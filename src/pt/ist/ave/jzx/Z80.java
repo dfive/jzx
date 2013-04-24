@@ -6,6 +6,7 @@ import pt.ist.ave.jzx.instructions.Instruction;
 import pt.ist.ave.jzx.instructions.InstructionFactory;
 import pt.ist.ave.jzx.operations.ADD_HL;
 import pt.ist.ave.jzx.operations.ADD_XX;
+import pt.ist.ave.jzx.operations.DefaultOperation;
 import pt.ist.ave.jzx.operations.Operation;
 
 /**
@@ -88,6 +89,32 @@ public class Z80 extends BaseComponent {
 	public static final int SIGN_MASK = 0x80;
 
 	/**
+	 * Flags
+	 * this data structures are needed in order for the emulator to compute
+	 * the flags in a lazy way
+	 */
+	private static final int FLAG_CARRY = 0;
+	private static final int FLAG_ADD_SUBTRACT = 1;
+	private static final int FLAG_PARITY_OVERFLOW = 2;
+	private static final int FLAG_HALF_CARRY = 3;
+	private static final int FLAG_ZERO = 4;
+	private static final int FLAG_SIGN = 5;
+	private static final int FLAG_5 = 6;
+	private static final int FLAG_3 = 7;
+
+	private static final int NUMBER_FLAGS = 8;
+	
+	private Operation[] lastFlagOperation;
+	
+	{
+		lastFlagOperation = new Operation[NUMBER_FLAGS];
+		for(int i=0; i < NUMBER_FLAGS; ++i){
+//			lastFlagOperation[i] = new DefaultOperation();
+			lastFlagOperation[i] = null;
+		}
+	}
+
+	/**
 	 * Explicit flags, which represent the bits in the F register as distinct
 	 * variables.
 	 * 
@@ -104,7 +131,6 @@ public class Z80 extends BaseComponent {
 	 * @see #storeFlags
 	 * @see #retrieveFlags
 	 */
-	private Operation _lastOperation;
 
 
 	//	public static short[] registers8bit = new short[8];	
@@ -204,6 +230,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_carryF
 	 */
 	public boolean getM_carryF() {
+		if(lastFlagOperation[FLAG_CARRY]!=null) {
+			return lastFlagOperation[FLAG_CARRY].getM_carryF();
+		}
 		return m_carryF;
 	}
 
@@ -211,6 +240,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_addsubtractF
 	 */
 	public boolean getM_addsubtractF() {
+		if(lastFlagOperation[FLAG_ADD_SUBTRACT]!=null) {
+			return lastFlagOperation[FLAG_ADD_SUBTRACT].getM_addsubtractF();
+		}
 		return m_addsubtractF;
 	}
 
@@ -218,6 +250,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_parityoverflowF
 	 */
 	public boolean getM_parityoverflowF() {
+		if(lastFlagOperation[FLAG_PARITY_OVERFLOW]!=null) {
+			return lastFlagOperation[FLAG_PARITY_OVERFLOW].getM_parityoverflowF();
+		}
 		return m_parityoverflowF;
 	}
 
@@ -225,6 +260,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_halfcarryF
 	 */
 	public boolean getM_halfcarryF() {
+		if(lastFlagOperation[FLAG_HALF_CARRY]!=null) {
+			return lastFlagOperation[FLAG_HALF_CARRY].getM_halfcarryF();
+		}
 		return m_halfcarryF;
 	}
 
@@ -232,6 +270,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_zeroF
 	 */
 	public boolean getM_zeroF() {
+		if(lastFlagOperation[FLAG_ZERO]!=null) {
+			return lastFlagOperation[FLAG_ZERO].getM_zeroF();
+		}
 		return m_zeroF;
 	}
 
@@ -239,6 +280,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_signF
 	 */
 	public boolean getM_signF() {
+		if(lastFlagOperation[FLAG_SIGN]!=null) {
+			return lastFlagOperation[FLAG_SIGN].getM_signF();
+		}
 		return m_signF;
 	}
 
@@ -246,6 +290,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_5F
 	 */
 	public boolean getM_5F() {
+		if(lastFlagOperation[FLAG_5]!=null) {
+			return lastFlagOperation[FLAG_5].getM_5F();
+		}
 		return m_5F;
 	}
 
@@ -253,7 +300,16 @@ public class Z80 extends BaseComponent {
 	 * @return the m_3F
 	 */
 	public boolean getM_3F() {
+		if(lastFlagOperation[FLAG_3]!=null) {
+			return lastFlagOperation[FLAG_3].getM_3F();
+		}
 		return m_3F;
+	}
+	
+	private void resetFlagOperations() {
+		for(int i=0; i<NUMBER_FLAGS ; ++i) {
+			lastFlagOperation[i] = null;
+		}
 	}
 
 	/**
@@ -1035,8 +1091,9 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public void add_xx(int val16) {
-		_lastOperation = new ADD_XX(val16);
-
+//		ADD_XX operation = new ADD_XX(val16);
+//		operation.execute();
+		
 		int work32 = m_xx16 + val16;
 		int idx = ((m_xx16 & 0x800) >> 9) | ((val16 & 0x800) >> 10)
 				| ((work32 & 0x800) >> 11);
@@ -1048,14 +1105,14 @@ public class Z80 extends BaseComponent {
 		int work8 = m_xx16 >> 8;
 		m_3F = ((work8 & THREE_MASK) != 0);
 		m_5F = ((work8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
 	 * Add a 16-bit value to the HL register and set the appropriate flags.
 	 */
 	public void add_hl(int val16) {
-		_lastOperation = new ADD_HL(val16);
-
 		m_x8 = m_h8;
 
 		int hl16 = hl16();
@@ -1068,6 +1125,8 @@ public class Z80 extends BaseComponent {
 		m_carryF = ((work32 & 0x10000) != 0);
 		m_3F = ((m_h8 & THREE_MASK) != 0);
 		m_5F = ((m_h8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1089,6 +1148,8 @@ public class Z80 extends BaseComponent {
 		m_carryF = ((work32 & 0x10000) != 0);
 		m_3F = ((m_h8 & THREE_MASK) != 0);
 		m_5F = ((m_h8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1110,6 +1171,8 @@ public class Z80 extends BaseComponent {
 		m_carryF = ((work32 & 0x10000) != 0);
 		m_3F = ((m_h8 & THREE_MASK) != 0);
 		m_5F = ((m_h8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1173,6 +1236,9 @@ public class Z80 extends BaseComponent {
 		m_addsubtractF = false;
 		m_3F = ((work8 & THREE_MASK) != 0);
 		m_5F = ((work8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
+		
 		return work8;
 	}
 
@@ -1189,6 +1255,9 @@ public class Z80 extends BaseComponent {
 		m_addsubtractF = true;
 		m_3F = ((work8 & THREE_MASK) != 0);
 		m_5F = ((work8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
+		
 		return work8;
 	}
 
@@ -1200,6 +1269,9 @@ public class Z80 extends BaseComponent {
 		m_carryF = ((reg8 & 0x80) != 0);
 		int work8 = ((reg8 << 1) | (m_carryF ? 1 : 0)) & 0xff;
 		shift_test(work8);
+		
+		resetFlagOperations();
+		
 		return work8;
 	}
 
@@ -1211,6 +1283,9 @@ public class Z80 extends BaseComponent {
 		m_carryF = ((reg8 & 0x01) != 0);
 		int work8 = ((reg8 >> 1) | ((m_carryF ? 1 : 0) << 7));
 		shift_test(work8);
+		
+		resetFlagOperations();
+		
 		return work8;
 	}
 
@@ -1223,6 +1298,9 @@ public class Z80 extends BaseComponent {
 		int work8 = ((reg8 << 1) | (m_carryF ? 1 : 0)) & 0xff;
 		m_carryF = carry;
 		shift_test(work8);
+		
+		resetFlagOperations();
+		
 		return work8;
 	}
 
@@ -1235,6 +1313,9 @@ public class Z80 extends BaseComponent {
 		int work8 = ((reg8 >> 1) | ((m_carryF ? 1 : 0) << 7));
 		m_carryF = carry;
 		shift_test(work8);
+		
+		resetFlagOperations();
+		
 		return work8;
 	}
 
@@ -1246,6 +1327,9 @@ public class Z80 extends BaseComponent {
 		m_carryF = ((reg8 & 0x80) != 0);
 		int work8 = (reg8 << 1) & 0xff;
 		shift_test(work8);
+		
+		resetFlagOperations();
+		
 		return work8;
 	}
 
@@ -1258,6 +1342,9 @@ public class Z80 extends BaseComponent {
 		int work8 = (reg8 & 0x80);
 		work8 = ((reg8 >> 1) | work8);
 		shift_test(work8);
+		
+		resetFlagOperations();
+		
 		return work8;
 	}
 
@@ -1269,6 +1356,9 @@ public class Z80 extends BaseComponent {
 		m_carryF = ((reg8 & 0x80) != 0);
 		int work8 = ((reg8 << 1) | 0x01) & 0xff;
 		shift_test(work8);
+		
+		resetFlagOperations();
+		
 		return work8;
 	}
 
@@ -1280,6 +1370,9 @@ public class Z80 extends BaseComponent {
 		m_carryF = ((reg8 & 0x01) != 0);
 		int work8 = (reg8 >> 1);
 		shift_test(work8);
+		
+		resetFlagOperations();
+		
 		return work8;
 	}
 
@@ -1294,6 +1387,9 @@ public class Z80 extends BaseComponent {
 		m_addsubtractF = false;
 		m_3F = ((reg8 & THREE_MASK) != 0);
 		m_5F = ((reg8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
+		
 	}
 
 	/**
@@ -1302,6 +1398,9 @@ public class Z80 extends BaseComponent {
 	public int pop16() {
 		int work16 = m_memory.read16(m_sp16);
 		m_sp16 = incinc16(m_sp16);
+		
+		resetFlagOperations();
+		
 		return work16;
 	}
 
@@ -1322,6 +1421,8 @@ public class Z80 extends BaseComponent {
 		m_addsubtractF = false;
 		m_3F = ((m_a8 & THREE_MASK) != 0);
 		m_5F = ((m_a8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1340,6 +1441,8 @@ public class Z80 extends BaseComponent {
 		m_carryF = ((work16 & 0x100) != 0);
 		m_3F = ((m_a8 & THREE_MASK) != 0);
 		m_5F = ((m_a8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1359,6 +1462,8 @@ public class Z80 extends BaseComponent {
 		m_carryF = ((work16 & 0x100) != 0);
 		m_3F = ((m_a8 & THREE_MASK) != 0);
 		m_5F = ((m_a8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1377,6 +1482,8 @@ public class Z80 extends BaseComponent {
 		m_carryF = ((work16 & 0x100) != 0);
 		m_3F = ((m_a8 & THREE_MASK) != 0);
 		m_5F = ((m_a8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1396,6 +1503,8 @@ public class Z80 extends BaseComponent {
 		m_carryF = ((work16 & 0x100) != 0);
 		m_3F = ((m_a8 & THREE_MASK) != 0);
 		m_5F = ((m_a8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1411,6 +1520,8 @@ public class Z80 extends BaseComponent {
 		m_carryF = false;
 		m_3F = ((m_a8 & THREE_MASK) != 0);
 		m_5F = ((m_a8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1426,6 +1537,8 @@ public class Z80 extends BaseComponent {
 		m_carryF = false;
 		m_3F = ((m_a8 & THREE_MASK) != 0);
 		m_5F = ((m_a8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1441,6 +1554,8 @@ public class Z80 extends BaseComponent {
 		m_carryF = false;
 		m_3F = ((m_a8 & THREE_MASK) != 0);
 		m_5F = ((m_a8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1458,6 +1573,8 @@ public class Z80 extends BaseComponent {
 		m_carryF = ((work16 & 0x0100) != 0);
 		m_3F = ((val8 & THREE_MASK) != 0);
 		m_5F = ((val8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1472,6 +1589,8 @@ public class Z80 extends BaseComponent {
 		m_zeroF = ((work16 & 0xff) == 0);
 		m_halfcarryF = m_subhalfcarryTable[idx & 0x7];
 		m_addsubtractF = true;
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1485,6 +1604,8 @@ public class Z80 extends BaseComponent {
 		m_signF = ((reg8 & (0x01 << bit3)) == 0x80);
 		m_3F = (bit3 == 3 && !m_zeroF);
 		m_5F = (bit3 == 5 && !m_zeroF);
+		
+		resetFlagOperations();
 	}
 
 	public void bit_hl(int bit3, int val8) {
@@ -1495,6 +1616,8 @@ public class Z80 extends BaseComponent {
 		m_signF = ((val8 & (0x01 << bit3)) == 0x80);
 		m_3F = ((m_x8 & THREE_MASK) != 0);
 		m_5F = ((m_x8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	public void bit_xx(int bit3, int val8) {
@@ -1505,6 +1628,8 @@ public class Z80 extends BaseComponent {
 		m_signF = ((val8 & (0x01 << bit3)) == 0x80);
 		m_3F = ((xx16high8() & THREE_MASK) != 0);
 		m_5F = ((xx16high8() & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
 	}
 
 	/**
@@ -1519,6 +1644,9 @@ public class Z80 extends BaseComponent {
 		m_addsubtractF = false;
 		m_3F = ((work8 & THREE_MASK) != 0);
 		m_5F = ((work8 & FIVE_MASK) != 0);
+		
+		resetFlagOperations();
+		
 		return work8;
 	}
 

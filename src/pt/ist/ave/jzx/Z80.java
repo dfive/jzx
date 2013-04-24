@@ -1,10 +1,7 @@
 package pt.ist.ave.jzx;
 
-import java.util.TreeMap;
-import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import pt.ist.ave.jzx.instructions.Instruction;
 import pt.ist.ave.jzx.instructions.InstructionFactory;
 import pt.ist.ave.jzx.operations.ADD_HL;
@@ -24,8 +21,6 @@ import pt.ist.ave.jzx.operations.Operation;
  * @see BaseSpectrum
  */
 public class Z80 extends BaseComponent {
-	private static final String INSTRUCTION_CACHE = "InstructionCache";
-
 	/**
 	 * Indicates that the <TT>emulate()</TT> method should end.
 	 */
@@ -661,15 +656,14 @@ public class Z80 extends BaseComponent {
 	}
 
 
-	/** Tabela com as instancias das instruções do cpu */
+	/** Tabela com as instancias das instrucoes do cpu */
 	private static final Instruction[] instructionTable = new Instruction[256];
 
 	private static final int[] instructionCounter = new int[255];
 
-	private static final int MAX_CACHE_CAPACITY = 255;
 	private static long instrs = 0;
 
-	/** Inicialização da tabela */
+	/** Inicializacaoo da tabela */
 	static {
 		for(short i = 0; i < 256; i++){
 			instructionTable[i] = InstructionFactory.getInstruction(i);
@@ -1573,53 +1567,9 @@ public class Z80 extends BaseComponent {
 		}
 	}
 
-
-	private void dump() {
-		int max = -1;
-		int maxindex = -1;
-		TreeMap<Integer,Integer> teste = new TreeMap<Integer,Integer>();
-		for(int i = 0; i < instructionCounter.length; i++) {
-			if(instructionCounter[i] >= max){
-				max = instructionCounter[i];
-				maxindex = i;
-			}
-			teste.put(instructionCounter[i], i);
-		}
-
-		System.out.println("NUM CACHE MISSES: " + numMiss);
-		System.out.println("NUM CACHE HITS: " + numHits);
-		if(numMiss>0 && numHits>0){
-			System.out.println("HIT RATE: " + (numHits*100) / (numMiss + numHits));
-		}
-		System.out.println("TOTAL TIME " + count);
-
-		//		for (Integer key : teste.keySet()) {
-		//			System.out.println("Run instruction " + teste.get(key) + ": " + key + " times." );
-		//		}
-		//
-		//		System.out.println("MAX: " + maxindex + " - " + max);
-	}
-
-	/*
-	 * Mantains the most used instructions in cache
-	 * in a way that improves the performace in the access to the most used instructions
-	 */
-	private InstructionsCache instructionsCache;
-
-	/**
-	 * Decode one instruction: call <TT>mone8()</TT> to retrieve the opcode,
-	 * decode it and execute it.
-	 */
-
-	private long time = 0;
-	private long count = 0;
-	private long numHits = 0;
-	private long numMiss = 0;
-
 	{
 		Instruction.setCPU(this);
 		Operation.setCpu(this);
-		instructionsCache = new InstructionsCache(MAX_CACHE_CAPACITY);
 	}
 
 

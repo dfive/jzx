@@ -5,6 +5,9 @@ import java.awt.Component;
 import java.awt.Container;
 import java.awt.Label;
 import java.awt.Panel;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Base class extended by all Spectrum models (48k, 128k).
@@ -293,7 +296,6 @@ public abstract class BaseSpectrum extends BaseComponent {
 	private int m_frames;
 	private int m_interrupts;
 	private long m_fpsTimer = System.currentTimeMillis();
-	private long clock = System.currentTimeMillis() + 366000;
 
 	public void update() {
 		int tStates = m_cpu.getTStates();
@@ -387,4 +389,5 @@ public abstract class BaseSpectrum extends BaseComponent {
 		m_screen.load(loader);
 		m_keyboard.load(loader);
 	}
+
 }

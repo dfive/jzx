@@ -1,6 +1,9 @@
 package pt.ist.ave.jzx;
 
 import java.util.TreeMap;
+import java.util.concurrent.BrokenBarrierException;
+import java.util.concurrent.CyclicBarrier;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import pt.ist.ave.jzx.instructions.Instruction;
 import pt.ist.ave.jzx.instructions.InstructionFactory;
@@ -98,7 +101,7 @@ public class Z80 extends BaseComponent {
 	 */
 	private boolean m_carryF, m_addsubtractF, m_parityoverflowF, m_halfcarryF,
 	m_zeroF, m_signF, m_5F, m_3F;
-	
+
 	/**
 	 * Last operation performed that refreshed flag values. Access this variable
 	 * to get the value of the pretended flag.
@@ -1039,7 +1042,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void add_xx(int val16) {
 		_lastOperation = new ADD_XX(val16);
-		
+
 		int work32 = m_xx16 + val16;
 		int idx = ((m_xx16 & 0x800) >> 9) | ((val16 & 0x800) >> 10)
 				| ((work32 & 0x800) >> 11);
@@ -1058,7 +1061,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void add_hl(int val16) {
 		_lastOperation = new ADD_HL(val16);
-		
+
 		m_x8 = m_h8;
 
 		int hl16 = hl16();
@@ -1613,6 +1616,8 @@ public class Z80 extends BaseComponent {
 	private long numHits = 0;
 	private long numMiss = 0;
 
+	private boolean m_waiting_update;
+
 	{
 		Instruction.setCPU(this);
 		Operation.setCpu(this);
@@ -1624,56 +1629,120 @@ public class Z80 extends BaseComponent {
 		m_r8 = (m_r8 & 0x80) | ((m_r8 + 1) & 0x7f);
 	}
 
-	public void emulate(){
-		original_emulate();
-	}
 
-	public void original_emulate() {
-		while (true) {
-			m_spectrum.update();
+	public void emulate() {
+		final CyclicBarrier barrier = new CyclicBarrier(2);
 
-			updateRefreshRegister();
-			Instruction instruction;
-//			if(instructionsCache.isHit(m_pc16)){
-//				PerformanceCounter.cacheHit(INSTRUCTION_CACHE);
-//				instruction = instructionsCache.get(m_pc16);
-//			} else {
-//				PerformanceCounter.cacheMiss(INSTRUCTION_CACHE);
-//				int opcode = m_memory.read8(m_pc16);
-//				instruction = instructionTable[opcode];
-//				instructionsCache.addInstruction(m_pc16, instruction);
+		asyncUpdate(barrier);
+		asyncEmulate(barrier);
+		
+//		while (true) {
+//			emulateOne();
+//
+//			if (m_stop) {
+//				break;
 //			}
+//
+//			synchronized (this) {
+//				while (m_pause) {
+//					try {
+//						wait();
+//					} catch (InterruptedException ie) {
+//						m_logger.log(ILogger.C_ERROR, ie);
+//					}
+//				}
+//			}
+//
+//			try {
+//				barrier.await();
+//			} catch (InterruptedException e) {
+//				e.printStackTrace();
+//			} catch (BrokenBarrierException e) {
+//				e.printStackTrace();
+//			}
+//		}
+	}
+	
+	private AtomicBoolean isUpdateDone = new AtomicBoolean(false);
+	private AtomicBoolean isEmulateDone = new AtomicBoolean(false);
+	
+	private void asyncUpdate(final CyclicBarrier barrier) {
+		new Thread(new Runnable() {
 
-			//original code - START:
-			int opcode = m_memory.read8(m_pc16);
-			instructionCounter[opcode]++;
-			instruction = instructionTable[opcode];
-			//			numMiss++;
-			//			numHits++;
-			//original code - END:
+			@Override
+			public void run() {
+				while(true) {
 
-			inc16pc();
-
-			instruction.execute();
-
-			m_tstates += instruction.incTstates();
-			
-			if (m_stop) {
-				break;
-			}
-
-			synchronized (this) {
-				while (m_pause) {
-					try {
-						wait();
-					} catch (InterruptedException ie) {
-						m_logger.log(ILogger.C_ERROR, ie);
-					}
+					m_spectrum.update();
+					
+					isUpdateDone.set(true);
+					
+//					try {
+//						barrier.await();
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//					} catch (BrokenBarrierException e) {
+//						e.printStackTrace();
+//					}
 				}
 			}
-		}
+		}).start();
+	}
 
-		System.out.println("END");
+	private void asyncEmulate(final CyclicBarrier barrier) {
+//		new Thread(new Runnable() {
+
+//			@Override
+//			public void run() {
+				while (true) {
+					emulateOne();
+
+					if (m_stop) {
+						break;
+					}
+					
+					while (m_pause) {
+						try {
+							wait();
+						} catch (InterruptedException ie) {
+							m_logger.log(ILogger.C_ERROR, ie);
+						}
+					}
+
+//					try {
+//						barrier.await();
+//					} catch (InterruptedException e) {
+//						e.printStackTrace();
+//						m_logger.log(ILogger.C_ERROR, e);
+//					} catch (BrokenBarrierException e) {
+//						e.printStackTrace();
+//						m_logger.log(ILogger.C_ERROR, e);
+//					}
+					
+					while(!isUpdateDone.getAndSet(false)) {
+					
+					}
+					
+				}		
+//			}				
+//		}).start();
+	}
+
+	private void emulateOne(){
+		updateRefreshRegister();
+		Instruction instruction;
+		int opcode = m_memory.read8(m_pc16);
+		instructionCounter[opcode]++;
+		instruction = instructionTable[opcode];
+		inc16pc();
+
+		instruction.execute();
+
+		m_tstates += instruction.incTstates();
+		
+//		synchronized (this) {
+
+//		}
 	}
 
 	/**
@@ -1715,5 +1784,13 @@ public class Z80 extends BaseComponent {
 		m_iff1b = loader.getIFF1b();
 
 		retrieveFlags();
+	}
+
+	public boolean isM_waiting_update() {
+		return m_waiting_update;
+	}
+
+	public void setM_waiting_update(boolean m_waiting_update) {
+		this.m_waiting_update = m_waiting_update;
 	}
 }

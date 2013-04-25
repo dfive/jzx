@@ -2,11 +2,11 @@ package pt.ist.ave.jzx;
 
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.atomic.AtomicBoolean;
+
 import pt.ist.ave.jzx.instructions.Instruction;
 import pt.ist.ave.jzx.instructions.InstructionFactory;
-import pt.ist.ave.jzx.operations.ADD_HL;
-import pt.ist.ave.jzx.operations.ADD_XX;
-import pt.ist.ave.jzx.operations.DefaultOperation;
+import pt.ist.ave.jzx.operations.DEC8;
+import pt.ist.ave.jzx.operations.INC8;
 import pt.ist.ave.jzx.operations.Operation;
 
 /**
@@ -93,23 +93,23 @@ public class Z80 extends BaseComponent {
 	 * this data structures are needed in order for the emulator to compute
 	 * the flags in a lazy way
 	 */
-	private static final int FLAG_CARRY = 0;
-	private static final int FLAG_ADD_SUBTRACT = 1;
-	private static final int FLAG_PARITY_OVERFLOW = 2;
-	private static final int FLAG_HALF_CARRY = 3;
-	private static final int FLAG_ZERO = 4;
-	private static final int FLAG_SIGN = 5;
-	private static final int FLAG_5 = 6;
-	private static final int FLAG_3 = 7;
+	public static final int FLAG_CARRY = 0;
+	public static final int FLAG_ADD_SUBTRACT = 1;
+	public static final int FLAG_PARITY_OVERFLOW = 2;
+	public static final int FLAG_HALF_CARRY = 3;
+	public static final int FLAG_ZERO = 4;
+	public static final int FLAG_SIGN = 5;
+	public static final int FLAG_5 = 6;
+	public static final int FLAG_3 = 7;
 
-	private static final int NUMBER_FLAGS = 8;
-	
+	public static final int NUMBER_FLAGS = 8;
+
 	private Operation[] lastFlagOperation;
-	
+
 	{
 		lastFlagOperation = new Operation[NUMBER_FLAGS];
 		for(int i=0; i < NUMBER_FLAGS; ++i){
-//			lastFlagOperation[i] = new DefaultOperation();
+			//			lastFlagOperation[i] = new DefaultOperation();
 			lastFlagOperation[i] = null;
 		}
 	}
@@ -305,11 +305,59 @@ public class Z80 extends BaseComponent {
 		}
 		return m_3F;
 	}
-	
+
+	private void dumpFlagOperations() {
+		System.out.println("FLAG3 " + lastFlagOperation[FLAG_3]);
+
+		System.out.println("FLAG_5 " + lastFlagOperation[FLAG_5]);
+
+		System.out.println("FLAG_ADD_SUBTRACT " + lastFlagOperation[FLAG_ADD_SUBTRACT]);
+
+		System.out.println("FLAG_CARRY " + lastFlagOperation[FLAG_CARRY]);
+
+		System.out.println("FLAG_HALF_CARRY " + lastFlagOperation[FLAG_HALF_CARRY]);
+
+		System.out.println("FLAG_PARITY_OVERFLOW " + lastFlagOperation[FLAG_PARITY_OVERFLOW]);
+
+		System.out.println("FLAG_SIGN " + lastFlagOperation[FLAG_SIGN]);
+
+		System.out.println("FLAG_ZERO " + lastFlagOperation[FLAG_ZERO]);
+	}
+
 	private void resetFlagOperations() {
-		for(int i=0; i<NUMBER_FLAGS ; ++i) {
-			lastFlagOperation[i] = null;
+
+		if(lastFlagOperation[FLAG_3]!=null) {
+			setM_3F(getLastFlagOperation(FLAG_3).getM_3F()) ;
 		}
+
+		if(lastFlagOperation[FLAG_5]!=null) {
+			setM_5F(getLastFlagOperation(FLAG_5).getM_5F()) ;
+		}
+
+		if(lastFlagOperation[FLAG_ADD_SUBTRACT]!=null) {
+			setM_addsubtractF(getLastFlagOperation(FLAG_ADD_SUBTRACT).getM_addsubtractF()) ;
+		}
+
+		if(lastFlagOperation[FLAG_CARRY]!=null) {
+			setM_carryF(getLastFlagOperation(FLAG_CARRY).getM_carryF()) ;
+		}
+
+		if(lastFlagOperation[FLAG_HALF_CARRY]!=null) {
+			setM_halfcarryF(getLastFlagOperation(FLAG_HALF_CARRY).getM_halfcarryF()) ;
+		}
+
+		if(lastFlagOperation[FLAG_PARITY_OVERFLOW]!=null) {
+			setM_parityoverflowF(getLastFlagOperation(FLAG_PARITY_OVERFLOW).getM_parityoverflowF()) ;
+		}
+
+		if(lastFlagOperation[FLAG_SIGN]!=null) {
+			setM_zeroF(getLastFlagOperation(FLAG_SIGN).getM_zeroF()) ;
+		}
+
+		if(lastFlagOperation[FLAG_ZERO]!=null) {
+			setM_zeroF(getLastFlagOperation(FLAG_ZERO).getM_zeroF()) ;
+		}
+
 	}
 
 	/**
@@ -499,6 +547,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_carryF(boolean m_carryF) {
 		this.m_carryF = m_carryF;
+		setFlagOperation(FLAG_CARRY, null);
 	}
 
 	/**
@@ -506,6 +555,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_addsubtractF(boolean m_addsubtractF) {
 		this.m_addsubtractF = m_addsubtractF;
+		setFlagOperation(FLAG_ADD_SUBTRACT, null);
 	}
 
 	/**
@@ -513,6 +563,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_parityoverflowF(boolean m_parityoverflowF) {
 		this.m_parityoverflowF = m_parityoverflowF;
+		setFlagOperation(FLAG_PARITY_OVERFLOW, null);
 	}
 
 	/**
@@ -520,6 +571,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_halfcarryF(boolean m_halfcarryF) {
 		this.m_halfcarryF = m_halfcarryF;
+		setFlagOperation(FLAG_HALF_CARRY, null);
 	}
 
 	/**
@@ -527,6 +579,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_zeroF(boolean m_zeroF) {
 		this.m_zeroF = m_zeroF;
+		setFlagOperation(FLAG_ZERO, null);
 	}
 
 	/**
@@ -534,20 +587,23 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_signF(boolean m_signF) {
 		this.m_signF = m_signF;
+		setFlagOperation(FLAG_SIGN, null);
 	}
 
 	/**
 	 * @param m_5f the m_5F to set
 	 */
 	public void setM_5F(boolean m_5f) {
-		m_5F = m_5f;
+		this.m_5F = m_5f;
+		setFlagOperation(FLAG_5, null);
 	}
 
 	/**
 	 * @param m_3f the m_3F to set
 	 */
 	public void setM_3F(boolean m_3f) {
-		m_3F = m_3f;
+		this.m_3F = m_3f;
+		setFlagOperation(FLAG_3, null);
 	}
 
 	/**
@@ -929,35 +985,35 @@ public class Z80 extends BaseComponent {
 	 * the *_MASK variables.
 	 */
 	public void storeFlags() {
-		if (m_signF)
+		if (getM_signF())
 			m_f8 |= SIGN_MASK;
 		else
 			m_f8 &= ~SIGN_MASK;
-		if (m_zeroF)
+		if (getM_zeroF())
 			m_f8 |= ZERO_MASK;
 		else
 			m_f8 &= ~ZERO_MASK;
-		if (m_halfcarryF)
+		if (getM_halfcarryF())
 			m_f8 |= HALFCARRY_MASK;
 		else
 			m_f8 &= ~HALFCARRY_MASK;
-		if (m_parityoverflowF)
+		if (getM_parityoverflowF())
 			m_f8 |= OVERFLOW_MASK;
 		else
 			m_f8 &= ~OVERFLOW_MASK;
-		if (m_addsubtractF)
+		if (getM_addsubtractF())
 			m_f8 |= ADDSUBTRACT_MASK;
 		else
 			m_f8 &= ~ADDSUBTRACT_MASK;
-		if (m_carryF)
+		if (getM_carryF())
 			m_f8 |= CARRY_MASK;
 		else
 			m_f8 &= ~CARRY_MASK;
-		if (m_3F)
+		if (getM_3F())
 			m_f8 |= THREE_MASK;
 		else
 			m_f8 &= ~THREE_MASK;
-		if (m_5F)
+		if (getM_5F())
 			m_f8 |= FIVE_MASK;
 		else
 			m_f8 &= ~FIVE_MASK;
@@ -968,14 +1024,14 @@ public class Z80 extends BaseComponent {
 	 * according to the *_MASK variables.
 	 */
 	public void retrieveFlags() {
-		m_signF = ((m_f8 & SIGN_MASK) != 0);
-		m_zeroF = ((m_f8 & ZERO_MASK) != 0);
-		m_halfcarryF = ((m_f8 & HALFCARRY_MASK) != 0);
-		m_parityoverflowF = ((m_f8 & OVERFLOW_MASK) != 0);
-		m_addsubtractF = ((m_f8 & ADDSUBTRACT_MASK) != 0);
-		m_carryF = ((m_f8 & CARRY_MASK) != 0);
-		m_3F = ((m_f8 & THREE_MASK) != 0);
-		m_5F = ((m_f8 & FIVE_MASK) != 0);
+		setM_signF((m_f8 & SIGN_MASK) != 0);
+		setM_zeroF((m_f8 & ZERO_MASK) != 0);
+		setM_halfcarryF((m_f8 & HALFCARRY_MASK) != 0);
+		setM_halfcarryF((m_f8 & OVERFLOW_MASK) != 0);
+		setM_addsubtractF((m_f8 & ADDSUBTRACT_MASK) != 0);
+		setM_carryF((m_f8 & CARRY_MASK) != 0);
+		setM_3F((m_f8 & THREE_MASK) != 0);
+		setM_5F((m_f8 & FIVE_MASK) != 0);
 	}
 
 	/**
@@ -1091,21 +1147,21 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public void add_xx(int val16) {
-//		ADD_XX operation = new ADD_XX(val16);
-//		operation.execute();
-		
+		//		ADD_XX operation = new ADD_XX(val16);
+		//		operation.execute();
+
 		int work32 = m_xx16 + val16;
 		int idx = ((m_xx16 & 0x800) >> 9) | ((val16 & 0x800) >> 10)
 				| ((work32 & 0x800) >> 11);
 		m_xx16 = work32 & 0xffff;
-		m_halfcarryF = m_halfcarryTable[idx];
-		m_addsubtractF = false;
-		m_carryF = ((work32 & 0x10000) != 0);
+		setM_halfcarryF(m_halfcarryTable[idx]);
+		setM_addsubtractF(false);
+		setM_carryF((work32 & 0x10000) != 0);
 
 		int work8 = m_xx16 >> 8;
-		m_3F = ((work8 & THREE_MASK) != 0);
-		m_5F = ((work8 & FIVE_MASK) != 0);
-		
+		setM_3F((work8 & THREE_MASK) != 0);
+		setM_5F((work8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1120,12 +1176,12 @@ public class Z80 extends BaseComponent {
 		int idx = ((hl16 & 0x800) >> 9) | ((val16 & 0x800) >> 10)
 				| ((work32 & 0x800) >> 11);
 		hl16(work32 & 0xffff);
-		m_halfcarryF = m_halfcarryTable[idx];
-		m_addsubtractF = false;
-		m_carryF = ((work32 & 0x10000) != 0);
-		m_3F = ((m_h8 & THREE_MASK) != 0);
-		m_5F = ((m_h8 & FIVE_MASK) != 0);
-		
+		setM_halfcarryF(m_halfcarryTable[idx]);
+		setM_addsubtractF( false);
+		setM_carryF((work32 & 0x10000) != 0);
+		setM_3F((m_h8 & THREE_MASK) != 0);
+		setM_5F((m_h8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1140,15 +1196,15 @@ public class Z80 extends BaseComponent {
 				| ((work32 & 0x8800) >> 11);
 		hl16 = (work32 & 0xffff);
 		hl16(hl16);
-		m_signF = ((hl16 & 0x8000) != 0);
-		m_zeroF = (hl16 == 0);
-		m_halfcarryF = m_halfcarryTable[idx & 0x7];
-		m_parityoverflowF = m_overflowTable[idx >> 4];
-		m_addsubtractF = false;
-		m_carryF = ((work32 & 0x10000) != 0);
-		m_3F = ((m_h8 & THREE_MASK) != 0);
-		m_5F = ((m_h8 & FIVE_MASK) != 0);
-		
+		setM_signF((hl16 & 0x8000) != 0);
+		setM_zeroF(hl16 == 0);
+		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
+		setM_halfcarryF(m_overflowTable[idx >> 4]);
+		setM_addsubtractF( false);
+		setM_carryF((work32 & 0x10000) != 0);
+		setM_3F((m_h8 & THREE_MASK) != 0);
+		setM_5F((m_h8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1163,15 +1219,15 @@ public class Z80 extends BaseComponent {
 				| ((work32 & 0x8800) >> 11);
 		hl16 = (work32 & 0xffff);
 		hl16(hl16);
-		m_signF = ((hl16 & 0x8000) != 0);
-		m_zeroF = (hl16 == 0);
-		m_halfcarryF = m_subhalfcarryTable[idx & 0x7];
-		m_parityoverflowF = m_suboverflowTable[idx >> 4];
-		m_addsubtractF = true;
-		m_carryF = ((work32 & 0x10000) != 0);
-		m_3F = ((m_h8 & THREE_MASK) != 0);
-		m_5F = ((m_h8 & FIVE_MASK) != 0);
-		
+		setM_signF((hl16 & 0x8000) != 0);
+		setM_zeroF(hl16 == 0);
+		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
+		setM_halfcarryF(m_suboverflowTable[idx >> 4]);
+		setM_addsubtractF( true);
+		setM_carryF((work32 & 0x10000) != 0);
+		setM_3F((m_h8 & THREE_MASK) != 0);
+		setM_5F((m_h8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1223,41 +1279,94 @@ public class Z80 extends BaseComponent {
 		return (reg16 - 2) & 0xffff;
 	}
 
+	public void setFlagOperation(int flagId, Operation operation) {
+		lastFlagOperation[flagId] = operation;
+	}
+
+	public Operation getLastFlagOperation(int flagId) {
+		return lastFlagOperation[flagId];
+	}
+
 	/**
 	 * Increment a 8-bit value and return the 8-bit result, setting the
 	 * appropriate flags.
 	 */
 	public int inc8(int reg8) {
-		int work8 = (reg8 + 1) & 0xff;
-		m_signF = ((work8 & 0x80) != 0);
-		m_zeroF = (work8 == 0);
-		m_halfcarryF = ((work8 & 0x0f) == 0);
-		m_parityoverflowF = (work8 == 0x80);
-		m_addsubtractF = false;
-		m_3F = ((work8 & THREE_MASK) != 0);
-		m_5F = ((work8 & FIVE_MASK) != 0);
+//				int work8 = (reg8 + 1) & 0xff;
+//				setM_signF((work8 & 0x80) != 0);
+//				setM_zeroF(work8 == 0);
+//				setM_halfcarryF((work8 & 0x0f) == 0);
+//				setM_halfcarryF((work8 == 0x80);
+//				setM_addsubtractF( false;
+//				setM3F((work8 & THREE_MASK) != 0);
+//				setM_5F = ((work8 & FIVE_MASK) != 0);
+
+		INC8 op = new INC8();
+		int work8 = op.inc8(reg8);
+
+		if(getM_signF() != op.getM_signF()) {
+			m_logger.log(ILogger.C_ERROR,"getM_signF");
+		}
+		if(getM_zeroF() != op.getM_zeroF()) {
+			m_logger.log(ILogger.C_ERROR,"getM_zeroF");
+		}
+		if(getM_halfcarryF() != op.getM_halfcarryF()) {
+			m_logger.log(ILogger.C_ERROR,"getM_halfcarryF");
+		}
+		if(getM_parityoverflowF() != op.getM_parityoverflowF()) {
+			m_logger.log(ILogger.C_ERROR,"getM_parityoverflowF");
+		}
+		if(getM_addsubtractF() != op.getM_addsubtractF()) {
+			m_logger.log(ILogger.C_ERROR,"getM_addsubtractF");
+		}
+		if(getM_3F() != op.getM_3F()) {
+			m_logger.log(ILogger.C_ERROR,"getM_3F");
+		}
+		if(getM_5F() != op.getM_5F()) {
+			m_logger.log(ILogger.C_ERROR,"getM_5F");
+		}
 		
-		resetFlagOperations();
+//		setM_signFop.getM_signF();
+//		setM_zeroFop.getM_zeroF();
+//		setM_halfcarryFop.getM_halfcarryF();
+//		setM_halfcarryF(op.getM_parityoverflowF();
+//		setM_addsubtractF( op.getM_addsubtractF();
+//		setM3Fop.getM_3F();
+//		m_5F = op.getM_5F();
+
+//		resetFlagOperations();
 		
 		return work8;
 	}
+
 
 	/**
 	 * Decrement a 8-bit value and return the 8-bit result, setting the
 	 * appropriate flags.
 	 */
 	public int dec8(int reg8) {
-		int work8 = (reg8 - 1) & 0xff;
-		m_signF = ((work8 & 0x80) != 0);
-		m_zeroF = (work8 == 0);
-		m_halfcarryF = ((work8 & 0x0f) == 0x0f);
-		m_parityoverflowF = (work8 == 0x7f);
-		m_addsubtractF = true;
-		m_3F = ((work8 & THREE_MASK) != 0);
-		m_5F = ((work8 & FIVE_MASK) != 0);
+//				int work8 = (reg8 - 1) & 0xff;
+//				setM_signF((work8 & 0x80) != 0);
+//				setM_zeroF(work8 == 0);
+//				setM_halfcarryF((work8 & 0x0f) == 0x0f);
+//				setM_halfcarryF(work8 == 0x7f);
+//				setM_addsubtractF( true;
+//				setM3F((work8 & THREE_MASK) != 0);
+//				m_5F = ((work8 & FIVE_MASK) != 0);
+
+		DEC8 op = new DEC8();
+		int work8 = op.dec8(reg8);
 		
+		setM_signF(op.getM_signF());
+		setM_zeroF(op.getM_zeroF());
+		setM_halfcarryF(op.getM_halfcarryF());
+		setM_halfcarryF(op.getM_parityoverflowF());
+		setM_addsubtractF( op.getM_addsubtractF());
+		m_3F = op.getM_3F();
+		m_5F = op.getM_5F();
+
 		resetFlagOperations();
-		
+
 		return work8;
 	}
 
@@ -1266,12 +1375,12 @@ public class Z80 extends BaseComponent {
 	 * the appropriate flags.
 	 */
 	public int rlc8(int reg8) {
-		m_carryF = ((reg8 & 0x80) != 0);
+		setM_carryF((reg8 & 0x80) != 0);
 		int work8 = ((reg8 << 1) | (m_carryF ? 1 : 0)) & 0xff;
 		shift_test(work8);
-		
+
 		resetFlagOperations();
-		
+
 		return work8;
 	}
 
@@ -1280,12 +1389,12 @@ public class Z80 extends BaseComponent {
 	 * setting the appropriate flags.
 	 */
 	public int rrc8(int reg8) {
-		m_carryF = ((reg8 & 0x01) != 0);
+		setM_carryF((reg8 & 0x01) != 0);
 		int work8 = ((reg8 >> 1) | ((m_carryF ? 1 : 0) << 7));
 		shift_test(work8);
-		
+
 		resetFlagOperations();
-		
+
 		return work8;
 	}
 
@@ -1296,11 +1405,11 @@ public class Z80 extends BaseComponent {
 	public int rl8(int reg8) {
 		boolean carry = ((reg8 & 0x80) != 0);
 		int work8 = ((reg8 << 1) | (m_carryF ? 1 : 0)) & 0xff;
-		m_carryF = carry;
+		setM_carryF(carry);
 		shift_test(work8);
-		
+
 		resetFlagOperations();
-		
+
 		return work8;
 	}
 
@@ -1311,11 +1420,11 @@ public class Z80 extends BaseComponent {
 	public int rr8(int reg8) {
 		boolean carry = ((reg8 & 0x01) != 0);
 		int work8 = ((reg8 >> 1) | ((m_carryF ? 1 : 0) << 7));
-		m_carryF = carry;
+		setM_carryF(carry);
 		shift_test(work8);
-		
+
 		resetFlagOperations();
-		
+
 		return work8;
 	}
 
@@ -1324,12 +1433,12 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int sla8(int reg8) {
-		m_carryF = ((reg8 & 0x80) != 0);
+		setM_carryF((reg8 & 0x80) != 0);
 		int work8 = (reg8 << 1) & 0xff;
 		shift_test(work8);
-		
+
 		resetFlagOperations();
-		
+
 		return work8;
 	}
 
@@ -1338,13 +1447,13 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int sra8(int reg8) {
-		m_carryF = ((reg8 & 0x01) != 0);
+		setM_carryF((reg8 & 0x01) != 0);
 		int work8 = (reg8 & 0x80);
 		work8 = ((reg8 >> 1) | work8);
 		shift_test(work8);
-		
+
 		resetFlagOperations();
-		
+
 		return work8;
 	}
 
@@ -1353,12 +1462,12 @@ public class Z80 extends BaseComponent {
 	 * the appropriate flags.
 	 */
 	public int sli8(int reg8) {
-		m_carryF = ((reg8 & 0x80) != 0);
+		setM_carryF((reg8 & 0x80) != 0);
 		int work8 = ((reg8 << 1) | 0x01) & 0xff;
 		shift_test(work8);
-		
+
 		resetFlagOperations();
-		
+
 		return work8;
 	}
 
@@ -1367,12 +1476,12 @@ public class Z80 extends BaseComponent {
 	 * the appropriate flags.
 	 */
 	public int srl8(int reg8) {
-		m_carryF = ((reg8 & 0x01) != 0);
+		setM_carryF((reg8 & 0x01) != 0);
 		int work8 = (reg8 >> 1);
 		shift_test(work8);
-		
+
 		resetFlagOperations();
-		
+
 		return work8;
 	}
 
@@ -1380,16 +1489,16 @@ public class Z80 extends BaseComponent {
 	 * Set the appropriate flags as a result of a shift operation.
 	 */
 	public void shift_test(int reg8) {
-		m_signF = ((reg8 & 0x80) != 0);
-		m_zeroF = (reg8 == 0);
-		m_halfcarryF = false;
-		m_parityoverflowF = m_parityTable[reg8];
-		m_addsubtractF = false;
-		m_3F = ((reg8 & THREE_MASK) != 0);
-		m_5F = ((reg8 & FIVE_MASK) != 0);
-		
+		setM_signF((reg8 & 0x80) != 0);
+		setM_zeroF(reg8 == 0);
+		setM_halfcarryF(false);
+		setM_halfcarryF(m_parityTable[reg8]);
+		setM_addsubtractF( false);
+		setM_3F((reg8 & THREE_MASK) != 0);
+		setM_5F((reg8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
-		
+
 	}
 
 	/**
@@ -1398,9 +1507,9 @@ public class Z80 extends BaseComponent {
 	public int pop16() {
 		int work16 = m_memory.read16(m_sp16);
 		m_sp16 = incinc16(m_sp16);
-		
+
 		resetFlagOperations();
-		
+
 		return work16;
 	}
 
@@ -1414,14 +1523,14 @@ public class Z80 extends BaseComponent {
 
 	public void ld_a_special(int reg8) {
 		m_a8 = reg8;
-		m_signF = ((m_a8 & 0x80) != 0);
-		m_zeroF = (m_a8 == 0);
-		m_halfcarryF = false;
-		m_parityoverflowF = (m_iff1b != 0);
-		m_addsubtractF = false;
-		m_3F = ((m_a8 & THREE_MASK) != 0);
-		m_5F = ((m_a8 & FIVE_MASK) != 0);
-		
+		setM_signF((m_a8 & 0x80) != 0);
+		setM_zeroF(m_a8 == 0);
+		setM_halfcarryF(false);
+		setM_halfcarryF(m_iff1b != 0);
+		setM_addsubtractF( false);
+		setM_3F((m_a8 & THREE_MASK) != 0);
+		setM_5F((m_a8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1433,15 +1542,15 @@ public class Z80 extends BaseComponent {
 		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
 				| ((work16 & 0x88) >> 3);
 		m_a8 = work16 & 0xff;
-		m_signF = ((m_a8 & 0x80) != 0);
-		m_zeroF = (m_a8 == 0);
-		m_halfcarryF = m_halfcarryTable[idx & 0x7];
-		m_parityoverflowF = m_overflowTable[idx >> 4];
-		m_addsubtractF = false;
-		m_carryF = ((work16 & 0x100) != 0);
-		m_3F = ((m_a8 & THREE_MASK) != 0);
-		m_5F = ((m_a8 & FIVE_MASK) != 0);
-		
+		setM_signF((m_a8 & 0x80) != 0);
+		setM_zeroF(m_a8 == 0);
+		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
+		setM_halfcarryF(m_overflowTable[idx >> 4]);
+		setM_addsubtractF( false);
+		setM_carryF((work16 & 0x100) != 0);
+		setM_3F((m_a8 & THREE_MASK) != 0);
+		setM_5F((m_a8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1454,15 +1563,15 @@ public class Z80 extends BaseComponent {
 		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
 				| ((work16 & 0x88) >> 3);
 		m_a8 = work16 & 0xff;
-		m_signF = ((m_a8 & 0x80) != 0);
-		m_zeroF = (m_a8 == 0);
-		m_halfcarryF = m_halfcarryTable[idx & 0x7];
-		m_parityoverflowF = m_overflowTable[idx >> 4];
-		m_addsubtractF = false;
-		m_carryF = ((work16 & 0x100) != 0);
-		m_3F = ((m_a8 & THREE_MASK) != 0);
-		m_5F = ((m_a8 & FIVE_MASK) != 0);
-		
+		setM_signF((m_a8 & 0x80) != 0);
+		setM_zeroF(m_a8 == 0);
+		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
+		setM_halfcarryF(m_overflowTable[idx >> 4]);
+		setM_addsubtractF( false);
+		setM_carryF((work16 & 0x100) != 0);
+		setM_3F((m_a8 & THREE_MASK) != 0);
+		setM_5F((m_a8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1474,15 +1583,15 @@ public class Z80 extends BaseComponent {
 		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
 				| ((work16 & 0x88) >> 3);
 		m_a8 = work16 & 0xff;
-		m_signF = ((m_a8 & 0x80) != 0);
-		m_zeroF = (m_a8 == 0);
-		m_halfcarryF = m_subhalfcarryTable[idx & 0x7];
-		m_parityoverflowF = m_suboverflowTable[idx >> 4];
-		m_addsubtractF = true;
-		m_carryF = ((work16 & 0x100) != 0);
-		m_3F = ((m_a8 & THREE_MASK) != 0);
-		m_5F = ((m_a8 & FIVE_MASK) != 0);
-		
+		setM_signF((m_a8 & 0x80) != 0);
+		setM_zeroF(m_a8 == 0);
+		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
+		setM_halfcarryF(m_suboverflowTable[idx >> 4]);
+		setM_addsubtractF( true);
+		setM_carryF((work16 & 0x100) != 0);
+		setM_3F((m_a8 & THREE_MASK) != 0);
+		setM_5F((m_a8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1495,15 +1604,15 @@ public class Z80 extends BaseComponent {
 		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
 				| ((work16 & 0x88) >> 3);
 		m_a8 = work16 & 0xff;
-		m_signF = ((m_a8 & 0x80) != 0);
-		m_zeroF = (m_a8 == 0);
-		m_halfcarryF = m_subhalfcarryTable[idx & 0x7];
-		m_parityoverflowF = m_suboverflowTable[idx >> 4];
-		m_addsubtractF = true;
-		m_carryF = ((work16 & 0x100) != 0);
-		m_3F = ((m_a8 & THREE_MASK) != 0);
-		m_5F = ((m_a8 & FIVE_MASK) != 0);
-		
+		setM_signF((m_a8 & 0x80) != 0);
+		setM_zeroF(m_a8 == 0);
+		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
+		setM_halfcarryF(m_suboverflowTable[idx >> 4]);
+		setM_addsubtractF( true);
+		setM_carryF((work16 & 0x100) != 0);
+		setM_3F((m_a8 & THREE_MASK) != 0);
+		setM_5F((m_a8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1512,15 +1621,15 @@ public class Z80 extends BaseComponent {
 	 */
 	public void and_a(int val8) {
 		m_a8 &= val8;
-		m_signF = ((m_a8 & 0x80) != 0);
-		m_zeroF = (m_a8 == 0);
-		m_halfcarryF = true;
-		m_parityoverflowF = m_parityTable[m_a8];
-		m_addsubtractF = false;
-		m_carryF = false;
-		m_3F = ((m_a8 & THREE_MASK) != 0);
-		m_5F = ((m_a8 & FIVE_MASK) != 0);
-		
+		setM_signF((m_a8 & 0x80) != 0);
+		setM_zeroF(m_a8 == 0);
+		setM_halfcarryF(true);
+		setM_halfcarryF(m_parityTable[m_a8]);
+		setM_addsubtractF( false);
+		setM_carryF(false);
+		setM_3F((m_a8 & THREE_MASK) != 0);
+		setM_5F((m_a8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1529,15 +1638,15 @@ public class Z80 extends BaseComponent {
 	 */
 	public void xor_a(int val8) {
 		m_a8 ^= val8;
-		m_signF = ((m_a8 & 0x80) != 0);
-		m_zeroF = (m_a8 == 0);
-		m_halfcarryF = false;
-		m_parityoverflowF = m_parityTable[m_a8];
-		m_addsubtractF = false;
-		m_carryF = false;
-		m_3F = ((m_a8 & THREE_MASK) != 0);
-		m_5F = ((m_a8 & FIVE_MASK) != 0);
-		
+		setM_signF((m_a8 & 0x80) != 0);
+		setM_zeroF(m_a8 == 0);
+		setM_halfcarryF(false);
+		setM_halfcarryF(m_parityTable[m_a8]);
+		setM_addsubtractF( false);
+		setM_carryF(false);
+		setM_3F((m_a8 & THREE_MASK) != 0);
+		setM_5F((m_a8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1546,15 +1655,15 @@ public class Z80 extends BaseComponent {
 	 */
 	public void or_a(int val8) {
 		m_a8 |= val8;
-		m_signF = ((m_a8 & 0x80) != 0);
-		m_zeroF = (m_a8 == 0);
-		m_halfcarryF = false;
-		m_parityoverflowF = m_parityTable[m_a8];
-		m_addsubtractF = false;
-		m_carryF = false;
-		m_3F = ((m_a8 & THREE_MASK) != 0);
-		m_5F = ((m_a8 & FIVE_MASK) != 0);
-		
+		setM_signF((m_a8 & 0x80) != 0);
+		setM_zeroF(m_a8 == 0);
+		setM_halfcarryF(false);
+		setM_halfcarryF(m_parityTable[m_a8]);
+		setM_addsubtractF( false);
+		setM_carryF(false);
+		setM_3F((m_a8 & THREE_MASK) != 0);
+		setM_5F((m_a8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1565,15 +1674,15 @@ public class Z80 extends BaseComponent {
 		int work16 = m_a8 - val8;
 		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
 				| ((work16 & 0x88) >> 3);
-		m_signF = ((work16 & 0x80) != 0);
-		m_zeroF = ((work16 & 0xff) == 0);
-		m_halfcarryF = m_subhalfcarryTable[idx & 0x7];
-		m_parityoverflowF = m_suboverflowTable[idx >> 4];
-		m_addsubtractF = true;
-		m_carryF = ((work16 & 0x0100) != 0);
-		m_3F = ((val8 & THREE_MASK) != 0);
-		m_5F = ((val8 & FIVE_MASK) != 0);
-		
+		setM_signF((work16 & 0x80) != 0);
+		setM_zeroF((work16 & 0xff) == 0);
+		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
+		setM_halfcarryF(m_suboverflowTable[idx >> 4]);
+		setM_addsubtractF( true);
+		setM_carryF((work16 & 0x0100) != 0);
+		setM_3F((val8 & THREE_MASK) != 0);
+		setM_5F((val8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1585,11 +1694,11 @@ public class Z80 extends BaseComponent {
 		int work16 = m_a8 - val8;
 		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
 				| ((work16 & 0x88) >> 3);
-		m_signF = ((work16 & 0x80) != 0);
-		m_zeroF = ((work16 & 0xff) == 0);
-		m_halfcarryF = m_subhalfcarryTable[idx & 0x7];
-		m_addsubtractF = true;
-		
+		setM_signF((work16 & 0x80) != 0);
+		setM_zeroF((work16 & 0xff) == 0);
+		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
+		setM_addsubtractF( true);
+
 		resetFlagOperations();
 	}
 
@@ -1597,38 +1706,38 @@ public class Z80 extends BaseComponent {
 	 * Test the given bit in a byte and set the appropriate flags.
 	 */
 	public void bit(int bit3, int reg8) {
-		m_zeroF = ((reg8 & (0x01 << bit3)) == 0);
-		m_halfcarryF = true;
-		m_parityoverflowF = m_zeroF;
-		m_addsubtractF = false;
-		m_signF = ((reg8 & (0x01 << bit3)) == 0x80);
-		m_3F = (bit3 == 3 && !m_zeroF);
-		m_5F = (bit3 == 5 && !m_zeroF);
-		
+		setM_zeroF((reg8 & (0x01 << bit3)) == 0);
+		setM_halfcarryF(true);
+		setM_halfcarryF(m_zeroF);
+		setM_addsubtractF( false);
+		setM_signF((reg8 & (0x01 << bit3)) == 0x80);
+		setM_3F(bit3 == 3 && !m_zeroF);
+		setM_5F(bit3 == 5 && !m_zeroF);
+
 		resetFlagOperations();
 	}
 
 	public void bit_hl(int bit3, int val8) {
-		m_zeroF = ((val8 & (0x01 << bit3)) == 0);
-		m_halfcarryF = true;
-		m_parityoverflowF = m_zeroF;
-		m_addsubtractF = false;
-		m_signF = ((val8 & (0x01 << bit3)) == 0x80);
-		m_3F = ((m_x8 & THREE_MASK) != 0);
-		m_5F = ((m_x8 & FIVE_MASK) != 0);
-		
+		setM_zeroF((val8 & (0x01 << bit3)) == 0);
+		setM_halfcarryF(true);
+		setM_halfcarryF(m_zeroF);
+		setM_addsubtractF( false);
+		setM_signF((val8 & (0x01 << bit3)) == 0x80);
+		setM_3F((m_x8 & THREE_MASK) != 0);
+		setM_5F((m_x8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
 	public void bit_xx(int bit3, int val8) {
-		m_zeroF = ((val8 & (0x01 << bit3)) == 0);
-		m_halfcarryF = true;
-		m_parityoverflowF = m_zeroF;
-		m_addsubtractF = false;
-		m_signF = ((val8 & (0x01 << bit3)) == 0x80);
-		m_3F = ((xx16high8() & THREE_MASK) != 0);
-		m_5F = ((xx16high8() & FIVE_MASK) != 0);
-		
+		setM_zeroF((val8 & (0x01 << bit3)) == 0);
+		setM_halfcarryF(true);
+		setM_halfcarryF(m_zeroF);
+		setM_addsubtractF( false);
+		setM_signF((val8 & (0x01 << bit3)) == 0x80);
+		setM_3F((xx16high8() & THREE_MASK) != 0);
+		setM_5F((xx16high8() & FIVE_MASK) != 0);
+
 		resetFlagOperations();
 	}
 
@@ -1637,16 +1746,16 @@ public class Z80 extends BaseComponent {
 	 */
 	public int in8(int port16) {
 		int work8 = m_io.in8(port16);
-		m_signF = ((work8 & 0x80) != 0);
-		m_zeroF = (work8 == 0);
-		m_halfcarryF = false;
-		m_parityoverflowF = m_parityTable[work8];
-		m_addsubtractF = false;
-		m_3F = ((work8 & THREE_MASK) != 0);
-		m_5F = ((work8 & FIVE_MASK) != 0);
-		
+		setM_signF((work8 & 0x80) != 0);
+		setM_zeroF(work8 == 0);
+		setM_halfcarryF(false);
+		setM_halfcarryF(m_parityTable[work8]);
+		setM_addsubtractF( false);
+		setM_3F((work8 & THREE_MASK) != 0);
+		setM_5F((work8 & FIVE_MASK) != 0);
+
 		resetFlagOperations();
-		
+
 		return work8;
 	}
 
@@ -1721,17 +1830,17 @@ public class Z80 extends BaseComponent {
 			@Override
 			public void run() {
 				while(true) {
-					
+
 					//WARNING: ACTIVE WAIT FOR THE EMULATE TO FINISH 
 					//[this should not happen but we never know..]
 					// while(isUpdateDone.get()==true);
 					//I THINK THAT ACTUALLY THIS SYNC IS NOT NEEDED BECAUSE IN THE WORST CASE WE UPDATE
 					//MORE TIMES THAN WHAT WE NEED AND THE RISK PAYS OFF.
-					
+
 					m_spectrum.update();
 
 					isUpdateDone.set(true);
-					
+
 				}
 			}
 		}).start();
@@ -1752,9 +1861,9 @@ public class Z80 extends BaseComponent {
 
 			//WARNING: ACTIVE WAIT FOR THE UPDATE TO FINISH
 			PerformanceCounter.start("emulate - WAIT");
-			
+
 			while(!isUpdateDone.getAndSet(false));
-			
+
 			PerformanceCounter.end("emulate - WAIT");
 			PerformanceCounter.end("emulate");
 
@@ -1811,7 +1920,7 @@ public class Z80 extends BaseComponent {
 
 		retrieveFlags();
 	}
-	
+
 	private void pauseMode() {
 		try {
 			wait();

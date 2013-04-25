@@ -240,9 +240,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_addsubtractF
 	 */
 	public boolean getM_addsubtractF() {
-		if(lastFlagOperation[FLAG_ADD_SUBTRACT]!=null) {
-			return lastFlagOperation[FLAG_ADD_SUBTRACT].getM_addsubtractF();
-		}
+//		if(lastFlagOperation[FLAG_ADD_SUBTRACT]!=null) {
+//			return lastFlagOperation[FLAG_ADD_SUBTRACT].getM_addsubtractF();
+//		}
 		return m_addsubtractF;
 	}
 
@@ -250,9 +250,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_parityoverflowF
 	 */
 	public boolean getM_parityoverflowF() {
-		if(lastFlagOperation[FLAG_PARITY_OVERFLOW]!=null) {
-			return lastFlagOperation[FLAG_PARITY_OVERFLOW].getM_parityoverflowF();
-		}
+//		if(lastFlagOperation[FLAG_PARITY_OVERFLOW]!=null) {
+//			return lastFlagOperation[FLAG_PARITY_OVERFLOW].getM_parityoverflowF();
+//		}
 		return m_parityoverflowF;
 	}
 
@@ -260,9 +260,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_halfcarryF
 	 */
 	public boolean getM_halfcarryF() {
-		if(lastFlagOperation[FLAG_HALF_CARRY]!=null) {
-			return lastFlagOperation[FLAG_HALF_CARRY].getM_halfcarryF();
-		}
+//		if(lastFlagOperation[FLAG_HALF_CARRY]!=null) {
+//			return lastFlagOperation[FLAG_HALF_CARRY].getM_halfcarryF();
+//		}
 		return m_halfcarryF;
 	}
 
@@ -270,9 +270,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_zeroF
 	 */
 	public boolean getM_zeroF() {
-		if(lastFlagOperation[FLAG_ZERO]!=null) {
-			return lastFlagOperation[FLAG_ZERO].getM_zeroF();
-		}
+//		if(lastFlagOperation[FLAG_ZERO]!=null) {
+//			return lastFlagOperation[FLAG_ZERO].getM_zeroF();
+//		}
 		return m_zeroF;
 	}
 
@@ -280,9 +280,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_signF
 	 */
 	public boolean getM_signF() {
-		if(lastFlagOperation[FLAG_SIGN]!=null) {
-			return lastFlagOperation[FLAG_SIGN].getM_signF();
-		}
+//		if(lastFlagOperation[FLAG_SIGN]!=null) {
+//			return lastFlagOperation[FLAG_SIGN].getM_signF();
+//		}
 		return m_signF;
 	}
 
@@ -290,9 +290,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_5F
 	 */
 	public boolean getM_5F() {
-		if(lastFlagOperation[FLAG_5]!=null) {
-			return lastFlagOperation[FLAG_5].getM_5F();
-		}
+//		if(lastFlagOperation[FLAG_5]!=null) {
+//			return lastFlagOperation[FLAG_5].getM_5F();
+//		}
 		return m_5F;
 	}
 
@@ -300,9 +300,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_3F
 	 */
 	public boolean getM_3F() {
-		if(lastFlagOperation[FLAG_3]!=null) {
-			return lastFlagOperation[FLAG_3].getM_3F();
-		}
+//		if(lastFlagOperation[FLAG_3]!=null) {
+//			return lastFlagOperation[FLAG_3].getM_3F();
+//		}
 		return m_3F;
 	}
 
@@ -547,7 +547,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_carryF(boolean m_carryF) {
 		this.m_carryF = m_carryF;
-		setFlagOperation(FLAG_CARRY, null);
+//		setFlagOperation(FLAG_CARRY, null);
 	}
 
 	/**
@@ -555,7 +555,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_addsubtractF(boolean m_addsubtractF) {
 		this.m_addsubtractF = m_addsubtractF;
-		setFlagOperation(FLAG_ADD_SUBTRACT, null);
+//		setFlagOperation(FLAG_ADD_SUBTRACT, null);
 	}
 
 	/**
@@ -563,7 +563,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_parityoverflowF(boolean m_parityoverflowF) {
 		this.m_parityoverflowF = m_parityoverflowF;
-		setFlagOperation(FLAG_PARITY_OVERFLOW, null);
+//		setFlagOperation(FLAG_PARITY_OVERFLOW, null);
 	}
 
 	/**
@@ -571,7 +571,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_halfcarryF(boolean m_halfcarryF) {
 		this.m_halfcarryF = m_halfcarryF;
-		setFlagOperation(FLAG_HALF_CARRY, null);
+//		setFlagOperation(FLAG_HALF_CARRY, null);
 	}
 
 	/**
@@ -579,7 +579,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_zeroF(boolean m_zeroF) {
 		this.m_zeroF = m_zeroF;
-		setFlagOperation(FLAG_ZERO, null);
+//		setFlagOperation(FLAG_ZERO, null);
 	}
 
 	/**
@@ -587,7 +587,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_signF(boolean m_signF) {
 		this.m_signF = m_signF;
-		setFlagOperation(FLAG_SIGN, null);
+//		setFlagOperation(FLAG_SIGN, null);
 	}
 
 	/**
@@ -595,7 +595,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_5F(boolean m_5f) {
 		this.m_5F = m_5f;
-		setFlagOperation(FLAG_5, null);
+//		setFlagOperation(FLAG_5, null);
 	}
 
 	/**
@@ -603,7 +603,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public void setM_3F(boolean m_3f) {
 		this.m_3F = m_3f;
-		setFlagOperation(FLAG_3, null);
+//		setFlagOperation(FLAG_3, null);
 	}
 
 	/**
@@ -1027,7 +1027,7 @@ public class Z80 extends BaseComponent {
 		setM_signF((m_f8 & SIGN_MASK) != 0);
 		setM_zeroF((m_f8 & ZERO_MASK) != 0);
 		setM_halfcarryF((m_f8 & HALFCARRY_MASK) != 0);
-		setM_halfcarryF((m_f8 & OVERFLOW_MASK) != 0);
+		setM_parityoverflowF((m_f8 & OVERFLOW_MASK) != 0);
 		setM_addsubtractF((m_f8 & ADDSUBTRACT_MASK) != 0);
 		setM_carryF((m_f8 & CARRY_MASK) != 0);
 		setM_3F((m_f8 & THREE_MASK) != 0);
@@ -1162,7 +1162,6 @@ public class Z80 extends BaseComponent {
 		setM_3F((work8 & THREE_MASK) != 0);
 		setM_5F((work8 & FIVE_MASK) != 0);
 
-		resetFlagOperations();
 	}
 
 	/**
@@ -1182,7 +1181,6 @@ public class Z80 extends BaseComponent {
 		setM_3F((m_h8 & THREE_MASK) != 0);
 		setM_5F((m_h8 & FIVE_MASK) != 0);
 
-		resetFlagOperations();
 	}
 
 	/**
@@ -1199,13 +1197,12 @@ public class Z80 extends BaseComponent {
 		setM_signF((hl16 & 0x8000) != 0);
 		setM_zeroF(hl16 == 0);
 		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
-		setM_halfcarryF(m_overflowTable[idx >> 4]);
+		setM_parityoverflowF(m_overflowTable[idx >> 4]);
 		setM_addsubtractF( false);
 		setM_carryF((work32 & 0x10000) != 0);
 		setM_3F((m_h8 & THREE_MASK) != 0);
 		setM_5F((m_h8 & FIVE_MASK) != 0);
 
-		resetFlagOperations();
 	}
 
 	/**
@@ -1222,13 +1219,12 @@ public class Z80 extends BaseComponent {
 		setM_signF((hl16 & 0x8000) != 0);
 		setM_zeroF(hl16 == 0);
 		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
-		setM_halfcarryF(m_suboverflowTable[idx >> 4]);
+		setM_parityoverflowF(m_suboverflowTable[idx >> 4]);
 		setM_addsubtractF( true);
 		setM_carryF((work32 & 0x10000) != 0);
 		setM_3F((m_h8 & THREE_MASK) != 0);
 		setM_5F((m_h8 & FIVE_MASK) != 0);
 
-		resetFlagOperations();
 	}
 
 	/**
@@ -1292,50 +1288,8 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int inc8(int reg8) {
-//				int work8 = (reg8 + 1) & 0xff;
-//				setM_signF((work8 & 0x80) != 0);
-//				setM_zeroF(work8 == 0);
-//				setM_halfcarryF((work8 & 0x0f) == 0);
-//				setM_halfcarryF((work8 == 0x80);
-//				setM_addsubtractF( false;
-//				setM3F((work8 & THREE_MASK) != 0);
-//				setM_5F = ((work8 & FIVE_MASK) != 0);
-
 		INC8 op = new INC8();
 		int work8 = op.inc8(reg8);
-
-		if(getM_signF() != op.getM_signF()) {
-			m_logger.log(ILogger.C_ERROR,"getM_signF");
-		}
-		if(getM_zeroF() != op.getM_zeroF()) {
-			m_logger.log(ILogger.C_ERROR,"getM_zeroF");
-		}
-		if(getM_halfcarryF() != op.getM_halfcarryF()) {
-			m_logger.log(ILogger.C_ERROR,"getM_halfcarryF");
-		}
-		if(getM_parityoverflowF() != op.getM_parityoverflowF()) {
-			m_logger.log(ILogger.C_ERROR,"getM_parityoverflowF");
-		}
-		if(getM_addsubtractF() != op.getM_addsubtractF()) {
-			m_logger.log(ILogger.C_ERROR,"getM_addsubtractF");
-		}
-		if(getM_3F() != op.getM_3F()) {
-			m_logger.log(ILogger.C_ERROR,"getM_3F");
-		}
-		if(getM_5F() != op.getM_5F()) {
-			m_logger.log(ILogger.C_ERROR,"getM_5F");
-		}
-		
-//		setM_signFop.getM_signF();
-//		setM_zeroFop.getM_zeroF();
-//		setM_halfcarryFop.getM_halfcarryF();
-//		setM_halfcarryF(op.getM_parityoverflowF();
-//		setM_addsubtractF( op.getM_addsubtractF();
-//		setM3Fop.getM_3F();
-//		m_5F = op.getM_5F();
-
-//		resetFlagOperations();
-		
 		return work8;
 	}
 
@@ -1345,27 +1299,8 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int dec8(int reg8) {
-//				int work8 = (reg8 - 1) & 0xff;
-//				setM_signF((work8 & 0x80) != 0);
-//				setM_zeroF(work8 == 0);
-//				setM_halfcarryF((work8 & 0x0f) == 0x0f);
-//				setM_halfcarryF(work8 == 0x7f);
-//				setM_addsubtractF( true;
-//				setM3F((work8 & THREE_MASK) != 0);
-//				m_5F = ((work8 & FIVE_MASK) != 0);
-
 		DEC8 op = new DEC8();
 		int work8 = op.dec8(reg8);
-		
-		setM_signF(op.getM_signF());
-		setM_zeroF(op.getM_zeroF());
-		setM_halfcarryF(op.getM_halfcarryF());
-		setM_halfcarryF(op.getM_parityoverflowF());
-		setM_addsubtractF( op.getM_addsubtractF());
-		m_3F = op.getM_3F();
-		m_5F = op.getM_5F();
-
-		resetFlagOperations();
 
 		return work8;
 	}
@@ -1379,8 +1314,6 @@ public class Z80 extends BaseComponent {
 		int work8 = ((reg8 << 1) | (m_carryF ? 1 : 0)) & 0xff;
 		shift_test(work8);
 
-		resetFlagOperations();
-
 		return work8;
 	}
 
@@ -1392,8 +1325,6 @@ public class Z80 extends BaseComponent {
 		setM_carryF((reg8 & 0x01) != 0);
 		int work8 = ((reg8 >> 1) | ((m_carryF ? 1 : 0) << 7));
 		shift_test(work8);
-
-		resetFlagOperations();
 
 		return work8;
 	}
@@ -1408,8 +1339,6 @@ public class Z80 extends BaseComponent {
 		setM_carryF(carry);
 		shift_test(work8);
 
-		resetFlagOperations();
-
 		return work8;
 	}
 
@@ -1423,8 +1352,6 @@ public class Z80 extends BaseComponent {
 		setM_carryF(carry);
 		shift_test(work8);
 
-		resetFlagOperations();
-
 		return work8;
 	}
 
@@ -1436,8 +1363,6 @@ public class Z80 extends BaseComponent {
 		setM_carryF((reg8 & 0x80) != 0);
 		int work8 = (reg8 << 1) & 0xff;
 		shift_test(work8);
-
-		resetFlagOperations();
 
 		return work8;
 	}
@@ -1452,8 +1377,6 @@ public class Z80 extends BaseComponent {
 		work8 = ((reg8 >> 1) | work8);
 		shift_test(work8);
 
-		resetFlagOperations();
-
 		return work8;
 	}
 
@@ -1465,8 +1388,6 @@ public class Z80 extends BaseComponent {
 		setM_carryF((reg8 & 0x80) != 0);
 		int work8 = ((reg8 << 1) | 0x01) & 0xff;
 		shift_test(work8);
-
-		resetFlagOperations();
 
 		return work8;
 	}
@@ -1480,8 +1401,6 @@ public class Z80 extends BaseComponent {
 		int work8 = (reg8 >> 1);
 		shift_test(work8);
 
-		resetFlagOperations();
-
 		return work8;
 	}
 
@@ -1492,12 +1411,10 @@ public class Z80 extends BaseComponent {
 		setM_signF((reg8 & 0x80) != 0);
 		setM_zeroF(reg8 == 0);
 		setM_halfcarryF(false);
-		setM_halfcarryF(m_parityTable[reg8]);
+		setM_parityoverflowF(m_parityTable[reg8]);
 		setM_addsubtractF( false);
 		setM_3F((reg8 & THREE_MASK) != 0);
 		setM_5F((reg8 & FIVE_MASK) != 0);
-
-		resetFlagOperations();
 
 	}
 
@@ -1507,8 +1424,6 @@ public class Z80 extends BaseComponent {
 	public int pop16() {
 		int work16 = m_memory.read16(m_sp16);
 		m_sp16 = incinc16(m_sp16);
-
-		resetFlagOperations();
 
 		return work16;
 	}
@@ -1526,12 +1441,11 @@ public class Z80 extends BaseComponent {
 		setM_signF((m_a8 & 0x80) != 0);
 		setM_zeroF(m_a8 == 0);
 		setM_halfcarryF(false);
-		setM_halfcarryF(m_iff1b != 0);
+		setM_parityoverflowF(m_iff1b != 0);
 		setM_addsubtractF( false);
 		setM_3F((m_a8 & THREE_MASK) != 0);
 		setM_5F((m_a8 & FIVE_MASK) != 0);
 
-		resetFlagOperations();
 	}
 
 	/**
@@ -1545,13 +1459,11 @@ public class Z80 extends BaseComponent {
 		setM_signF((m_a8 & 0x80) != 0);
 		setM_zeroF(m_a8 == 0);
 		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
-		setM_halfcarryF(m_overflowTable[idx >> 4]);
+		setM_parityoverflowF(m_overflowTable[idx >> 4]);
 		setM_addsubtractF( false);
 		setM_carryF((work16 & 0x100) != 0);
 		setM_3F((m_a8 & THREE_MASK) != 0);
 		setM_5F((m_a8 & FIVE_MASK) != 0);
-
-		resetFlagOperations();
 	}
 
 	/**
@@ -1566,13 +1478,11 @@ public class Z80 extends BaseComponent {
 		setM_signF((m_a8 & 0x80) != 0);
 		setM_zeroF(m_a8 == 0);
 		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
-		setM_halfcarryF(m_overflowTable[idx >> 4]);
+		setM_parityoverflowF(m_overflowTable[idx >> 4]);
 		setM_addsubtractF( false);
 		setM_carryF((work16 & 0x100) != 0);
 		setM_3F((m_a8 & THREE_MASK) != 0);
 		setM_5F((m_a8 & FIVE_MASK) != 0);
-
-		resetFlagOperations();
 	}
 
 	/**
@@ -1586,13 +1496,11 @@ public class Z80 extends BaseComponent {
 		setM_signF((m_a8 & 0x80) != 0);
 		setM_zeroF(m_a8 == 0);
 		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
-		setM_halfcarryF(m_suboverflowTable[idx >> 4]);
+		setM_parityoverflowF(m_suboverflowTable[idx >> 4]);
 		setM_addsubtractF( true);
 		setM_carryF((work16 & 0x100) != 0);
 		setM_3F((m_a8 & THREE_MASK) != 0);
 		setM_5F((m_a8 & FIVE_MASK) != 0);
-
-		resetFlagOperations();
 	}
 
 	/**
@@ -1607,13 +1515,11 @@ public class Z80 extends BaseComponent {
 		setM_signF((m_a8 & 0x80) != 0);
 		setM_zeroF(m_a8 == 0);
 		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
-		setM_halfcarryF(m_suboverflowTable[idx >> 4]);
+		setM_parityoverflowF(m_suboverflowTable[idx >> 4]);
 		setM_addsubtractF( true);
 		setM_carryF((work16 & 0x100) != 0);
 		setM_3F((m_a8 & THREE_MASK) != 0);
 		setM_5F((m_a8 & FIVE_MASK) != 0);
-
-		resetFlagOperations();
 	}
 
 	/**
@@ -1624,13 +1530,11 @@ public class Z80 extends BaseComponent {
 		setM_signF((m_a8 & 0x80) != 0);
 		setM_zeroF(m_a8 == 0);
 		setM_halfcarryF(true);
-		setM_halfcarryF(m_parityTable[m_a8]);
+		setM_parityoverflowF(m_parityTable[m_a8]);
 		setM_addsubtractF( false);
 		setM_carryF(false);
 		setM_3F((m_a8 & THREE_MASK) != 0);
 		setM_5F((m_a8 & FIVE_MASK) != 0);
-
-		resetFlagOperations();
 	}
 
 	/**
@@ -1641,13 +1545,11 @@ public class Z80 extends BaseComponent {
 		setM_signF((m_a8 & 0x80) != 0);
 		setM_zeroF(m_a8 == 0);
 		setM_halfcarryF(false);
-		setM_halfcarryF(m_parityTable[m_a8]);
+		setM_parityoverflowF(m_parityTable[m_a8]);
 		setM_addsubtractF( false);
 		setM_carryF(false);
 		setM_3F((m_a8 & THREE_MASK) != 0);
 		setM_5F((m_a8 & FIVE_MASK) != 0);
-
-		resetFlagOperations();
 	}
 
 	/**
@@ -1658,13 +1560,11 @@ public class Z80 extends BaseComponent {
 		setM_signF((m_a8 & 0x80) != 0);
 		setM_zeroF(m_a8 == 0);
 		setM_halfcarryF(false);
-		setM_halfcarryF(m_parityTable[m_a8]);
+		setM_parityoverflowF(m_parityTable[m_a8]);
 		setM_addsubtractF( false);
 		setM_carryF(false);
 		setM_3F((m_a8 & THREE_MASK) != 0);
 		setM_5F((m_a8 & FIVE_MASK) != 0);
-
-		resetFlagOperations();
 	}
 
 	/**
@@ -1677,13 +1577,11 @@ public class Z80 extends BaseComponent {
 		setM_signF((work16 & 0x80) != 0);
 		setM_zeroF((work16 & 0xff) == 0);
 		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
-		setM_halfcarryF(m_suboverflowTable[idx >> 4]);
+		setM_parityoverflowF(m_suboverflowTable[idx >> 4]);
 		setM_addsubtractF( true);
 		setM_carryF((work16 & 0x0100) != 0);
 		setM_3F((val8 & THREE_MASK) != 0);
 		setM_5F((val8 & FIVE_MASK) != 0);
-
-		resetFlagOperations();
 	}
 
 	/**
@@ -1698,8 +1596,6 @@ public class Z80 extends BaseComponent {
 		setM_zeroF((work16 & 0xff) == 0);
 		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
 		setM_addsubtractF( true);
-
-		resetFlagOperations();
 	}
 
 	/**
@@ -1713,32 +1609,26 @@ public class Z80 extends BaseComponent {
 		setM_signF((reg8 & (0x01 << bit3)) == 0x80);
 		setM_3F(bit3 == 3 && !m_zeroF);
 		setM_5F(bit3 == 5 && !m_zeroF);
-
-		resetFlagOperations();
 	}
 
 	public void bit_hl(int bit3, int val8) {
 		setM_zeroF((val8 & (0x01 << bit3)) == 0);
 		setM_halfcarryF(true);
-		setM_halfcarryF(m_zeroF);
+		setM_parityoverflowF(m_zeroF);
 		setM_addsubtractF( false);
 		setM_signF((val8 & (0x01 << bit3)) == 0x80);
 		setM_3F((m_x8 & THREE_MASK) != 0);
 		setM_5F((m_x8 & FIVE_MASK) != 0);
-
-		resetFlagOperations();
 	}
 
 	public void bit_xx(int bit3, int val8) {
 		setM_zeroF((val8 & (0x01 << bit3)) == 0);
 		setM_halfcarryF(true);
-		setM_halfcarryF(m_zeroF);
+		setM_parityoverflowF(m_zeroF);
 		setM_addsubtractF( false);
 		setM_signF((val8 & (0x01 << bit3)) == 0x80);
 		setM_3F((xx16high8() & THREE_MASK) != 0);
 		setM_5F((xx16high8() & FIVE_MASK) != 0);
-
-		resetFlagOperations();
 	}
 
 	/**
@@ -1749,12 +1639,10 @@ public class Z80 extends BaseComponent {
 		setM_signF((work8 & 0x80) != 0);
 		setM_zeroF(work8 == 0);
 		setM_halfcarryF(false);
-		setM_halfcarryF(m_parityTable[work8]);
+		setM_parityoverflowF(m_parityTable[work8]);
 		setM_addsubtractF( false);
 		setM_3F((work8 & THREE_MASK) != 0);
 		setM_5F((work8 & FIVE_MASK) != 0);
-
-		resetFlagOperations();
 
 		return work8;
 	}

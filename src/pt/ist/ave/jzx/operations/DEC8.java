@@ -20,13 +20,13 @@ public class DEC8 extends Operation {
 	
 	public int dec8(int reg8) {
 		_work8 = (reg8 - 1) & 0xff;
-//		_cpu.setM_addsubtractF(true);
-//		_cpu.setM_parityoverflowF(_work8 == 0x7f);
-//		_cpu.setM_halfcarryF((_work8 & 0x0f) == 0x0f);
-//		_cpu.setM_zeroF(_work8 == 0);
-//		_cpu.setM_signF((_work8 & 0x80) != 0);
-//		_cpu.setM_5F((_work8 & Z80.FIVE_MASK) != 0);
-//		_cpu.setM_3F((_work8 & Z80.THREE_MASK) != 0);
+		_cpu.setM_addsubtractF(getM_addsubtractF());
+		_cpu.setM_parityoverflowF(getM_parityoverflowF());
+		_cpu.setM_halfcarryF(getM_halfcarryF());
+		_cpu.setM_zeroF(getM_zeroF());
+		_cpu.setM_signF(getM_signF());
+		_cpu.setM_5F(getM_5F());
+		_cpu.setM_3F(getM_3F());
 		
 //		updateFlags();
 		

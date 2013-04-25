@@ -20,15 +20,15 @@ public class INC8 extends Operation {
 	
 	public int inc8(int reg8) {
 		_work8 = (reg8 + 1) & 0xff;
-//		m_signF = ((work8 & 0x80) != 0);
-//		m_zeroF = (work8 == 0);
-//		m_halfcarryF = ((work8 & 0x0f) == 0);
-//		m_parityoverflowF = (work8 == 0x80);
-//		m_addsubtractF = false;
-//		m_3F = ((work8 & THREE_MASK) != 0);
-//		m_5F = ((work8 & FIVE_MASK) != 0);
+		_cpu.setM_signF(getM_signF());
+		_cpu.setM_zeroF(getM_zeroF());
+		_cpu.setM_halfcarryF(getM_halfcarryF());
+		_cpu.setM_parityoverflowF(getM_parityoverflowF());
+		_cpu.setM_addsubtractF(getM_addsubtractF());
+		_cpu.setM_3F(getM_3F());
+		_cpu.setM_5F(getM_5F());
 		
-		updateFlags();
+//		updateFlags();
 		
 		return _work8;
 	}

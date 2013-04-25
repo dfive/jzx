@@ -8,6 +8,7 @@ import pt.ist.ave.jzx.instructions.InstructionFactory;
 import pt.ist.ave.jzx.operations.DEC8;
 import pt.ist.ave.jzx.operations.INC8;
 import pt.ist.ave.jzx.operations.Operation;
+import pt.ist.ave.jzx.operations.ShiftTest;
 
 /**
  * The Z80 CPU component of the Spectrum emulator.
@@ -1408,14 +1409,8 @@ public class Z80 extends BaseComponent {
 	 * Set the appropriate flags as a result of a shift operation.
 	 */
 	public void shift_test(int reg8) {
-		setM_signF((reg8 & 0x80) != 0);
-		setM_zeroF(reg8 == 0);
-		setM_halfcarryF(false);
-		setM_parityoverflowF(m_parityTable[reg8]);
-		setM_addsubtractF( false);
-		setM_3F((reg8 & THREE_MASK) != 0);
-		setM_5F((reg8 & FIVE_MASK) != 0);
-
+		ShiftTest shiftTest = new ShiftTest();
+		shiftTest.shiftTest(reg8);
 	}
 
 	/**

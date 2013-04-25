@@ -8,6 +8,7 @@ import pt.ist.ave.jzx.instructions.InstructionFactory;
 import pt.ist.ave.jzx.operations.DEC8;
 import pt.ist.ave.jzx.operations.INC8;
 import pt.ist.ave.jzx.operations.Operation;
+import pt.ist.ave.jzx.operations.RLC8;
 import pt.ist.ave.jzx.operations.ShiftTest;
 
 /**
@@ -1311,11 +1312,8 @@ public class Z80 extends BaseComponent {
 	 * the appropriate flags.
 	 */
 	public int rlc8(int reg8) {
-		setM_carryF((reg8 & 0x80) != 0);
-		int work8 = ((reg8 << 1) | (m_carryF ? 1 : 0)) & 0xff;
-		shift_test(work8);
-
-		return work8;
+		RLC8 rlc8 = new RLC8();
+		return rlc8.rlc8(reg8);
 	}
 
 	/**

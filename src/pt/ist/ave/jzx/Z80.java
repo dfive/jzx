@@ -13,6 +13,7 @@ import pt.ist.ave.jzx.operations.LD_A_SPECIAL;
 import pt.ist.ave.jzx.operations.Operation;
 import pt.ist.ave.jzx.operations.RLC8;
 import pt.ist.ave.jzx.operations.RRC8;
+import pt.ist.ave.jzx.operations.SBC_A;
 import pt.ist.ave.jzx.operations.SUB_A;
 import pt.ist.ave.jzx.operations.ShiftTest;
 
@@ -1511,18 +1512,21 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public void sbc_a(int val8) {
-		int work16 = m_a8 - val8 - (m_carryF ? 1 : 0);
-		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
-				| ((work16 & 0x88) >> 3);
-		m_a8 = work16 & 0xff;
-		setM_signF((m_a8 & 0x80) != 0);
-		setM_zeroF(m_a8 == 0);
-		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
-		setM_parityoverflowF(m_suboverflowTable[idx >> 4]);
-		setM_addsubtractF( true);
-		setM_carryF((work16 & 0x100) != 0);
-		setM_3F((m_a8 & THREE_MASK) != 0);
-		setM_5F((m_a8 & FIVE_MASK) != 0);
+//		int work16 = m_a8 - val8 - (m_carryF ? 1 : 0);
+//		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
+//				| ((work16 & 0x88) >> 3);
+//		m_a8 = work16 & 0xff;
+//		setM_signF((m_a8 & 0x80) != 0);
+//		setM_zeroF(m_a8 == 0);
+//		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
+//		setM_parityoverflowF(m_suboverflowTable[idx >> 4]);
+//		setM_addsubtractF( true);
+//		setM_carryF((work16 & 0x100) != 0);
+//		setM_3F((m_a8 & THREE_MASK) != 0);
+//		setM_5F((m_a8 & FIVE_MASK) != 0);
+		SBC_A op = new SBC_A();
+		op.sbc_a(val8);
+		
 	}
 
 	/**

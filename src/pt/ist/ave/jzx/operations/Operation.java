@@ -12,6 +12,8 @@ public abstract class Operation {
 	protected int _work32;
 	protected int _idx;
 	protected int _work8;
+	protected int _work16;
+	
 	protected Collection<Integer> _updatedFlags;
 	
 	public static void setCpu(Z80 cpu){

@@ -6,10 +6,12 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import pt.ist.ave.jzx.instructions.Instruction;
 import pt.ist.ave.jzx.instructions.InstructionFactory;
 import pt.ist.ave.jzx.operations.ADC_HL;
+import pt.ist.ave.jzx.operations.ADD_A;
 import pt.ist.ave.jzx.operations.ADD_HL;
 import pt.ist.ave.jzx.operations.ADD_XX;
 import pt.ist.ave.jzx.operations.DEC8;
 import pt.ist.ave.jzx.operations.INC8;
+import pt.ist.ave.jzx.operations.LD_A_SPECIAL;
 import pt.ist.ave.jzx.operations.Operation;
 import pt.ist.ave.jzx.operations.RL8;
 import pt.ist.ave.jzx.operations.RLC8;
@@ -1181,18 +1183,18 @@ public class Z80 extends BaseComponent {
 	 * Add a 16-bit value to the HL register and set the appropriate flags.
 	 */
 	public void add_hl(int val16) {
-//		m_x8 = m_h8;
-//
-//		int hl16 = hl16();
-//		int work32 = hl16 + val16;
-//		int idx = ((hl16 & 0x800) >> 9) | ((val16 & 0x800) >> 10)
-//				| ((work32 & 0x800) >> 11);
-//		hl16(work32 & 0xffff);
-//		setM_halfcarryF(m_halfcarryTable[idx]);
-//		setM_addsubtractF( false);
-//		setM_carryF((work32 & 0x10000) != 0);
-//		setM_3F((m_h8 & THREE_MASK) != 0);
-//		setM_5F((m_h8 & FIVE_MASK) != 0);
+		//		m_x8 = m_h8;
+		//
+		//		int hl16 = hl16();
+		//		int work32 = hl16 + val16;
+		//		int idx = ((hl16 & 0x800) >> 9) | ((val16 & 0x800) >> 10)
+		//				| ((work32 & 0x800) >> 11);
+		//		hl16(work32 & 0xffff);
+		//		setM_halfcarryF(m_halfcarryTable[idx]);
+		//		setM_addsubtractF( false);
+		//		setM_carryF((work32 & 0x10000) != 0);
+		//		setM_3F((m_h8 & THREE_MASK) != 0);
+		//		setM_5F((m_h8 & FIVE_MASK) != 0);
 		ADD_HL op = new ADD_HL();
 		op.add_hl(val16);
 	}
@@ -1202,20 +1204,20 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public void adc_hl(int val16) {
-//		int hl16 = hl16();
-//		int work32 = hl16 + val16 + (m_carryF ? 1 : 0);
-//		int idx = ((hl16 & 0x8800) >> 9) | ((val16 & 0x8800) >> 10)
-//				| ((work32 & 0x8800) >> 11);
-//		hl16 = (work32 & 0xffff);
-//		hl16(hl16);
-//		setM_signF((hl16 & 0x8000) != 0);
-//		setM_zeroF(hl16 == 0);
-//		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
-//		setM_parityoverflowF(m_overflowTable[idx >> 4]);
-//		setM_addsubtractF( false);
-//		setM_carryF((work32 & 0x10000) != 0);
-//		setM_3F((m_h8 & THREE_MASK) != 0);
-//		setM_5F((m_h8 & FIVE_MASK) != 0);
+		//		int hl16 = hl16();
+		//		int work32 = hl16 + val16 + (m_carryF ? 1 : 0);
+		//		int idx = ((hl16 & 0x8800) >> 9) | ((val16 & 0x8800) >> 10)
+		//				| ((work32 & 0x8800) >> 11);
+		//		hl16 = (work32 & 0xffff);
+		//		hl16(hl16);
+		//		setM_signF((hl16 & 0x8000) != 0);
+		//		setM_zeroF(hl16 == 0);
+		//		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
+		//		setM_parityoverflowF(m_overflowTable[idx >> 4]);
+		//		setM_addsubtractF( false);
+		//		setM_carryF((work32 & 0x10000) != 0);
+		//		setM_3F((m_h8 & THREE_MASK) != 0);
+		//		setM_5F((m_h8 & FIVE_MASK) != 0);
 		ADC_HL op = new ADC_HL();
 		op.adc_hl(val16);
 	}
@@ -1225,20 +1227,20 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public void sbc_hl(int val16) {
-//		int hl16 = hl16();
-//		int work32 = hl16 - val16 - (m_carryF ? 1 : 0);
-//		int idx = ((hl16 & 0x8800) >> 9) | ((val16 & 0x8800) >> 10)
-//				| ((work32 & 0x8800) >> 11);
-//		hl16 = (work32 & 0xffff);
-//		hl16(hl16);
-//		setM_signF((hl16 & 0x8000) != 0);
-//		setM_zeroF(hl16 == 0);
-//		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
-//		setM_parityoverflowF(m_suboverflowTable[idx >> 4]);
-//		setM_addsubtractF( true);
-//		setM_carryF((work32 & 0x10000) != 0);
-//		setM_3F((m_h8 & THREE_MASK) != 0);
-//		setM_5F((m_h8 & FIVE_MASK) != 0);
+		//		int hl16 = hl16();
+		//		int work32 = hl16 - val16 - (m_carryF ? 1 : 0);
+		//		int idx = ((hl16 & 0x8800) >> 9) | ((val16 & 0x8800) >> 10)
+		//				| ((work32 & 0x8800) >> 11);
+		//		hl16 = (work32 & 0xffff);
+		//		hl16(hl16);
+		//		setM_signF((hl16 & 0x8000) != 0);
+		//		setM_zeroF(hl16 == 0);
+		//		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
+		//		setM_parityoverflowF(m_suboverflowTable[idx >> 4]);
+		//		setM_addsubtractF( true);
+		//		setM_carryF((work32 & 0x10000) != 0);
+		//		setM_3F((m_h8 & THREE_MASK) != 0);
+		//		setM_5F((m_h8 & FIVE_MASK) != 0);
 		SBC_HL op = new SBC_HL();
 		op.sbc_hl(val16);
 	}
@@ -1305,8 +1307,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public int inc8(int reg8) {
 		INC8 op = new INC8();
-		int work8 = op.inc8(reg8);
-		return work8;
+		return op.inc8(reg8);
 	}
 
 
@@ -1342,11 +1343,6 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int rl8(int reg8) {
-//		boolean carry = ((reg8 & 0x80) != 0);
-//		int work8 = ((reg8 << 1) | (m_carryF ? 1 : 0)) & 0xff;
-//		setM_carryF(carry);
-//		shift_test(work8);
-//		return work8;
 		RL8 op = new RL8();
 		return op.rl8(reg8);
 	}
@@ -1356,12 +1352,6 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int rr8(int reg8) {
-//		boolean carry = ((reg8 & 0x01) != 0);
-//		int work8 = ((reg8 >> 1) | ((m_carryF ? 1 : 0) << 7));
-//		setM_carryF(carry);
-//		shift_test(work8);
-//
-//		return work8;
 		RR8 op = new RR8();
 		return op.rr8(reg8);
 	}
@@ -1371,11 +1361,6 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int sla8(int reg8) {
-//		setM_carryF((reg8 & 0x80) != 0);
-//		int work8 = (reg8 << 1) & 0xff;
-//		shift_test(work8);
-//
-//		return work8;
 		SLA8 op = new SLA8();
 		return op.sla8(reg8);
 	}
@@ -1385,12 +1370,6 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int sra8(int reg8) {
-//		setM_carryF((reg8 & 0x01) != 0);
-//		int work8 = (reg8 & 0x80);
-//		work8 = ((reg8 >> 1) | work8);
-//		shift_test(work8);
-//
-//		return work8;
 		SRA8 op = new SRA8();
 		return op.sra8(reg8);
 	}
@@ -1400,11 +1379,6 @@ public class Z80 extends BaseComponent {
 	 * the appropriate flags.
 	 */
 	public int sli8(int reg8) {
-//		setM_carryF((reg8 & 0x80) != 0);
-//		int work8 = ((reg8 << 1) | 0x01) & 0xff;
-//		shift_test(work8);
-//
-//		return work8;
 		SLI8 op = new SLI8();
 		return op.sli8(reg8);
 	}
@@ -1414,11 +1388,6 @@ public class Z80 extends BaseComponent {
 	 * the appropriate flags.
 	 */
 	public int srl8(int reg8) {
-//		setM_carryF((reg8 & 0x01) != 0);
-//		int work8 = (reg8 >> 1);
-//		shift_test(work8);
-//
-//		return work8;
 		SRL8 op = new SRL8();
 		return op.srl8(reg8);
 	}
@@ -1429,7 +1398,6 @@ public class Z80 extends BaseComponent {
 	public int pop16() {
 		int work16 = m_memory.read16(m_sp16);
 		m_sp16 = incinc16(m_sp16);
-
 		return work16;
 	}
 
@@ -1442,36 +1410,28 @@ public class Z80 extends BaseComponent {
 	}
 
 	public void ld_a_special(int reg8) {
-		m_a8 = reg8;
-		setM_signF((m_a8 & 0x80) != 0);
-		setM_zeroF(m_a8 == 0);
-		setM_halfcarryF(false);
-		setM_parityoverflowF(m_iff1b != 0);
-		setM_addsubtractF( false);
-		setM_3F((m_a8 & THREE_MASK) != 0);
-		setM_5F((m_a8 & FIVE_MASK) != 0);
-		//		LD_A_SPECIAL op = new LD_A_SPECIAL();
-		//		op.ld_a_special(reg8);
+		LD_A_SPECIAL op = new LD_A_SPECIAL();
+		op.ld_a_special(reg8);
 	}
 
 	/**
 	 * Add a 8-bit value to the A register and set the appropriate flags.
 	 */
 	public void add_a(int val8) {
-		int work16 = m_a8 + val8;
-		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
-				| ((work16 & 0x88) >> 3);
-		m_a8 = work16 & 0xff;
-		setM_signF((m_a8 & 0x80) != 0);
-		setM_zeroF(m_a8 == 0);
-		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
-		setM_parityoverflowF(m_overflowTable[idx >> 4]);
-		setM_addsubtractF( false);
-		setM_carryF((work16 & 0x100) != 0);
-		setM_3F((m_a8 & THREE_MASK) != 0);
-		setM_5F((m_a8 & FIVE_MASK) != 0);
-		//		ADD_A op = new ADD_A();
-		//		op.add_a(val8);
+//		int work16 = m_a8 + val8;
+//		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
+//				| ((work16 & 0x88) >> 3);
+//		m_a8 = work16 & 0xff;
+//		setM_signF((m_a8 & 0x80) != 0);
+//		setM_zeroF(m_a8 == 0);
+//		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
+//		setM_parityoverflowF(m_overflowTable[idx >> 4]);
+//		setM_addsubtractF( false);
+//		setM_carryF((work16 & 0x100) != 0);
+//		setM_3F((m_a8 & THREE_MASK) != 0);
+//		setM_5F((m_a8 & FIVE_MASK) != 0);
+				ADD_A op = new ADD_A();
+				op.add_a(val8);
 	}
 
 	/**
@@ -1770,7 +1730,7 @@ public class Z80 extends BaseComponent {
 
 	private void asyncEmulate(final CyclicBarrier barrier, final Object lock) {
 		while (true) {
-//			PerformanceCounter.start("emulate");
+			//			PerformanceCounter.start("emulate");
 			emulateOne();
 
 			if (m_stop) {
@@ -1782,12 +1742,12 @@ public class Z80 extends BaseComponent {
 			}
 
 			//WARNING: ACTIVE WAIT FOR THE UPDATE TO FINISH
-//			PerformanceCounter.start("emulate - WAIT");
+			//			PerformanceCounter.start("emulate - WAIT");
 
 			while(!isUpdateDone.getAndSet(false));
 
-//			PerformanceCounter.end("emulate - WAIT");
-//			PerformanceCounter.end("emulate");
+			//			PerformanceCounter.end("emulate - WAIT");
+			//			PerformanceCounter.end("emulate");
 
 		}
 	}

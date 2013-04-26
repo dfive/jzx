@@ -8,9 +8,16 @@ import pt.ist.ave.jzx.instructions.InstructionFactory;
 import pt.ist.ave.jzx.operations.ADC_A;
 import pt.ist.ave.jzx.operations.ADD_A;
 import pt.ist.ave.jzx.operations.AND_A_OPERATION;
+import pt.ist.ave.jzx.operations.BIT_HL;
+import pt.ist.ave.jzx.operations.BIT_Operation;
+import pt.ist.ave.jzx.operations.BIT_XX;
+import pt.ist.ave.jzx.operations.CMP_A;
+import pt.ist.ave.jzx.operations.CMP_A_SPECIAL;
 import pt.ist.ave.jzx.operations.DEC8;
+import pt.ist.ave.jzx.operations.IN8;
 import pt.ist.ave.jzx.operations.INC8;
 import pt.ist.ave.jzx.operations.LD_A_SPECIAL;
+import pt.ist.ave.jzx.operations.OR_A_Operation;
 import pt.ist.ave.jzx.operations.Operation;
 import pt.ist.ave.jzx.operations.RLC8;
 import pt.ist.ave.jzx.operations.RRC8;
@@ -1571,32 +1578,37 @@ public class Z80 extends BaseComponent {
 	 * Or a 8-bit value to the A register and set the appropriate flags.
 	 */
 	public void or_a(int val8) {
-		m_a8 |= val8;
-		setM_signF((m_a8 & 0x80) != 0);
-		setM_zeroF(m_a8 == 0);
-		setM_halfcarryF(false);
-		setM_parityoverflowF(m_parityTable[m_a8]);
-		setM_addsubtractF( false);
-		setM_carryF(false);
-		setM_3F((m_a8 & THREE_MASK) != 0);
-		setM_5F((m_a8 & FIVE_MASK) != 0);
+//		m_a8 |= val8;
+//		setM_signF((m_a8 & 0x80) != 0);
+//		setM_zeroF(m_a8 == 0);
+//		setM_halfcarryF(false);
+//		setM_parityoverflowF(m_parityTable[m_a8]);
+//		setM_addsubtractF( false);
+//		setM_carryF(false);
+//		setM_3F((m_a8 & THREE_MASK) != 0);
+//		setM_5F((m_a8 & FIVE_MASK) != 0);
+		OR_A_Operation op = new OR_A_Operation();
+		op.or_a(val8);
 	}
 
 	/**
 	 * Compare a 8-bit value to the A register and set the appropriate flags.
 	 */
 	public void cmp_a(int val8) {
-		int work16 = m_a8 - val8;
-		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
-				| ((work16 & 0x88) >> 3);
-		setM_signF((work16 & 0x80) != 0);
-		setM_zeroF((work16 & 0xff) == 0);
-		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
-		setM_parityoverflowF(m_suboverflowTable[idx >> 4]);
-		setM_addsubtractF( true);
-		setM_carryF((work16 & 0x0100) != 0);
-		setM_3F((val8 & THREE_MASK) != 0);
-		setM_5F((val8 & FIVE_MASK) != 0);
+//		int work16 = m_a8 - val8;
+//		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
+//				| ((work16 & 0x88) >> 3);
+//		setM_signF((work16 & 0x80) != 0);
+//		setM_zeroF((work16 & 0xff) == 0);
+//		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
+//		setM_parityoverflowF(m_suboverflowTable[idx >> 4]);
+//		setM_addsubtractF( true);
+//		setM_carryF((work16 & 0x0100) != 0);
+//		setM_3F((val8 & THREE_MASK) != 0);
+//		setM_5F((val8 & FIVE_MASK) != 0);
+		CMP_A op = new CMP_A();
+		op.cmp_a(val8);
+		
 	}
 
 	/**
@@ -1604,62 +1616,73 @@ public class Z80 extends BaseComponent {
 	 * except PARITY and CARRY.
 	 */
 	public void cmp_a_special(int val8) {
-		int work16 = m_a8 - val8;
-		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
-				| ((work16 & 0x88) >> 3);
-		setM_signF((work16 & 0x80) != 0);
-		setM_zeroF((work16 & 0xff) == 0);
-		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
-		setM_addsubtractF( true);
+//		int work16 = m_a8 - val8;
+//		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
+//				| ((work16 & 0x88) >> 3);
+//		setM_signF((work16 & 0x80) != 0);
+//		setM_zeroF((work16 & 0xff) == 0);
+//		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
+//		setM_addsubtractF( true);
+		CMP_A_SPECIAL op = new CMP_A_SPECIAL();
+		op.cmp_a_special(val8);
+		
 	}
 
 	/**
 	 * Test the given bit in a byte and set the appropriate flags.
 	 */
 	public void bit(int bit3, int reg8) {
-		setM_zeroF((reg8 & (0x01 << bit3)) == 0);
-		setM_halfcarryF(true);
-		setM_halfcarryF(m_zeroF);
-		setM_addsubtractF( false);
-		setM_signF((reg8 & (0x01 << bit3)) == 0x80);
-		setM_3F(bit3 == 3 && !m_zeroF);
-		setM_5F(bit3 == 5 && !m_zeroF);
+//		setM_zeroF((reg8 & (0x01 << bit3)) == 0);
+//		setM_halfcarryF(true);
+//		setM_parityoverflowF(m_zeroF);
+//		setM_addsubtractF( false);
+//		setM_signF((reg8 & (0x01 << bit3)) == 0x80);
+//		setM_3F(bit3 == 3 && !m_zeroF);
+//		setM_5F(bit3 == 5 && !m_zeroF);
+		BIT_Operation op = new BIT_Operation();
+		op.bit(bit3, reg8);
 	}
 
 	public void bit_hl(int bit3, int val8) {
-		setM_zeroF((val8 & (0x01 << bit3)) == 0);
-		setM_halfcarryF(true);
-		setM_parityoverflowF(m_zeroF);
-		setM_addsubtractF( false);
-		setM_signF((val8 & (0x01 << bit3)) == 0x80);
-		setM_3F((m_x8 & THREE_MASK) != 0);
-		setM_5F((m_x8 & FIVE_MASK) != 0);
+//		setM_zeroF((val8 & (0x01 << bit3)) == 0);
+//		setM_halfcarryF(true);
+//		setM_parityoverflowF(m_zeroF);
+//		setM_addsubtractF( false);
+//		setM_signF((val8 & (0x01 << bit3)) == 0x80);
+//		setM_3F((m_x8 & THREE_MASK) != 0);
+//		setM_5F((m_x8 & FIVE_MASK) != 0);
+		BIT_HL op = new BIT_HL();
+		op.bit_hl(bit3, val8);
 	}
 
 	public void bit_xx(int bit3, int val8) {
-		setM_zeroF((val8 & (0x01 << bit3)) == 0);
-		setM_halfcarryF(true);
-		setM_parityoverflowF(m_zeroF);
-		setM_addsubtractF( false);
-		setM_signF((val8 & (0x01 << bit3)) == 0x80);
-		setM_3F((xx16high8() & THREE_MASK) != 0);
-		setM_5F((xx16high8() & FIVE_MASK) != 0);
+//		setM_zeroF((val8 & (0x01 << bit3)) == 0);
+//		setM_halfcarryF(true);
+//		setM_parityoverflowF(m_zeroF);
+//		setM_addsubtractF( false);
+//		setM_signF((val8 & (0x01 << bit3)) == 0x80);
+//		setM_3F((xx16high8() & THREE_MASK) != 0);
+//		setM_5F((xx16high8() & FIVE_MASK) != 0);
+		BIT_XX op = new BIT_XX();
+		op.bit_xx(bit3, val8);
 	}
 
 	/**
 	 * Read an 8-bit value from a 16-bit I/O port and return it.
 	 */
 	public int in8(int port16) {
-		int work8 = m_io.in8(port16);
-		setM_signF((work8 & 0x80) != 0);
-		setM_zeroF(work8 == 0);
-		setM_halfcarryF(false);
-		setM_parityoverflowF(m_parityTable[work8]);
-		setM_addsubtractF( false);
-		setM_3F((work8 & THREE_MASK) != 0);
-		setM_5F((work8 & FIVE_MASK) != 0);
+//		int work8 = m_io.in8(port16);
+//		setM_signF((work8 & 0x80) != 0);
+//		setM_zeroF(work8 == 0);
+//		setM_halfcarryF(false);
+//		setM_parityoverflowF(m_parityTable[work8]);
+//		setM_addsubtractF( false);
+//		setM_3F((work8 & THREE_MASK) != 0);
+//		setM_5F((work8 & FIVE_MASK) != 0);
+//		return work8;
+		IN8 op = new IN8();
+		return op.in8(port16);
 
-		return work8;
 	}
 
 	/**

@@ -4,6 +4,10 @@ import pt.ist.ave.jzx.Z80;
 
 public class ADD_XX extends Operation { 
 	
+	private int _work32;
+	private int _idx;
+	private int _work8;
+
 	public void add_xx(int val16) {
 		_work32 = _cpu.getM_xx16() + val16;
 		_idx = ((_cpu.getM_xx16() & 0x800) >> 9) | ((val16 & 0x800) >> 10)

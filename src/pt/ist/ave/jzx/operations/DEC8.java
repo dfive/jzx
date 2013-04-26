@@ -6,6 +6,8 @@ import pt.ist.ave.jzx.Z80;
 
 public class DEC8 extends Operation {
 
+	private int _work8;
+
 	public DEC8() {
 		_updatedFlags = Arrays.asList(new Integer[] {
 				Z80.FLAG_ADD_SUBTRACT,

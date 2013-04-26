@@ -4,6 +4,8 @@ import pt.ist.ave.jzx.Z80;
 
 public class IN8 extends Operation {
 
+	private int _work8;
+
 	public int in8(int port16) {
 		_work8 = _cpu.getM_io().in8(port16);
 		

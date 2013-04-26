@@ -7,6 +7,7 @@ public class ADD_A extends Operation {
 	
 	private int _work16;
 	private int _my_m_a8;
+	private int _idx;
 	
 	public void add_a(int val8) {
 		

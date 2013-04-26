@@ -6,6 +6,8 @@ public class ADC_HL extends Operation {
 
 	private int _m_h8;
 	private int _hl16;
+	private int _work32;
+	private int _idx;
 
 	public void adc_hl(int val16) {
 		_hl16 = _cpu.hl16();

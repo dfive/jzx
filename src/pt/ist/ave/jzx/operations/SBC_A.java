@@ -4,6 +4,8 @@ import pt.ist.ave.jzx.Z80;
 
 public class SBC_A extends Operation {
 	private int _m_a8;
+	private int _work16;
+	private int _idx;
 	
 	public void sbc_a(int val8) {
 		_work16 = _cpu.getM_a8() - val8 - (_cpu.getM_carryF() ? 1 : 0);

@@ -6,6 +6,7 @@ public class SUB_A extends Operation {
 
 	private int _my_m_a8;
 	private int _work16;
+	private int _idx;
 
 	public void sub_a(int val8) {
 		_work16 = _cpu.getM_a8() - val8;

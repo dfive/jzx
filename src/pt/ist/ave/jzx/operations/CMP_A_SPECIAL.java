@@ -4,6 +4,9 @@ import pt.ist.ave.jzx.Z80;
 
 public class CMP_A_SPECIAL extends Operation {
 
+	private int _work16;
+	private int _idx;
+
 	public void cmp_a_special(int val8) { 
 		_work16 = _cpu.getM_a8() - val8;
 		_idx = ((_cpu.getM_a8() & 0x88) >> 1) | ((val8 & 0x88) >> 2)

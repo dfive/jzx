@@ -4,6 +4,7 @@ import pt.ist.ave.jzx.Z80;
 
 public class LDDR extends Operation {
 	private int _bc16;
+	private int _work8;
 
 	public int ldd(int work8) {
 		_bc16 = _cpu.bc16();

@@ -8,11 +8,11 @@ public abstract class Operation {
 	
 	protected static Z80 _cpu;
 	
-	protected int _val16;
-	protected int _work32;
-	protected int _idx;
-	protected int _work8;
-	protected int _work16;
+//	protected int _val16;
+//	protected int _work32;
+//	protected int _idx;
+//	protected int _work8;
+//	protected int _work16;
 	
 	protected Collection<Integer> _updatedFlags;
 	

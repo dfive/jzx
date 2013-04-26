@@ -5,6 +5,7 @@ import pt.ist.ave.jzx.Z80;
 public class CPDR extends Operation {
 
 	private int _b16;
+	private int _work8;
 
 	public int cpdr(int work8){
 		_cpu.dec16hl();

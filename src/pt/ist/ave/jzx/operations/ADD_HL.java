@@ -4,6 +4,8 @@ import pt.ist.ave.jzx.Z80;
 
 public class ADD_HL extends Operation {
 	private int _m_h8;
+	private int _work32;
+	private int _idx;
 
 	public void add_hl(int val16) {
 		_cpu.setM_x8(_cpu.getM_h8());

@@ -2,6 +2,7 @@ package pt.ist.ave.jzx.operations;
 
 public class RLC8 extends ShiftTest {
 	int _myReg8;
+	private int _work8;
 	
 	public int rlc8(int reg8) {
 		_myReg8 = reg8;

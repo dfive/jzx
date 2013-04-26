@@ -6,6 +6,7 @@ public class ADC_A extends Operation {
 
 	private int _my_m_a8;
 	private int _work16;
+	private int _idx;
 
 	public void adc_a(int val8) {
 		_work16 = _cpu.getM_a8() + val8 + (_cpu.getM_carryF() ? 1 : 0);

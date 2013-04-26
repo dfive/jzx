@@ -4,6 +4,8 @@ import pt.ist.ave.jzx.Z80;
 
 public class CPI extends Operation {
 	
+	private int _work8;
+
 	public int cpi() {
 		_cpu.setM_tstates(_cpu.getM_tstates() + 16);
 		_work8 = _cpu.getM_memory().read8(_cpu.hl16());

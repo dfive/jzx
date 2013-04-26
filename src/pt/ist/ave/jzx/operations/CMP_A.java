@@ -5,6 +5,8 @@ import pt.ist.ave.jzx.Z80;
 public class CMP_A extends Operation {
 
 	private int _val8;
+	private int _work16;
+	private int _idx;
 
 	public void cmp_a(int val8) {
 		_val8 = val8;

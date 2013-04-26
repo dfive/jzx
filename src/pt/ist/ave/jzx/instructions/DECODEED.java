@@ -1,7 +1,23 @@
 package pt.ist.ave.jzx.instructions;
 
 import pt.ist.ave.jzx.ILogger;
-import pt.ist.ave.jzx.Z80;
+import pt.ist.ave.jzx.operations.CPD;
+import pt.ist.ave.jzx.operations.CPDR;
+import pt.ist.ave.jzx.operations.CPI;
+import pt.ist.ave.jzx.operations.CPIR;
+import pt.ist.ave.jzx.operations.IND;
+import pt.ist.ave.jzx.operations.INDR;
+import pt.ist.ave.jzx.operations.INI;
+import pt.ist.ave.jzx.operations.INIR;
+import pt.ist.ave.jzx.operations.LDD;
+import pt.ist.ave.jzx.operations.LDDR;
+import pt.ist.ave.jzx.operations.LDI;
+import pt.ist.ave.jzx.operations.LDIR;
+import pt.ist.ave.jzx.operations.OTIR;
+import pt.ist.ave.jzx.operations.OUT_D;
+import pt.ist.ave.jzx.operations.OUT_I;
+import pt.ist.ave.jzx.operations.RLD;
+import pt.ist.ave.jzx.operations.RRD;
 
 public class DECODEED extends Instruction {
 
@@ -17,7 +33,7 @@ public class DECODEED extends Instruction {
 		 */
 		int work8 = 0;
 		int op8 = _cpu.mone8();
-		
+
 		switch (op8) {
 		/* in b,(c) */
 		case 0x40:
@@ -242,17 +258,19 @@ public class DECODEED extends Instruction {
 			/* rrd */
 			/* actualizar flags numa classe propria */
 		case 0x67:
-			_cpu.setM_tstates(_cpu.getM_tstates() + 18);
-			work8 = _cpu.getM_memory().read8(_cpu.hl16());
-			_cpu.getM_memory().write8(_cpu.hl16(), ((work8 >> 4) | (_cpu.getM_a8() << 4)));
-			_cpu.setM_a8((_cpu.getM_a8() & 0xf0) | (work8 & 0x0f));
-			_cpu.setM_signF(((_cpu.getM_a8() & 0x80) != 0));
-			_cpu.setM_zeroF((_cpu.getM_a8() == 0));
-			_cpu.setM_halfcarryF(false);
-			_cpu.setM_parityoverflowF(Z80.m_parityTable[_cpu.getM_a8()]);
-			_cpu.setM_addsubtractF(false);
-			_cpu.setM_3F(((_cpu.getM_a8() & Z80.THREE_MASK) != 0));
-			_cpu.setM_5F(((_cpu.getM_a8() & Z80.FIVE_MASK) != 0));
+//						_cpu.setM_tstates(_cpu.getM_tstates() + 18);
+//						work8 = _cpu.getM_memory().read8(_cpu.hl16());
+//						_cpu.getM_memory().write8(_cpu.hl16(), ((work8 >> 4) | (_cpu.getM_a8() << 4)));
+//						_cpu.setM_a8((_cpu.getM_a8() & 0xf0) | (work8 & 0x0f));
+//						_cpu.setM_signF(((_cpu.getM_a8() & 0x80) != 0));
+//						_cpu.setM_zeroF((_cpu.getM_a8() == 0));
+//						_cpu.setM_halfcarryF(false);
+//						_cpu.setM_parityoverflowF(Z80.m_parityTable[_cpu.getM_a8()]);
+//						_cpu.setM_addsubtractF(false);
+//						_cpu.setM_3F(((_cpu.getM_a8() & Z80.THREE_MASK) != 0));
+//						_cpu.setM_5F(((_cpu.getM_a8() & Z80.FIVE_MASK) != 0));
+			RRD op = new RRD();
+			work8 = op.rrd();
 			break;
 
 			/* in l,(c) */
@@ -282,17 +300,19 @@ public class DECODEED extends Instruction {
 
 			/* rld */
 		case 0x6F:						
-			_cpu.setM_tstates(_cpu.getM_tstates() + 18);
-			work8 = _cpu.getM_memory().read8(_cpu.hl16());
-			_cpu.getM_memory().write8(_cpu.hl16(), (((work8 << 4) | (_cpu.getM_a8() & 0x0f))) & 0xff);
-			_cpu.setM_a8((_cpu.getM_a8() & 0xf0) | (work8 >> 4));
-			_cpu.setM_signF(((_cpu.getM_a8() & 0x80) != 0));
-			_cpu.setM_zeroF((_cpu.getM_a8() == 0));
-			_cpu.setM_halfcarryF(false);
-			_cpu.setM_parityoverflowF(Z80.m_parityTable[_cpu.getM_a8()]);
-			_cpu.setM_addsubtractF(false);
-			_cpu.setM_3F(((_cpu.getM_a8() & Z80.THREE_MASK) != 0));
-			_cpu.setM_5F(((_cpu.getM_a8() & Z80.FIVE_MASK) != 0));
+			//			_cpu.setM_tstates(_cpu.getM_tstates() + 18);
+			//			work8 = _cpu.getM_memory().read8(_cpu.hl16());
+			//			_cpu.getM_memory().write8(_cpu.hl16(), (((work8 << 4) | (_cpu.getM_a8() & 0x0f))) & 0xff);
+			//			_cpu.setM_a8((_cpu.getM_a8() & 0xf0) | (work8 >> 4));
+			//			_cpu.setM_signF(((_cpu.getM_a8() & 0x80) != 0));
+			//			_cpu.setM_zeroF((_cpu.getM_a8() == 0));
+			//			_cpu.setM_halfcarryF(false);
+			//			_cpu.setM_parityoverflowF(Z80.m_parityTable[_cpu.getM_a8()]);
+			//			_cpu.setM_addsubtractF(false);
+			//			_cpu.setM_3F(((_cpu.getM_a8() & Z80.THREE_MASK) != 0));
+			//			_cpu.setM_5F(((_cpu.getM_a8() & Z80.FIVE_MASK) != 0));
+			RLD rldOp = new RLD();
+			work8 = rldOp.rld();
 			break;
 
 			/**
@@ -359,42 +379,48 @@ public class DECODEED extends Instruction {
 
 			/* ldi */
 		case 0xA0:
-			_cpu.setM_tstates(_cpu.getM_tstates() + 16);
-			work8 = _cpu.getM_memory().read8(_cpu.hl16());
-			_cpu.getM_memory().write8(_cpu.de16(), work8);
-			_cpu.inc16de();
-			_cpu.inc16hl();
-			_cpu.dec16bc();
-			_cpu.setM_halfcarryF(false);
-			_cpu.setM_parityoverflowF((_cpu.bc16() != 0));
-			_cpu.setM_addsubtractF(false);
-			work8 += _cpu.getM_a8();
-			_cpu.setM_3F(((work8 & Z80.THREE_MASK) != 0));
-			_cpu.setM_5F(((work8 & Z80.ONE_MASK) != 0));
+//						_cpu.setM_tstates(_cpu.getM_tstates() + 16);
+//						work8 = _cpu.getM_memory().read8(_cpu.hl16());
+//						_cpu.getM_memory().write8(_cpu.de16(), work8);
+//						_cpu.inc16de();
+//						_cpu.inc16hl();
+//						_cpu.dec16bc();
+//						_cpu.setM_halfcarryF(false);
+//						_cpu.setM_parityoverflowF((_cpu.bc16() != 0));
+//						_cpu.setM_addsubtractF(false);
+//						work8 += _cpu.getM_a8();
+//						_cpu.setM_3F(((work8 & Z80.THREE_MASK) != 0));
+//						_cpu.setM_5F(((work8 & Z80.ONE_MASK) != 0));
+			LDI ldiOp = new LDI();
+			work8 = ldiOp.ldi();
 			break;
 
 			/* cpi */
 		case 0xA1:
-			_cpu.setM_tstates(_cpu.getM_tstates() + 16);
-			work8 = _cpu.getM_memory().read8(_cpu.hl16());
-			_cpu.cmp_a_special(work8);
-			_cpu.inc16hl();
-			_cpu.dec16bc();
-			_cpu.setM_parityoverflowF((_cpu.bc16() != 0));
-			work8 = _cpu.getM_a8() - work8 - (_cpu.getM_halfcarryF() ? 1 : 0);
-			_cpu.setM_3F(((work8 & Z80.THREE_MASK) != 0));
-			_cpu.setM_5F(((work8 & Z80.ONE_MASK) != 0));
+			//			_cpu.setM_tstates(_cpu.getM_tstates() + 16);
+			//			work8 = _cpu.getM_memory().read8(_cpu.hl16());
+			//			_cpu.cmp_a_special(work8);
+			//			_cpu.inc16hl();
+			//			_cpu.dec16bc();
+			//			_cpu.setM_parityoverflowF((_cpu.bc16() != 0));
+			//			work8 = _cpu.getM_a8() - work8 - (_cpu.getM_halfcarryF() ? 1 : 0);
+			//			_cpu.setM_3F(((work8 & Z80.THREE_MASK) != 0));
+			//			_cpu.setM_5F(((work8 & Z80.ONE_MASK) != 0));
+			CPI cpiOp = new CPI();
+			work8 = cpiOp.cpi();
 			break;
 
 			/* ini */
 		case 0xA2:
-			_cpu.setM_tstates(_cpu.getM_tstates() + 16);
-			_cpu.getM_memory().write8(_cpu.hl16(), _cpu.getM_io().in8(_cpu.bc16()));
-			_cpu.setM_b8((_cpu.getM_b8() - 1) & 0xff);
-			_cpu.inc16hl();
-			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
-			_cpu.setM_addsubtractF(true);
+			//			_cpu.setM_tstates(_cpu.getM_tstates() + 16);
+			//			_cpu.getM_memory().write8(_cpu.hl16(), _cpu.getM_io().in8(_cpu.bc16()));
+			//			_cpu.setM_b8((_cpu.getM_b8() - 1) & 0xff);
+			//			_cpu.inc16hl();
+			//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
+			//			_cpu.setM_addsubtractF(true);
 			// TODO: handle 3F, 5F
+			INI iniOp = new INI();
+			iniOp.ini();
 			break;
 
 			/* outi */
@@ -402,9 +428,12 @@ public class DECODEED extends Instruction {
 			_cpu.setM_tstates(_cpu.getM_tstates() + 16);
 			_cpu.setM_b8((_cpu.getM_b8() - 1) & 0xff);
 			_cpu.getM_io().out(_cpu.bc16(), _cpu.getM_memory().read8(_cpu.hl16()));
-			_cpu.inc16hl();
-			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
-			_cpu.setM_addsubtractF(true);
+			//			_cpu.inc16hl();
+			//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
+			//			_cpu.setM_addsubtractF(true);
+			OUT_I out_iOp = new OUT_I();
+			out_iOp.out_i();
+
 			// TODO: handle 3F, 5F
 			break;
 
@@ -416,12 +445,14 @@ public class DECODEED extends Instruction {
 			_cpu.dec16de();
 			_cpu.dec16hl();
 			_cpu.dec16bc();
-			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
-			_cpu.setM_halfcarryF(false);
-			_cpu.setM_addsubtractF(false);
-			work8 += _cpu.getM_a8();
-			_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
-			_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
+//						_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
+//						_cpu.setM_halfcarryF(false);
+//						_cpu.setM_addsubtractF(false);
+//						work8 += _cpu.getM_a8();
+//						_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
+//						_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
+			LDD lddOp = new LDD();
+			work8 = lddOp.ldd(work8);
 			break;
 
 			/* cpd */
@@ -431,10 +462,12 @@ public class DECODEED extends Instruction {
 			_cpu.cmp_a_special(work8);
 			_cpu.dec16hl();
 			_cpu.dec16bc();
-			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
-			work8 = _cpu.getM_a8() - work8 - (_cpu.getM_halfcarryF() ? 1 : 0);
-			_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
-			_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
+			//			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
+			//			work8 = _cpu.getM_a8() - work8 - (_cpu.getM_halfcarryF() ? 1 : 0);
+			//			_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
+			//			_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
+			CPD cpdOp = new CPD();
+			cpdOp.cpd();
 			break;
 
 			/* ind */
@@ -443,8 +476,10 @@ public class DECODEED extends Instruction {
 			_cpu.getM_memory().write8(_cpu.hl16(), _cpu.getM_io().in8(_cpu.bc16()));
 			_cpu.setM_b8((_cpu.getM_b8() - 1) & 0xff);
 			_cpu.dec16hl();
-			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
-			_cpu.setM_addsubtractF(true);
+			//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
+			//			_cpu.setM_addsubtractF(true);
+			IND indOp = new IND();
+			indOp.ind();
 			// TODO: handle 3F, 5F
 			break;
 
@@ -454,8 +489,10 @@ public class DECODEED extends Instruction {
 			_cpu.setM_b8((_cpu.getM_b8() - 1) & 0xff);
 			_cpu.getM_io().out(_cpu.bc16(), _cpu.getM_memory().read8(_cpu.hl16()));
 			_cpu.dec16hl();
-			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
-			_cpu.setM_addsubtractF(true);
+			//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
+			//			_cpu.setM_addsubtractF(true);
+			OUT_D out_dOp = new OUT_D();
+			out_dOp.out_d();
 			// TODO: handle 3F, 5F
 			break;
 
@@ -467,16 +504,18 @@ public class DECODEED extends Instruction {
 			_cpu.inc16hl();
 			_cpu.inc16de();
 			_cpu.dec16bc();
-			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
-			_cpu.setM_halfcarryF(false);
-			_cpu.setM_addsubtractF(false);
-			if (_cpu.getM_parityoverflowF()) {
-				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
-				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
-			}
-			work8 += _cpu.getM_a8();
-			_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
-			_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
+//			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
+//			_cpu.setM_halfcarryF(false);
+//			_cpu.setM_addsubtractF(false);
+//			if (_cpu.getM_parityoverflowF()) {
+//				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
+//				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
+//			}
+//			work8 += _cpu.getM_a8();
+//			_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
+//			_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
+			LDIR ldirOp = new LDIR();
+			work8 = ldirOp.ldir(work8);
 			break;
 
 			/* cpir */
@@ -486,14 +525,16 @@ public class DECODEED extends Instruction {
 			_cpu.cmp_a_special(work8);
 			_cpu.inc16hl();
 			_cpu.dec16bc();
-			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
-			if (_cpu.getM_parityoverflowF() && !_cpu.getM_zeroF()) {
-				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
-				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
-			}
-			work8 = _cpu.getM_a8() - work8 - (_cpu.getM_halfcarryF() ? 1 : 0);
-			_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
-			_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
+//			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
+//			if (_cpu.getM_parityoverflowF() && !_cpu.getM_zeroF()) {
+//				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
+//				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
+//			}
+//			work8 = _cpu.getM_a8() - work8 - (_cpu.getM_halfcarryF() ? 1 : 0);
+//			_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
+//			_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
+			CPIR cpirOp = new CPIR();
+			work8 = cpirOp.cpir(work8);
 			break;
 
 			/* inir */
@@ -502,12 +543,14 @@ public class DECODEED extends Instruction {
 			_cpu.getM_memory().write8(_cpu.hl16(), _cpu.getM_io().in8(_cpu.bc16()));
 			_cpu.setM_b8((_cpu.getM_b8() - 1) & 0xff);
 			_cpu.inc16hl();
-			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
-			_cpu.setM_addsubtractF(true);
-			if (!_cpu.getM_zeroF()) {
-				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
-				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
-			}
+//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
+//			_cpu.setM_addsubtractF(true);
+//			if (!_cpu.getM_zeroF()) {
+//				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
+//				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
+//			}
+			INIR inirOP = new INIR();
+			inirOP.inir();
 			break;
 
 			/* otir */
@@ -516,12 +559,14 @@ public class DECODEED extends Instruction {
 			_cpu.setM_b8((_cpu.getM_b8() - 1) & 0xff);
 			_cpu.getM_io().out(_cpu.bc16(), _cpu.getM_memory().read8(_cpu.hl16()));
 			_cpu.inc16hl();
-			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
-			_cpu.setM_addsubtractF(true);
-			if (!_cpu.getM_zeroF()) {
-				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
-				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
-			}
+//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
+//			_cpu.setM_addsubtractF(true);
+//			if (!_cpu.getM_zeroF()) {
+//				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
+//				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
+//			}
+			OTIR otirOp = new OTIR();
+			otirOp.otir();
 			break;
 
 			/* lddr */
@@ -532,16 +577,18 @@ public class DECODEED extends Instruction {
 			_cpu.dec16hl();
 			_cpu.dec16de();
 			_cpu.dec16bc();
-			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
-			_cpu.setM_halfcarryF(false);
-			_cpu.setM_addsubtractF(false);
-			if (_cpu.getM_parityoverflowF()) {
-				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
-				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
-			}
-			work8 += _cpu.getM_a8();
-			_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
-			_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
+//			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
+//			_cpu.setM_halfcarryF(false);
+//			_cpu.setM_addsubtractF(false);
+//			if (_cpu.getM_parityoverflowF()) {
+//				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
+//				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
+//			}
+//			work8 += _cpu.getM_a8();
+//			_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
+//			_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
+			LDDR lddrOp = new LDDR();
+			work8 = lddrOp.ldd(work8);
 			break;
 
 			/* cpdr */
@@ -549,16 +596,18 @@ public class DECODEED extends Instruction {
 			_cpu.setM_tstates(_cpu.getM_tstates() + 16);
 			work8 = _cpu.getM_memory().read8(_cpu.hl16());
 			_cpu.cmp_a_special(work8);
-			_cpu.dec16hl();
-			_cpu.dec16bc();
-			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
-			if (_cpu.getM_parityoverflowF() && !_cpu.getM_zeroF()) {
-				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
-				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
-			}
-			work8 = _cpu.getM_a8() - work8 - (_cpu.getM_halfcarryF() ? 1 : 0);
-			_cpu.setM_3F ((work8 & Z80.THREE_MASK) != 0);
-			_cpu.setM_5F ((work8 & Z80.ONE_MASK) != 0);
+//			_cpu.dec16hl();
+//			_cpu.dec16bc();
+//			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
+//			if (_cpu.getM_parityoverflowF() && !_cpu.getM_zeroF()) {
+//				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
+//				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
+//			}
+//			work8 = _cpu.getM_a8() - work8 - (_cpu.getM_halfcarryF() ? 1 : 0);
+//			_cpu.setM_3F ((work8 & Z80.THREE_MASK) != 0);
+//			_cpu.setM_5F ((work8 & Z80.ONE_MASK) != 0);
+			CPDR cpdrOp = new CPDR();
+			work8 = cpdrOp.cpdr(work8);
 			break;
 
 			/* indr */
@@ -567,13 +616,17 @@ public class DECODEED extends Instruction {
 			_cpu.getM_memory().write8(_cpu.hl16(), _cpu.getM_io().in8(_cpu.bc16()));
 			_cpu.setM_b8((_cpu.getM_b8() - 1) & 0xff);
 			_cpu.dec16hl();
-			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
-			_cpu.setM_addsubtractF(true);
+//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
+//			_cpu.setM_addsubtractF(true);
+			INDR indrOp = new INDR();
+			indrOp.indr();
+			
 			if (!_cpu.getM_zeroF()) {
 				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
 				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
 			}
-			// TODO: handle 3F, 5F
+			
+//			// TODO: handle 3F, 5F
 			break;
 
 			/* otdr */
@@ -582,8 +635,12 @@ public class DECODEED extends Instruction {
 			_cpu.setM_b8((_cpu.getM_b8() - 1) & 0xff);
 			_cpu.getM_io().out(_cpu.bc16(), _cpu.getM_memory().read8(_cpu.hl16()));
 			_cpu.dec16hl();
-			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
-			_cpu.setM_addsubtractF(true);
+//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
+//			_cpu.setM_addsubtractF(true);
+			
+			INDR otdrOp = new INDR();
+			otdrOp.indr();
+			
 			if (!_cpu.getM_zeroF()) {
 				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
 				_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));

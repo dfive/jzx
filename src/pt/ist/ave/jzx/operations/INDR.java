@@ -1,24 +1,20 @@
 package pt.ist.ave.jzx.operations;
 
-import pt.ist.ave.jzx.Z80;
+public class INDR extends Operation {
 
-public class CMP_A_SPECIAL extends Operation {
+	private int _b8;
 
-	public void cmp_a_special(int val8) { 
-		_work16 = _cpu.getM_a8() - val8;
-		_idx = ((_cpu.getM_a8() & 0x88) >> 1) | ((val8 & 0x88) >> 2)
-				| ((_work16 & 0x88) >> 3);
-		
-		_cpu.setM_signF(getM_signF());
+	public void indr(){
+		_b8 = _cpu.getM_b8();
 		_cpu.setM_zeroF(getM_zeroF());
-		_cpu.setM_halfcarryF(getM_halfcarryF());
 		_cpu.setM_addsubtractF(getM_addsubtractF());
 		
+		// TODO: handle 3F, 5F
 	}
-	
+
 	@Override
 	public boolean getM_carryF() {
-		notImplementedError("getM_carryF");
+		// TODO Auto-generated method stub
 		return false;
 	}
 
@@ -29,35 +25,36 @@ public class CMP_A_SPECIAL extends Operation {
 
 	@Override
 	public boolean getM_parityoverflowF() {
-		notImplementedError("getM_parityoverflowF");
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean getM_halfcarryF() {
-		return Z80.m_subhalfcarryTable[_idx & 0x7];
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public boolean getM_zeroF() {
-		return (_work16 & 0xff) == 0;
+		return _b8 == 0;
 	}
 
 	@Override
 	public boolean getM_signF() {
-		return (_work16 & 0x80) != 0;
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 	@Override
 	public boolean getM_5F() {
-		notImplementedError("getM_5F");
+		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean getM_3F() {
-		notImplementedError("getM_3F");
+		// TODO Auto-generated method stub
 		return false;
 	}
-
 }

@@ -2,20 +2,23 @@ package pt.ist.ave.jzx.operations;
 
 import pt.ist.ave.jzx.Z80;
 
-public class CMP_A_SPECIAL extends Operation {
+public class LDD extends Operation {
 
-	public void cmp_a_special(int val8) { 
-		_work16 = _cpu.getM_a8() - val8;
-		_idx = ((_cpu.getM_a8() & 0x88) >> 1) | ((val8 & 0x88) >> 2)
-				| ((_work16 & 0x88) >> 3);
-		
-		_cpu.setM_signF(getM_signF());
-		_cpu.setM_zeroF(getM_zeroF());
+
+	private int _bc16;
+
+	public int ldd(int work8) {
+		_bc16 = _cpu.bc16();
+		_cpu.setM_parityoverflowF(getM_parityoverflowF());
 		_cpu.setM_halfcarryF(getM_halfcarryF());
 		_cpu.setM_addsubtractF(getM_addsubtractF());
-		
+		work8 += _cpu.getM_a8();
+		_work8 = work8;
+		_cpu.setM_3F(getM_3F());
+		_cpu.setM_5F(getM_5F());
+		return work8;
 	}
-	
+
 	@Override
 	public boolean getM_carryF() {
 		notImplementedError("getM_carryF");
@@ -24,40 +27,39 @@ public class CMP_A_SPECIAL extends Operation {
 
 	@Override
 	public boolean getM_addsubtractF() {
-		return true;
+		return false;
 	}
 
 	@Override
 	public boolean getM_parityoverflowF() {
-		notImplementedError("getM_parityoverflowF");
-		return false;
+		return _bc16 != 0;
 	}
 
 	@Override
 	public boolean getM_halfcarryF() {
-		return Z80.m_subhalfcarryTable[_idx & 0x7];
+		return false;
 	}
 
 	@Override
 	public boolean getM_zeroF() {
-		return (_work16 & 0xff) == 0;
+		notImplementedError("getM_zeroF");
+		return false;
 	}
 
 	@Override
 	public boolean getM_signF() {
-		return (_work16 & 0x80) != 0;
+		notImplementedError("getM_signF");
+		return false;
 	}
 
 	@Override
 	public boolean getM_5F() {
-		notImplementedError("getM_5F");
-		return false;
+		return (_work8 & Z80.ONE_MASK) != 0;
 	}
 
 	@Override
 	public boolean getM_3F() {
-		notImplementedError("getM_3F");
-		return false;
+		return (_work8 & Z80.THREE_MASK) != 0;
 	}
 
 }

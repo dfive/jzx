@@ -7,6 +7,7 @@ import pt.ist.ave.jzx.instructions.Instruction;
 import pt.ist.ave.jzx.instructions.InstructionFactory;
 import pt.ist.ave.jzx.operations.ADC_A;
 import pt.ist.ave.jzx.operations.ADD_A;
+import pt.ist.ave.jzx.operations.AND_A_OPERATION;
 import pt.ist.ave.jzx.operations.DEC8;
 import pt.ist.ave.jzx.operations.INC8;
 import pt.ist.ave.jzx.operations.LD_A_SPECIAL;
@@ -16,6 +17,7 @@ import pt.ist.ave.jzx.operations.RRC8;
 import pt.ist.ave.jzx.operations.SBC_A;
 import pt.ist.ave.jzx.operations.SUB_A;
 import pt.ist.ave.jzx.operations.ShiftTest;
+import pt.ist.ave.jzx.operations.XOR_A_Operation;
 
 /**
  * The Z80 CPU component of the Spectrum emulator.
@@ -1533,30 +1535,36 @@ public class Z80 extends BaseComponent {
 	 * And a 8-bit value to the A register and set the appropriate flags.
 	 */
 	public void and_a(int val8) {
-		m_a8 &= val8;
-		setM_signF((m_a8 & 0x80) != 0);
-		setM_zeroF(m_a8 == 0);
-		setM_halfcarryF(true);
-		setM_parityoverflowF(m_parityTable[m_a8]);
-		setM_addsubtractF( false);
-		setM_carryF(false);
-		setM_3F((m_a8 & THREE_MASK) != 0);
-		setM_5F((m_a8 & FIVE_MASK) != 0);
+//		m_a8 &= val8;
+//		setM_signF((m_a8 & 0x80) != 0);
+//		setM_zeroF(m_a8 == 0);
+//		setM_halfcarryF(true);
+//		setM_parityoverflowF(m_parityTable[m_a8]);
+//		setM_addsubtractF( false);
+//		setM_carryF(false);
+//		setM_3F((m_a8 & THREE_MASK) != 0);
+//		setM_5F((m_a8 & FIVE_MASK) != 0);
+		AND_A_OPERATION op = new AND_A_OPERATION();
+		op.and_a(val8);
 	}
 
 	/**
 	 * Xor a 8-bit value to the A register and set the appropriate flags.
 	 */
 	public void xor_a(int val8) {
-		m_a8 ^= val8;
-		setM_signF((m_a8 & 0x80) != 0);
-		setM_zeroF(m_a8 == 0);
-		setM_halfcarryF(false);
-		setM_parityoverflowF(m_parityTable[m_a8]);
-		setM_addsubtractF( false);
-		setM_carryF(false);
-		setM_3F((m_a8 & THREE_MASK) != 0);
-		setM_5F((m_a8 & FIVE_MASK) != 0);
+//		m_a8 ^= val8;
+//		setM_signF((m_a8 & 0x80) != 0);
+//		setM_zeroF(m_a8 == 0);
+//		setM_halfcarryF(false);
+//		setM_parityoverflowF(m_parityTable[m_a8]);
+//		setM_addsubtractF( false);
+//		setM_carryF(false);
+//		setM_3F((m_a8 & THREE_MASK) != 0);
+//		setM_5F((m_a8 & FIVE_MASK) != 0);
+		
+		XOR_A_Operation op = new XOR_A_Operation();
+		op.xor_a(val8);
+		
 	}
 
 	/**

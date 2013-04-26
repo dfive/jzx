@@ -5,11 +5,15 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import pt.ist.ave.jzx.instructions.Instruction;
 import pt.ist.ave.jzx.instructions.InstructionFactory;
+import pt.ist.ave.jzx.operations.ADC_A;
+import pt.ist.ave.jzx.operations.ADD_A;
 import pt.ist.ave.jzx.operations.DEC8;
 import pt.ist.ave.jzx.operations.INC8;
+import pt.ist.ave.jzx.operations.LD_A_SPECIAL;
 import pt.ist.ave.jzx.operations.Operation;
 import pt.ist.ave.jzx.operations.RLC8;
 import pt.ist.ave.jzx.operations.RRC8;
+import pt.ist.ave.jzx.operations.SUB_A;
 import pt.ist.ave.jzx.operations.ShiftTest;
 
 /**
@@ -1335,8 +1339,9 @@ public class Z80 extends BaseComponent {
 		int work8 = ((reg8 << 1) | (m_carryF ? 1 : 0)) & 0xff;
 		setM_carryF(carry);
 		shift_test(work8);
-
 		return work8;
+//		RL8 op = new RL8();
+//		return op.rl8(reg8);
 	}
 
 	/**
@@ -1428,33 +1433,36 @@ public class Z80 extends BaseComponent {
 	}
 
 	public void ld_a_special(int reg8) {
-		m_a8 = reg8;
-		setM_signF((m_a8 & 0x80) != 0);
-		setM_zeroF(m_a8 == 0);
-		setM_halfcarryF(false);
-		setM_parityoverflowF(m_iff1b != 0);
-		setM_addsubtractF( false);
-		setM_3F((m_a8 & THREE_MASK) != 0);
-		setM_5F((m_a8 & FIVE_MASK) != 0);
-
+//		m_a8 = reg8;
+//		setM_signF((m_a8 & 0x80) != 0);
+//		setM_zeroF(m_a8 == 0);
+//		setM_halfcarryF(false);
+//		setM_parityoverflowF(m_iff1b != 0);
+//		setM_addsubtractF( false);
+//		setM_3F((m_a8 & THREE_MASK) != 0);
+//		setM_5F((m_a8 & FIVE_MASK) != 0);
+		LD_A_SPECIAL op = new LD_A_SPECIAL();
+		op.ld_a_special(reg8);
 	}
 
 	/**
 	 * Add a 8-bit value to the A register and set the appropriate flags.
 	 */
 	public void add_a(int val8) {
-		int work16 = m_a8 + val8;
-		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
-				| ((work16 & 0x88) >> 3);
-		m_a8 = work16 & 0xff;
-		setM_signF((m_a8 & 0x80) != 0);
-		setM_zeroF(m_a8 == 0);
-		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
-		setM_parityoverflowF(m_overflowTable[idx >> 4]);
-		setM_addsubtractF( false);
-		setM_carryF((work16 & 0x100) != 0);
-		setM_3F((m_a8 & THREE_MASK) != 0);
-		setM_5F((m_a8 & FIVE_MASK) != 0);
+//		int work16 = m_a8 + val8;
+//		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
+//				| ((work16 & 0x88) >> 3);
+//		m_a8 = work16 & 0xff;
+//		setM_signF((m_a8 & 0x80) != 0);
+//		setM_zeroF(m_a8 == 0);
+//		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
+//		setM_parityoverflowF(m_overflowTable[idx >> 4]);
+//		setM_addsubtractF( false);
+//		setM_carryF((work16 & 0x100) != 0);
+//		setM_3F((m_a8 & THREE_MASK) != 0);
+//		setM_5F((m_a8 & FIVE_MASK) != 0);
+		ADD_A op = new ADD_A();
+		op.add_a(val8);
 	}
 
 	/**
@@ -1462,36 +1470,40 @@ public class Z80 extends BaseComponent {
 	 * flags.
 	 */
 	public void adc_a(int val8) {
-		int work16 = m_a8 + val8 + (m_carryF ? 1 : 0);
-		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
-				| ((work16 & 0x88) >> 3);
-		m_a8 = work16 & 0xff;
-		setM_signF((m_a8 & 0x80) != 0);
-		setM_zeroF(m_a8 == 0);
-		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
-		setM_parityoverflowF(m_overflowTable[idx >> 4]);
-		setM_addsubtractF( false);
-		setM_carryF((work16 & 0x100) != 0);
-		setM_3F((m_a8 & THREE_MASK) != 0);
-		setM_5F((m_a8 & FIVE_MASK) != 0);
+//		int work16 = m_a8 + val8 + (m_carryF ? 1 : 0);
+//		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
+//				| ((work16 & 0x88) >> 3);
+//		m_a8 = work16 & 0xff;
+//		setM_signF((m_a8 & 0x80) != 0);
+//		setM_zeroF(m_a8 == 0);
+//		setM_halfcarryF(m_halfcarryTable[idx & 0x7]);
+//		setM_parityoverflowF(m_overflowTable[idx >> 4]);
+//		setM_addsubtractF( false);
+//		setM_carryF((work16 & 0x100) != 0);
+//		setM_3F((m_a8 & THREE_MASK) != 0);
+//		setM_5F((m_a8 & FIVE_MASK) != 0);
+		ADC_A op = new ADC_A();
+		op.adc_a(val8);
 	}
 
 	/**
 	 * Subtract a 8-bit value from the A register and set the appropriate flags.
 	 */
 	public void sub_a(int val8) {
-		int work16 = m_a8 - val8;
-		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
-				| ((work16 & 0x88) >> 3);
-		m_a8 = work16 & 0xff;
-		setM_signF((m_a8 & 0x80) != 0);
-		setM_zeroF(m_a8 == 0);
-		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
-		setM_parityoverflowF(m_suboverflowTable[idx >> 4]);
-		setM_addsubtractF( true);
-		setM_carryF((work16 & 0x100) != 0);
-		setM_3F((m_a8 & THREE_MASK) != 0);
-		setM_5F((m_a8 & FIVE_MASK) != 0);
+//		int work16 = m_a8 - val8;
+//		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
+//				| ((work16 & 0x88) >> 3);
+//		m_a8 = work16 & 0xff;
+//		setM_signF((m_a8 & 0x80) != 0);
+//		setM_zeroF(m_a8 == 0);
+//		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
+//		setM_parityoverflowF(m_suboverflowTable[idx >> 4]);
+//		setM_addsubtractF( true);
+//		setM_carryF((work16 & 0x100) != 0);
+//		setM_3F((m_a8 & THREE_MASK) != 0);
+//		setM_5F((m_a8 & FIVE_MASK) != 0);
+		SUB_A op = new SUB_A();
+		op.sub_a(val8);
 	}
 
 	/**

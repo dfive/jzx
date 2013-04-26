@@ -1,57 +1,20 @@
 package pt.ist.ave.jzx.operations;
 
-public class RL8 extends Operation {
-
-	public RL8() {
-		// TODO Auto-generated constructor stub
+public class RL8 extends ShiftTest {
+	
+	boolean _carry;
+	
+	public int rl8(int reg8) {
+		_carry = ((reg8 & 0x80) != 0);
+		int work8 = ((reg8 << 1) | (_carry ? 1 : 0)) & 0xff;
+		_cpu.setM_carryF(_carry);
+		shiftTest(work8);
+		return work8;
 	}
 
 	@Override
 	public boolean getM_carryF() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getM_addsubtractF() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getM_parityoverflowF() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getM_halfcarryF() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getM_zeroF() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getM_signF() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getM_5F() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean getM_3F() {
-		// TODO Auto-generated method stub
-		return false;
+		return _carry;
 	}
 
 }

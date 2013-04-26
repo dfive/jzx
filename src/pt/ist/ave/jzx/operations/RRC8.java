@@ -2,19 +2,19 @@ package pt.ist.ave.jzx.operations;
 
 public class RRC8 extends ShiftTest {
 
-	int _myReg8;
+	boolean _carry;
 	
 	public int rcc8(int reg8) {
-		_myReg8 = reg8;
-		_cpu.setM_carryF(getM_carryF());
-		_work8 = ((reg8 >> 1) | ((getM_carryF() ? 1 : 0) << 7));
-		shiftTest(reg8);
-		return _work8;
+		_carry = (reg8 & 0x01) != 0;
+		int work8 = ((reg8 >> 1) | ((_carry ? 1 : 0) << 7));
+		_cpu.setM_carryF(_carry);
+		shiftTest(work8);
+		return work8;
 	}
 	
 	@Override
 	public boolean getM_carryF() {
-		return (_myReg8 & 0x01) != 0;
+		return _carry;
 	}
 
 }

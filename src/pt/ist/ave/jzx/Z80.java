@@ -11,9 +11,15 @@ import pt.ist.ave.jzx.operations.ADD_XX;
 import pt.ist.ave.jzx.operations.DEC8;
 import pt.ist.ave.jzx.operations.INC8;
 import pt.ist.ave.jzx.operations.Operation;
+import pt.ist.ave.jzx.operations.RL8;
 import pt.ist.ave.jzx.operations.RLC8;
+import pt.ist.ave.jzx.operations.RR8;
 import pt.ist.ave.jzx.operations.RRC8;
 import pt.ist.ave.jzx.operations.SBC_HL;
+import pt.ist.ave.jzx.operations.SLA8;
+import pt.ist.ave.jzx.operations.SLI8;
+import pt.ist.ave.jzx.operations.SRA8;
+import pt.ist.ave.jzx.operations.SRL8;
 import pt.ist.ave.jzx.operations.ShiftTest;
 
 /**
@@ -1310,9 +1316,7 @@ public class Z80 extends BaseComponent {
 	 */
 	public int dec8(int reg8) {
 		DEC8 op = new DEC8();
-		int work8 = op.dec8(reg8);
-
-		return work8;
+		return op.dec8(reg8);
 	}
 
 	/**
@@ -1338,13 +1342,13 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int rl8(int reg8) {
-		boolean carry = ((reg8 & 0x80) != 0);
-		int work8 = ((reg8 << 1) | (m_carryF ? 1 : 0)) & 0xff;
-		setM_carryF(carry);
-		shift_test(work8);
-		return work8;
-		//		RL8 op = new RL8();
-		//		return op.rl8(reg8);
+//		boolean carry = ((reg8 & 0x80) != 0);
+//		int work8 = ((reg8 << 1) | (m_carryF ? 1 : 0)) & 0xff;
+//		setM_carryF(carry);
+//		shift_test(work8);
+//		return work8;
+		RL8 op = new RL8();
+		return op.rl8(reg8);
 	}
 
 	/**
@@ -1352,12 +1356,14 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int rr8(int reg8) {
-		boolean carry = ((reg8 & 0x01) != 0);
-		int work8 = ((reg8 >> 1) | ((m_carryF ? 1 : 0) << 7));
-		setM_carryF(carry);
-		shift_test(work8);
-
-		return work8;
+//		boolean carry = ((reg8 & 0x01) != 0);
+//		int work8 = ((reg8 >> 1) | ((m_carryF ? 1 : 0) << 7));
+//		setM_carryF(carry);
+//		shift_test(work8);
+//
+//		return work8;
+		RR8 op = new RR8();
+		return op.rr8(reg8);
 	}
 
 	/**
@@ -1365,11 +1371,13 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int sla8(int reg8) {
-		setM_carryF((reg8 & 0x80) != 0);
-		int work8 = (reg8 << 1) & 0xff;
-		shift_test(work8);
-
-		return work8;
+//		setM_carryF((reg8 & 0x80) != 0);
+//		int work8 = (reg8 << 1) & 0xff;
+//		shift_test(work8);
+//
+//		return work8;
+		SLA8 op = new SLA8();
+		return op.sla8(reg8);
 	}
 
 	/**
@@ -1377,12 +1385,14 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int sra8(int reg8) {
-		setM_carryF((reg8 & 0x01) != 0);
-		int work8 = (reg8 & 0x80);
-		work8 = ((reg8 >> 1) | work8);
-		shift_test(work8);
-
-		return work8;
+//		setM_carryF((reg8 & 0x01) != 0);
+//		int work8 = (reg8 & 0x80);
+//		work8 = ((reg8 >> 1) | work8);
+//		shift_test(work8);
+//
+//		return work8;
+		SRA8 op = new SRA8();
+		return op.sra8(reg8);
 	}
 
 	/**
@@ -1390,11 +1400,13 @@ public class Z80 extends BaseComponent {
 	 * the appropriate flags.
 	 */
 	public int sli8(int reg8) {
-		setM_carryF((reg8 & 0x80) != 0);
-		int work8 = ((reg8 << 1) | 0x01) & 0xff;
-		shift_test(work8);
-
-		return work8;
+//		setM_carryF((reg8 & 0x80) != 0);
+//		int work8 = ((reg8 << 1) | 0x01) & 0xff;
+//		shift_test(work8);
+//
+//		return work8;
+		SLI8 op = new SLI8();
+		return op.sli8(reg8);
 	}
 
 	/**
@@ -1402,19 +1414,13 @@ public class Z80 extends BaseComponent {
 	 * the appropriate flags.
 	 */
 	public int srl8(int reg8) {
-		setM_carryF((reg8 & 0x01) != 0);
-		int work8 = (reg8 >> 1);
-		shift_test(work8);
-
-		return work8;
-	}
-
-	/**
-	 * Set the appropriate flags as a result of a shift operation.
-	 */
-	public void shift_test(int reg8) {
-		ShiftTest shiftTest = new ShiftTest();
-		shiftTest.shiftTest(reg8);
+//		setM_carryF((reg8 & 0x01) != 0);
+//		int work8 = (reg8 >> 1);
+//		shift_test(work8);
+//
+//		return work8;
+		SRL8 op = new SRL8();
+		return op.srl8(reg8);
 	}
 
 	/**

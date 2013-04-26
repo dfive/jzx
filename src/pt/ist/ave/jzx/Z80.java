@@ -1438,54 +1438,26 @@ public class Z80 extends BaseComponent {
 	 * except PARITY and CARRY.
 	 */
 	public void cmp_a_special(int val8) {
-//		int work16 = m_a8 - val8;
-//		int idx = ((m_a8 & 0x88) >> 1) | ((val8 & 0x88) >> 2)
-//				| ((work16 & 0x88) >> 3);
-//		setM_signF((work16 & 0x80) != 0);
-//		setM_zeroF((work16 & 0xff) == 0);
-//		setM_halfcarryF(m_subhalfcarryTable[idx & 0x7]);
-//		setM_addsubtractF( true);
-				CMP_A_SPECIAL op = new CMP_A_SPECIAL();
-				op.cmp_a_special(val8);
+		CMP_A_SPECIAL op = new CMP_A_SPECIAL();
+		op.cmp_a_special(val8);
 	}
 
 	/**
 	 * Test the given bit in a byte and set the appropriate flags.
 	 */
 	public void bit(int bit3, int reg8) {
-//		setM_zeroF((reg8 & (0x01 << bit3)) == 0);
-//		setM_halfcarryF(true);
-//		setM_parityoverflowF(m_zeroF);
-//		setM_addsubtractF( false);
-//		setM_signF((reg8 & (0x01 << bit3)) == 0x80);
-//		setM_3F(bit3 == 3 && !m_zeroF);
-//		setM_5F(bit3 == 5 && !m_zeroF);
-				BIT_Operation op = new BIT_Operation();
-				op.bit(bit3, reg8);
+		BIT_Operation op = new BIT_Operation();
+		op.bit(bit3, reg8);
 	}
 
 	public void bit_hl(int bit3, int val8) {
-//		setM_zeroF((val8 & (0x01 << bit3)) == 0);
-//		setM_halfcarryF(true);
-//		setM_parityoverflowF(m_zeroF);
-//		setM_addsubtractF( false);
-//		setM_signF((val8 & (0x01 << bit3)) == 0x80);
-//		setM_3F((m_x8 & THREE_MASK) != 0);
-//		setM_5F((m_x8 & FIVE_MASK) != 0);
-				BIT_HL op = new BIT_HL();
-				op.bit_hl(bit3, val8);
+		BIT_HL op = new BIT_HL();
+		op.bit_hl(bit3, val8);
 	}
 
 	public void bit_xx(int bit3, int val8) {
-		setM_zeroF((val8 & (0x01 << bit3)) == 0);
-		setM_halfcarryF(true);
-		setM_parityoverflowF(m_zeroF);
-		setM_addsubtractF( false);
-		setM_signF((val8 & (0x01 << bit3)) == 0x80);
-		setM_3F((xx16high8() & THREE_MASK) != 0);
-		setM_5F((xx16high8() & FIVE_MASK) != 0);
-//		BIT_XX op = new BIT_XX();
-//		op.bit_xx(bit3, val8);
+		BIT_XX op = new BIT_XX();
+		op.bit_xx(bit3, val8);
 	}
 
 	/**

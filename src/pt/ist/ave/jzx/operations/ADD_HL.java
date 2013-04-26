@@ -1,59 +1,71 @@
 package pt.ist.ave.jzx.operations;
 
-public class ADD_HL extends Operation {
+import pt.ist.ave.jzx.Z80;
 
-	private int _val16;
-	
-	public ADD_HL(int val16) {
-		_val16 = val16;
+public class ADD_HL extends Operation {
+	private int _m_h8;
+
+	public void add_hl(int val16) {
+		_cpu.setM_x8(_cpu.getM_h8());
+
+		int hl16 = _cpu.hl16();
+		_work32 = hl16 + val16;
+		_idx = ((hl16 & 0x800) >> 9) | ((val16 & 0x800) >> 10)
+				| ((_work32 & 0x800) >> 11);
+
+		_cpu.hl16(_work32 & 0xffff);
+
+		_m_h8 = _cpu.getM_h8();
+
+
+		_cpu.setM_halfcarryF(getM_halfcarryF());
+		_cpu.setM_addsubtractF(getM_addsubtractF());
+		_cpu.setM_carryF(getM_carryF());
+		_cpu.setM_3F(getM_3F());
+		_cpu.setM_5F(getM_5F());
 	}
 
 	@Override
 	public boolean getM_carryF() {
-		// TODO Auto-generated method stub
-		return false;
+		return (_work32 & 0x10000) != 0;
 	}
 
 	@Override
 	public boolean getM_addsubtractF() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean getM_parityoverflowF() {
-		// TODO Auto-generated method stub
+		notImplementedError("getM_parityoverflowF");
 		return false;
 	}
 
 	@Override
 	public boolean getM_halfcarryF() {
-		// TODO Auto-generated method stub
-		return false;
+		return Z80.m_halfcarryTable[_idx];
 	}
 
 	@Override
 	public boolean getM_zeroF() {
-		// TODO Auto-generated method stub
+		notImplementedError("getM_zeroF");
 		return false;
 	}
 
 	@Override
 	public boolean getM_signF() {
-		// TODO Auto-generated method stub
+		notImplementedError("getM_signF");
 		return false;
 	}
 
 	@Override
 	public boolean getM_5F() {
-		// TODO Auto-generated method stub
-		return false;
+		return (_m_h8 & Z80.FIVE_MASK) != 0;
 	}
 
 	@Override
 	public boolean getM_3F() {
-		// TODO Auto-generated method stub
-		return false;
+		return (_m_h8 & Z80.THREE_MASK) != 0;
 	}
 
 }

@@ -23,10 +23,10 @@ public class RL8 extends ShiftTest {
 		_carry = ((reg8 & 0x80) != 0);
 		int work8 = ((reg8 << 1) | (_cpu.getM_carryF() ? 1 : 0)) & 0xff;
 		
-		_cpu.setM_carryF(_carry);
+//		_cpu.setM_carryF(_carry);
 		
 		shiftTest(work8);
-//		updateFlags();
+		updateFlags();
 		
 		return work8;
 	}

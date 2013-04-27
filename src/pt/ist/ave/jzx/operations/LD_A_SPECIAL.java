@@ -23,14 +23,14 @@ public class LD_A_SPECIAL extends Operation {
 		
 		_cpu.setM_a8(_myReg8);
 
-		_cpu.setM_signF(getM_signF());
-		_cpu.setM_zeroF(getM_zeroF());
-		_cpu.setM_halfcarryF(getM_halfcarryF());
-		_cpu.setM_parityoverflowF(getM_parityoverflowF());
-		_cpu.setM_addsubtractF(getM_addsubtractF());
-		_cpu.setM_3F(getM_3F());
-		_cpu.setM_5F(getM_5F());
-//		updateFlags();
+//		_cpu.setM_signF(getM_signF());
+//		_cpu.setM_zeroF(getM_zeroF());
+//		_cpu.setM_halfcarryF(getM_halfcarryF());
+//		_cpu.setM_parityoverflowF(getM_parityoverflowF());
+//		_cpu.setM_addsubtractF(getM_addsubtractF());
+//		_cpu.setM_3F(getM_3F());
+//		_cpu.setM_5F(getM_5F());
+		updateFlags();
 	}
 	
 	@Override

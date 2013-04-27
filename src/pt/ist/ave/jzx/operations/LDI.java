@@ -15,10 +15,10 @@ public class LDI extends Operation {
 	public void ldi() {
 		_bc16 = _cpu.bc16();
 		
-		_cpu.setM_halfcarryF(getM_halfcarryF());
-		_cpu.setM_parityoverflowF(getM_parityoverflowF());
-		_cpu.setM_addsubtractF(getM_addsubtractF());
-//		updateFlags();
+//		_cpu.setM_halfcarryF(getM_halfcarryF());
+//		_cpu.setM_parityoverflowF(getM_parityoverflowF());
+//		_cpu.setM_addsubtractF(getM_addsubtractF());
+		updateFlags();
 	}
 
 	@Override

@@ -15,9 +15,9 @@ public class INI extends Operation {
 		
 		_b8 = _cpu.getM_b8();
 		
-		_cpu.setM_zeroF(getM_zeroF());
-		_cpu.setM_addsubtractF(getM_addsubtractF());
-//		updateFlags();
+//		_cpu.setM_zeroF(getM_zeroF());
+//		_cpu.setM_addsubtractF(getM_addsubtractF());
+		updateFlags();
 		
 		// TODO: handle 3F, 5F
 	}

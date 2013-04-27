@@ -24,16 +24,16 @@ public class ADD_XX extends Operation {
 				| ((_work32 & 0x800) >> 11);
 		_cpu.setM_xx16(_work32 & 0xffff);
 		
-		_cpu.setM_halfcarryF(getM_halfcarryF());
-		_cpu.setM_addsubtractF(getM_addsubtractF());
-		_cpu.setM_carryF(getM_carryF());
+//		_cpu.setM_halfcarryF(getM_halfcarryF());
+//		_cpu.setM_addsubtractF(getM_addsubtractF());
+//		_cpu.setM_carryF(getM_carryF());
 
 		_work8 = _cpu.getM_xx16() >> 8;
 		
-		_cpu.setM_3F(getM_3F());
-		_cpu.setM_5F(getM_5F());
+//		_cpu.setM_3F(getM_3F());
+//		_cpu.setM_5F(getM_5F());
 
-//		updateFlags();
+		updateFlags();
 	}
 
 	@Override

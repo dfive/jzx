@@ -20,9 +20,9 @@ public class RRC8 extends ShiftTest {
 	public int rcc8(int reg8) {
 		_carry = (reg8 & 0x01) != 0;
 		int work8 = ((reg8 >> 1) | ((_carry ? 1 : 0) << 7));
-		_cpu.setM_carryF(_carry);
+//		_cpu.setM_carryF(_carry);
 		shiftTest(work8);
-//		updateFlags();
+		updateFlags();
 		return work8;
 	}
 	

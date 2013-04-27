@@ -15,10 +15,10 @@ public class ED_3_5 extends Operation {
 	public void update5_3(int work8){
 		_work8 = work8;
 		
-		_cpu.setM_3F(getM_3F());
-		_cpu.setM_5F(getM_5F());
+//		_cpu.setM_3F(getM_3F());
+//		_cpu.setM_5F(getM_5F());
 		
-//		updateFlags();
+		updateFlags();
 	}
 	
 	@Override

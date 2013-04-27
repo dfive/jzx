@@ -30,12 +30,12 @@ public class ADD_HL extends Operation {
 		_m_h8 = _cpu.getM_h8();
 
 
-		_cpu.setM_halfcarryF(getM_halfcarryF());
-		_cpu.setM_addsubtractF(getM_addsubtractF());
-		_cpu.setM_carryF(getM_carryF());
-		_cpu.setM_3F(getM_3F());
-		_cpu.setM_5F(getM_5F());
-//		updateFlags();
+//		_cpu.setM_halfcarryF(getM_halfcarryF());
+//		_cpu.setM_addsubtractF(getM_addsubtractF());
+//		_cpu.setM_carryF(getM_carryF());
+//		_cpu.setM_3F(getM_3F());
+//		_cpu.setM_5F(getM_5F());
+		updateFlags();
 	}
 
 	@Override

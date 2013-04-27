@@ -19,11 +19,11 @@ public class SLI8 extends ShiftTest {
 	}
 	public int sli8(int reg8) {
 		_carry = ((reg8 & 0x80) != 0);
-		_cpu.setM_carryF(_carry);
-		
+		//		_cpu.setM_carryF(_carry);
+
 		int work8 = ((reg8 << 1) | 0x01) & 0xff;
 		shiftTest(work8);
-updateFlags();
+		updateFlags();
 		return work8;
 	}
 

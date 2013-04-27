@@ -29,15 +29,15 @@ public class ADC_A extends Operation {
 		_my_m_a8 = _work16 & 0xff;
 		_cpu.setM_a8(_my_m_a8);
 
-//		updateFlags();
-		_cpu.setM_signF(getM_signF());
-		_cpu.setM_zeroF(getM_zeroF());
-		_cpu.setM_halfcarryF(getM_halfcarryF());
-		_cpu.setM_parityoverflowF(getM_parityoverflowF());
-		_cpu.setM_addsubtractF(getM_addsubtractF());
-		_cpu.setM_carryF(getM_carryF());
-		_cpu.setM_3F(getM_3F());
-		_cpu.setM_5F(getM_5F());
+		updateFlags();
+//		_cpu.setM_signF(getM_signF());
+//		_cpu.setM_zeroF(getM_zeroF());
+//		_cpu.setM_halfcarryF(getM_halfcarryF());
+//		_cpu.setM_parityoverflowF(getM_parityoverflowF());
+//		_cpu.setM_addsubtractF(getM_addsubtractF());
+//		_cpu.setM_carryF(getM_carryF());
+//		_cpu.setM_3F(getM_3F());
+//		_cpu.setM_5F(getM_5F());
 	}
 
 	@Override

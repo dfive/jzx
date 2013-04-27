@@ -19,11 +19,11 @@ public class SRL8 extends ShiftTest {
 	}
 	public int srl8(int reg8) {
 		_carry = ((reg8 & 0x01) != 0);
-		_cpu.setM_carryF(getM_carryF());
+//		_cpu.setM_carryF(getM_carryF());
 		
 		int work8 = (reg8 >> 1);
 		shiftTest(work8);
-//		updateFlags();
+		updateFlags();
 		return work8;
 	}
 

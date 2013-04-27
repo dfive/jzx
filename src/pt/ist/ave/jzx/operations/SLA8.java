@@ -21,11 +21,11 @@ public class SLA8 extends ShiftTest {
 		
 		_carry = (reg8 & 0x80) != 0;
 		
-		_cpu.setM_carryF(getM_carryF());
+//		_cpu.setM_carryF(getM_carryF());
 		
 		int work8 = (reg8 << 1) & 0xff;
 		shiftTest(work8);
-//		updateFlags();
+		updateFlags();
 		return work8;
 	}
 

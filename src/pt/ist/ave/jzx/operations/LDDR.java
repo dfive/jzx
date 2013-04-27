@@ -13,11 +13,11 @@ public class LDDR extends Operation {
 	}
 	public int ldd(int work8) {
 		_bc16 = _cpu.bc16();
-		_cpu.setM_parityoverflowF(getM_parityoverflowF());
-		_cpu.setM_halfcarryF(getM_halfcarryF());
-		_cpu.setM_addsubtractF(getM_addsubtractF());
+//		_cpu.setM_parityoverflowF(getM_parityoverflowF());
+//		_cpu.setM_halfcarryF(getM_halfcarryF());
+//		_cpu.setM_addsubtractF(getM_addsubtractF());
 		
-//		updateFlags();
+		updateFlags();
 		
 		return work8;
 		

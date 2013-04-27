@@ -22,10 +22,10 @@ public class RR8 extends ShiftTest {
 		
 		int work8 = ((reg8 >> 1) | ((_cpu.getM_carryF() ? 1 : 0) << 7));
 		
-		_cpu.setM_carryF(getM_carryF());
+//		_cpu.setM_carryF(getM_carryF());
 		
 		shiftTest(work8);
-//		updateFlags();
+		updateFlags();
 		return work8;
 	}
 	

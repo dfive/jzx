@@ -19,10 +19,10 @@ public class RLC8 extends ShiftTest {
 	}
 	public int rlc8(int reg8) {
 		_myReg8 = reg8;
-		_cpu.setM_carryF(getM_carryF());
+//		_cpu.setM_carryF(getM_carryF());
 		_work8 = ((reg8 << 1) | (getM_carryF() ? 1 : 0)) & 0xff;
 		shiftTest(reg8);
-//		updateFlags();
+		updateFlags();
 		return _work8;
 	}
 	

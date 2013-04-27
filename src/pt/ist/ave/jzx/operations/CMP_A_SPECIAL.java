@@ -21,11 +21,11 @@ public class CMP_A_SPECIAL extends Operation {
 		_idx = ((_cpu.getM_a8() & 0x88) >> 1) | ((val8 & 0x88) >> 2)
 				| ((_work16 & 0x88) >> 3);
 		
-		_cpu.setM_signF(getM_signF());
-		_cpu.setM_zeroF(getM_zeroF());
-		_cpu.setM_halfcarryF(getM_halfcarryF());
-		_cpu.setM_addsubtractF(getM_addsubtractF());
-//		updateFlags();
+//		_cpu.setM_signF(getM_signF());
+//		_cpu.setM_zeroF(getM_zeroF());
+//		_cpu.setM_halfcarryF(getM_halfcarryF());
+//		_cpu.setM_addsubtractF(getM_addsubtractF());
+		updateFlags();
 	}
 	
 	@Override

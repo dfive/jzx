@@ -15,8 +15,8 @@ public class CPD extends Operation {
 	public void cpd() {
 		_bc16 = _cpu.bc16();
 		
-		_cpu.setM_parityoverflowF(getM_parityoverflowF());
-//		updateFlags();
+//		_cpu.setM_parityoverflowF(getM_parityoverflowF());
+		updateFlags();
 	}
 	
 	@Override

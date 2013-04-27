@@ -7,7 +7,17 @@ public class ADD_XX extends Operation {
 	private int _work32;
 	private int _idx;
 	private int _work8;
-
+	
+	{	
+		_updatedFlags = new int[]{
+				Z80.FLAG_HALF_CARRY,
+				Z80.FLAG_ADD_SUBTRACT,
+				Z80.FLAG_CARRY,
+				Z80.FLAG_3,
+				Z80.FLAG_5
+		};
+	}
+	
 	public void add_xx(int val16) {
 		_work32 = _cpu.getM_xx16() + val16;
 		_idx = ((_cpu.getM_xx16() & 0x800) >> 9) | ((val16 & 0x800) >> 10)
@@ -23,6 +33,7 @@ public class ADD_XX extends Operation {
 		_cpu.setM_3F(getM_3F());
 		_cpu.setM_5F(getM_5F());
 
+//		updateFlags();
 	}
 
 	@Override

@@ -8,7 +8,18 @@ public class SBC_HL extends Operation {
 	private int _m_h8;
 	private int _work32;
 	private int _idx;
-
+	{	
+		_updatedFlags = new int[]{
+				Z80.FLAG_ZERO,
+				Z80.FLAG_SIGN,
+				Z80.FLAG_HALF_CARRY,
+				Z80.FLAG_PARITY_OVERFLOW,
+				Z80.FLAG_ADD_SUBTRACT,
+				Z80.FLAG_CARRY,
+				Z80.FLAG_3,
+				Z80.FLAG_5
+		};
+	}
 	public void sbc_hl(int val16) {
 		_hl16 = _cpu.hl16();
 		_work32 = _hl16 - val16 - (_cpu.getM_carryF() ? 1 : 0);
@@ -27,6 +38,7 @@ public class SBC_HL extends Operation {
 		_cpu.setM_carryF(getM_carryF());
 		_cpu.setM_3F(getM_3F());
 		_cpu.setM_5F(getM_5F());
+//		updateFlags();
 	}
 
 	@Override
@@ -41,12 +53,14 @@ public class SBC_HL extends Operation {
 
 	@Override
 	public boolean getM_parityoverflowF() {
-		return Z80.m_suboverflowTable[_idx >> 4];
+		int auxIdx = _idx;
+		return Z80.m_suboverflowTable[auxIdx >> 4];
 	}
 
 	@Override
 	public boolean getM_halfcarryF() {
-		return Z80.m_subhalfcarryTable[_idx & 0x7];
+		int auxIdx = _idx;
+		return Z80.m_subhalfcarryTable[auxIdx & 0x7];
 	}
 
 	@Override

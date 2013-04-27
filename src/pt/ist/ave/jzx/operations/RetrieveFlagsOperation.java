@@ -5,7 +5,19 @@ import pt.ist.ave.jzx.Z80;
 public class RetrieveFlagsOperation extends Operation {
 
 	private int _m_f8;
-
+	{	
+		_updatedFlags = new int[]{
+				Z80.FLAG_ZERO,
+				Z80.FLAG_SIGN,
+				Z80.FLAG_HALF_CARRY,
+				Z80.FLAG_PARITY_OVERFLOW,
+				Z80.FLAG_ADD_SUBTRACT,
+				Z80.FLAG_CARRY,
+				Z80.FLAG_3,
+				Z80.FLAG_5
+		};
+	}
+	
 	public void retrieveFlags() {
 		_m_f8 = _cpu.getM_f8();
 
@@ -17,6 +29,7 @@ public class RetrieveFlagsOperation extends Operation {
 		_cpu.setM_carryF(getM_carryF());
 		_cpu.setM_3F(getM_3F());
 		_cpu.setM_5F(getM_5F());
+//		updateFlags();
 	}
 
 	@Override

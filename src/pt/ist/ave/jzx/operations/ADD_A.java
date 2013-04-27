@@ -9,6 +9,19 @@ public class ADD_A extends Operation {
 	private int _my_m_a8;
 	private int _idx;
 	
+	{	
+		_updatedFlags = new int[]{
+				Z80.FLAG_ZERO,
+				Z80.FLAG_SIGN,
+				Z80.FLAG_HALF_CARRY,
+				Z80.FLAG_PARITY_OVERFLOW,
+				Z80.FLAG_ADD_SUBTRACT,
+				Z80.FLAG_CARRY,
+				Z80.FLAG_3,
+				Z80.FLAG_5
+		};
+	}
+	
 	public void add_a(int val8) {
 		
 		_work16 = _cpu.getM_a8() + val8;
@@ -26,6 +39,7 @@ public class ADD_A extends Operation {
 		_cpu.setM_carryF(getM_carryF());
 		_cpu.setM_3F(getM_3F());
 		_cpu.setM_5F(getM_5F());
+//		updateFlags();
 	}
 
 	@Override
@@ -40,12 +54,14 @@ public class ADD_A extends Operation {
 
 	@Override
 	public boolean getM_parityoverflowF() {
-		return Z80.m_overflowTable[_idx >> 4];
+		int auxIdx = _idx;
+		return Z80.m_overflowTable[auxIdx >> 4];
 	}
 
 	@Override
 	public boolean getM_halfcarryF() {
-		return Z80.m_halfcarryTable[_idx & 0x7];
+		int auxIdx = _idx;
+		return Z80.m_halfcarryTable[auxIdx & 0x7];
 	}
 
 	@Override

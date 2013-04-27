@@ -2,22 +2,23 @@ package pt.ist.ave.jzx.operations;
 
 import pt.ist.ave.jzx.Z80;
 
-public class CPI extends Operation {
-	
-	private int _work8;
+public class ED_3_5 extends Operation {
 
-	public int cpi() {
-		_cpu.setM_tstates(_cpu.getM_tstates() + 16);
-		_work8 = _cpu.getM_memory().read8(_cpu.hl16());
-		_cpu.cmp_a_special(_work8);
-		_cpu.inc16hl();
-		_cpu.dec16bc();
+	private int _work8;
+	
+	{	
+		_updatedFlags = new int[]{
+				Z80.FLAG_3,
+				Z80.FLAG_5
+		};
+	}
+	public void update5_3(int work8){
+		_work8 = work8;
 		
-		_cpu.setM_parityoverflowF(getM_parityoverflowF());
-		_work8 = _cpu.getM_a8() - _work8 - (_cpu.getM_halfcarryF() ? 1 : 0);
 		_cpu.setM_3F(getM_3F());
 		_cpu.setM_5F(getM_5F());
-		return _work8;
+		
+//		updateFlags();
 	}
 	
 	@Override
@@ -34,7 +35,8 @@ public class CPI extends Operation {
 
 	@Override
 	public boolean getM_parityoverflowF() {
-		return _cpu.bc16() != 0;
+		notImplementedError("getM_parityoverflowF");
+		return false;
 	}
 
 	@Override

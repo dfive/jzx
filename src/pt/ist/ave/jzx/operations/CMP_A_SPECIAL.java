@@ -6,7 +6,16 @@ public class CMP_A_SPECIAL extends Operation {
 
 	private int _work16;
 	private int _idx;
-
+	
+	{	
+		_updatedFlags = new int[]{
+				Z80.FLAG_ZERO,
+				Z80.FLAG_SIGN,
+				Z80.FLAG_HALF_CARRY,
+				Z80.FLAG_ADD_SUBTRACT,
+		};
+	}
+	
 	public void cmp_a_special(int val8) { 
 		_work16 = _cpu.getM_a8() - val8;
 		_idx = ((_cpu.getM_a8() & 0x88) >> 1) | ((val8 & 0x88) >> 2)
@@ -16,7 +25,7 @@ public class CMP_A_SPECIAL extends Operation {
 		_cpu.setM_zeroF(getM_zeroF());
 		_cpu.setM_halfcarryF(getM_halfcarryF());
 		_cpu.setM_addsubtractF(getM_addsubtractF());
-		
+//		updateFlags();
 	}
 	
 	@Override

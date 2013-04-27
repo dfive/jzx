@@ -9,6 +9,18 @@ public class BIT_HL extends Operation {
 	private boolean _m_zeroF;
 	private int _m_x8;
 
+	{	
+		_updatedFlags = new int[]{
+				Z80.FLAG_ZERO,
+				Z80.FLAG_SIGN,
+				Z80.FLAG_HALF_CARRY,
+				Z80.FLAG_PARITY_OVERFLOW,
+				Z80.FLAG_ADD_SUBTRACT,
+				Z80.FLAG_3,
+				Z80.FLAG_5
+		};
+	}
+	
 	public void bit_hl(int bit3, int val8) {
 		_bit3 = bit3;
 		_val8 = val8;
@@ -22,6 +34,7 @@ public class BIT_HL extends Operation {
 		_cpu.setM_signF(getM_signF());
 		_cpu.setM_3F(getM_3F());
 		_cpu.setM_5F(getM_5F());
+//		updateFlags();
 	}
 
 	@Override
@@ -47,12 +60,14 @@ public class BIT_HL extends Operation {
 
 	@Override
 	public boolean getM_zeroF() {
-		return (_val8 & (0x01 << _bit3)) == 0;
+		int auxbit3 = _bit3;
+		return (_val8 & (0x01 << auxbit3)) == 0;
 	}
 
 	@Override
 	public boolean getM_signF() {
-		return (_val8 & (0x01 << _bit3)) == 0x80;
+		int auxbit3 = _bit3;
+		return (_val8 & (0x01 << auxbit3)) == 0x80;
 	}
 
 	@Override

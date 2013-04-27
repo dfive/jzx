@@ -4,28 +4,24 @@ import pt.ist.ave.jzx.Z80;
 
 public class LDIR extends Operation {
 	private int _bc16;
-	private int _work8;
-
-	public int ldir(int work8) {
+	{	
+		_updatedFlags = new int[]{
+				Z80.FLAG_HALF_CARRY,
+				Z80.FLAG_PARITY_OVERFLOW,
+				Z80.FLAG_ADD_SUBTRACT,
+		};
+	}
+	public void ldir(int work8) {
 		_bc16 = _cpu.bc16();
 		_cpu.setM_parityoverflowF(getM_parityoverflowF());
 		_cpu.setM_halfcarryF(getM_halfcarryF());
 		_cpu.setM_addsubtractF(getM_addsubtractF());
-		
-		if (_cpu.getM_parityoverflowF()) {
-			_cpu.setM_tstates(_cpu.getM_tstates() + 5);
-			_cpu.setM_pc16(_cpu.decdec16(_cpu.getM_pc16()));
-		}
-		work8 += _cpu.getM_a8();
-		_work8 = work8;
-		_cpu.setM_3F(getM_3F());
-		_cpu.setM_5F(getM_5F());
-		return work8;
-		
+//		updateFlags();
 	}
 	
 	@Override
 	public boolean getM_carryF() {
+		notImplementedError("getM_carryF");
 		return false;
 	}
 
@@ -41,30 +37,31 @@ public class LDIR extends Operation {
 
 	@Override
 	public boolean getM_halfcarryF() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
 	public boolean getM_zeroF() {
-		// TODO Auto-generated method stub
+		notImplementedError("getM_zeroF");
 		return false;
 	}
 
 	@Override
 	public boolean getM_signF() {
-		// TODO Auto-generated method stub
+		notImplementedError("getM_signF");
 		return false;
 	}
 
 	@Override
 	public boolean getM_5F() {
-		return (_work8 & Z80.ONE_MASK) != 0;
+		notImplementedError("getM_zeroF");
+		return false;
 	}
 
 	@Override
 	public boolean getM_3F() {
-		return (_work8 & Z80.THREE_MASK) != 0;
+		notImplementedError("getM_zeroF");
+		return false;
 	}
 
 }

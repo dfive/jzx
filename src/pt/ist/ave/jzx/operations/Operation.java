@@ -1,28 +1,20 @@
 package pt.ist.ave.jzx.operations;
 
-import java.util.Collection;
-
 import pt.ist.ave.jzx.Z80;
 
 public abstract class Operation {
 	
 	protected static Z80 _cpu;
 	
-//	protected int _val16;
-//	protected int _work32;
-//	protected int _idx;
-//	protected int _work8;
-//	protected int _work16;
-	
-	protected Collection<Integer> _updatedFlags;
+	protected int[] _updatedFlags;
 	
 	public static void setCpu(Z80 cpu){
 		_cpu = cpu;
 	}
 	
 	public void updateFlags() {
-		for(Integer flagId : _updatedFlags) {
-			_cpu.setFlagOperation(flagId, this);
+		for(int i=0; i<_updatedFlags.length; ++i) {
+			_cpu.setFlagOperation(_updatedFlags[i], this);
 		}
 	}
 	

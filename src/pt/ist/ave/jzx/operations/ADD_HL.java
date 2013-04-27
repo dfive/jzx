@@ -6,7 +6,17 @@ public class ADD_HL extends Operation {
 	private int _m_h8;
 	private int _work32;
 	private int _idx;
-
+	
+	{	
+		_updatedFlags = new int[]{
+				Z80.FLAG_HALF_CARRY,
+				Z80.FLAG_ADD_SUBTRACT,
+				Z80.FLAG_CARRY,
+				Z80.FLAG_3,
+				Z80.FLAG_5
+		};
+	}
+	
 	public void add_hl(int val16) {
 		_cpu.setM_x8(_cpu.getM_h8());
 
@@ -25,6 +35,7 @@ public class ADD_HL extends Operation {
 		_cpu.setM_carryF(getM_carryF());
 		_cpu.setM_3F(getM_3F());
 		_cpu.setM_5F(getM_5F());
+//		updateFlags();
 	}
 
 	@Override

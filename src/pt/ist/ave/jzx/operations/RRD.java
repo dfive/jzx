@@ -5,7 +5,17 @@ import pt.ist.ave.jzx.Z80;
 public class RRD extends Operation {
 
 	private int _a8;
-
+	{	
+		_updatedFlags = new int[]{
+				Z80.FLAG_ZERO,
+				Z80.FLAG_SIGN,
+				Z80.FLAG_HALF_CARRY,
+				Z80.FLAG_PARITY_OVERFLOW,
+				Z80.FLAG_ADD_SUBTRACT,
+				Z80.FLAG_3,
+				Z80.FLAG_5
+		};
+	}
 	public int rrd() {
 		_cpu.setM_tstates(_cpu.getM_tstates() + 18);
 		
@@ -24,6 +34,7 @@ public class RRD extends Operation {
 		_cpu.setM_addsubtractF(getM_addsubtractF());
 		_cpu.setM_3F(getM_3F());
 		_cpu.setM_5F(getM_5F());
+//		updateFlags();
 		
 		return work8;
 	}
@@ -31,7 +42,7 @@ public class RRD extends Operation {
 	
 	@Override
 	public boolean getM_carryF() {
-		// TODO Auto-generated method stub
+		notImplementedError("getM_carryF");
 		return false;
 	}
 

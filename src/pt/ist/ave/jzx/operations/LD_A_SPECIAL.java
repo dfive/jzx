@@ -6,7 +6,17 @@ public class LD_A_SPECIAL extends Operation {
 
 	int _myReg8;
 	int _my_iff1b;
-	
+	{	
+		_updatedFlags = new int[]{
+				Z80.FLAG_ZERO,
+				Z80.FLAG_SIGN,
+				Z80.FLAG_HALF_CARRY,
+				Z80.FLAG_PARITY_OVERFLOW,
+				Z80.FLAG_ADD_SUBTRACT,
+				Z80.FLAG_3,
+				Z80.FLAG_5
+		};
+	}
 	public void ld_a_special(int reg8) {
 		_myReg8 = reg8;
 		_my_iff1b = _cpu.getM_iff1b();
@@ -20,6 +30,7 @@ public class LD_A_SPECIAL extends Operation {
 		_cpu.setM_addsubtractF(getM_addsubtractF());
 		_cpu.setM_3F(getM_3F());
 		_cpu.setM_5F(getM_5F());
+//		updateFlags();
 	}
 	
 	@Override

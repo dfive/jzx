@@ -1,15 +1,13 @@
 package pt.ist.ave.jzx.operations;
 
-import java.util.Arrays;
-
 import pt.ist.ave.jzx.Z80;
 
 public class INC8 extends Operation {
 	
 	private int _work8;
 
-	public INC8() {
-		_updatedFlags = Arrays.asList(new Integer[] {
+	{
+		_updatedFlags = new int[] {
 				Z80.FLAG_ADD_SUBTRACT,
 				Z80.FLAG_PARITY_OVERFLOW,
 				Z80.FLAG_HALF_CARRY,
@@ -17,7 +15,7 @@ public class INC8 extends Operation {
 				Z80.FLAG_SIGN,
 				Z80.FLAG_5,
 				Z80.FLAG_3
-		});
+		};
 	}
 	
 	public int inc8(int reg8) {

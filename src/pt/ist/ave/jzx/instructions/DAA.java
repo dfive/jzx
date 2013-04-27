@@ -1,6 +1,6 @@
 package pt.ist.ave.jzx.instructions;
 
-import pt.ist.ave.jzx.Z80;
+import pt.ist.ave.jzx.operations.DAA_Operation;
 
 public class DAA extends Instruction {
 
@@ -32,9 +32,9 @@ public class DAA extends Instruction {
 			}
 		}
 		_cpu.add_a(work8);
-		_cpu.setM_addsubtractF(addsubtract);
-		_cpu.setM_parityoverflowF(Z80.m_parityTable[_cpu.getM_a8()]);
-		_cpu.setM_carryF(carry);
+		
+		DAA_Operation daaOperation = new DAA_Operation();
+		daaOperation.daa(addsubtract, carry);
 	}
 
 	@Override

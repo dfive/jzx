@@ -148,8 +148,6 @@ public class Z80 extends BaseComponent {
 	 * @see #storeFlags
 	 * @see #retrieveFlags
 	 */
-//	private boolean m_carryF, m_addsubtractF, m_parityoverflowF, m_halfcarryF,
-//	m_zeroF, m_signF, m_5F, m_3F;
 
 	/**
 	 * Last operation performed that refreshed flag values. Access this variable
@@ -159,8 +157,6 @@ public class Z80 extends BaseComponent {
 	 * @see #retrieveFlags
 	 */
 
-
-	//	public static short[] registers8bit = new short[8];	
 
 	/** The basic registers (least significant 8 bits.) */
 	public int m_a8, m_f8, m_b8, m_c8, m_d8, m_e8, m_h8, m_l8;
@@ -252,7 +248,7 @@ public class Z80 extends BaseComponent {
 	public BaseIO getM_io() {
 		return m_io;
 	}
-	
+
 	/****************************************************************************
 	 *																			*
 	 * 								FLAGS										*
@@ -260,7 +256,7 @@ public class Z80 extends BaseComponent {
 	 ****************************************************************************/
 
 	public void setFlagOperation(int flagId, Operation operation) {
-//		System.out.println("setFlag [flag: " + flag + ", operation: " + operation + "]");
+		//		System.out.println("setFlag [flag: " + flag + ", operation: " + operation + "]");
 
 		lastFlagOperation[flagId] = operation;
 	}
@@ -273,80 +269,56 @@ public class Z80 extends BaseComponent {
 	 * @return the m_carryF
 	 */
 	public boolean getM_carryF() {
-//		if(lastFlagOperation[FLAG_CARRY]!=null) {
-			return lastFlagOperation[FLAG_CARRY].getM_carryF();
-//		}
-//		return m_carryF;
+		return lastFlagOperation[FLAG_CARRY].getM_carryF();
 	}
 
 	/**
 	 * @return the m_addsubtractF
 	 */
 	public boolean getM_addsubtractF() {
-//		if(lastFlagOperation[FLAG_ADD_SUBTRACT]!=null) {
-			return lastFlagOperation[FLAG_ADD_SUBTRACT].getM_addsubtractF();
-//		}
-//		return m_addsubtractF;
+		return lastFlagOperation[FLAG_ADD_SUBTRACT].getM_addsubtractF();
 	}
 
 	/**
 	 * @return the m_parityoverflowF
 	 */
 	public boolean getM_parityoverflowF() {
-//		if(lastFlagOperation[FLAG_PARITY_OVERFLOW]!=null) {
-			return lastFlagOperation[FLAG_PARITY_OVERFLOW].getM_parityoverflowF();
-//		}
-//		return m_parityoverflowF;
+		return lastFlagOperation[FLAG_PARITY_OVERFLOW].getM_parityoverflowF();
 	}
 
 	/**
 	 * @return the m_halfcarryF
 	 */
 	public boolean getM_halfcarryF() {
-//		if(lastFlagOperation[FLAG_HALF_CARRY]!=null) {
-			return lastFlagOperation[FLAG_HALF_CARRY].getM_halfcarryF();
-//		}
-//		return m_halfcarryF;
+		return lastFlagOperation[FLAG_HALF_CARRY].getM_halfcarryF();
 	}
 
 	/**
 	 * @return the m_zeroF
 	 */
 	public boolean getM_zeroF() {
-//		if(lastFlagOperation[FLAG_ZERO]!=null) {
-			return lastFlagOperation[FLAG_ZERO].getM_zeroF();
-//		}
-//		return m_zeroF;
+		return lastFlagOperation[FLAG_ZERO].getM_zeroF();
 	}
 
 	/**
 	 * @return the m_signF
 	 */
 	public boolean getM_signF() {
-//		if(lastFlagOperation[FLAG_SIGN]!=null) {
-			return lastFlagOperation[FLAG_SIGN].getM_signF();
-//		}
-//		return m_signF;
+		return lastFlagOperation[FLAG_SIGN].getM_signF();
 	}
 
 	/**
 	 * @return the m_5F
 	 */
 	public boolean getM_5F() {
-//		if(lastFlagOperation[FLAG_5]!=null) {
-			return lastFlagOperation[FLAG_5].getM_5F();
-//		}
-//		return m_5F;
+		return lastFlagOperation[FLAG_5].getM_5F();
 	}
 
 	/**
 	 * @return the m_3F
 	 */
 	public boolean getM_3F() {
-//		if(lastFlagOperation[FLAG_3]!=null) {
-			return lastFlagOperation[FLAG_3].getM_3F();
-//		}
-//		return m_3F;
+		return lastFlagOperation[FLAG_3].getM_3F();
 	}
 
 	/****************************************************************************
@@ -354,7 +326,7 @@ public class Z80 extends BaseComponent {
 	 * 								FLAGS - end									*
 	 * 																			*
 	 ****************************************************************************/
-	
+
 	/**
 	 * @return the m_a8
 	 */
@@ -704,9 +676,9 @@ public class Z80 extends BaseComponent {
 	/** Tabela com as instancias das instrucoes do cpu */
 	private static final Instruction[] instructionTable = new Instruction[256];
 
-	private static final int[] instructionCounter = new int[255];
+//	private static final int[] instructionCounter = new int[255];
 
-	private static long instrs = 0;
+//	private static long instrs = 0;
 
 	/** Inicializacaoo da tabela */
 	static {

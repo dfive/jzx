@@ -19,7 +19,7 @@ public class DefaultOperation extends Operation {
 				Z80.FLAG_3,
 				Z80.FLAG_5
 		};
-		updateFlags();
+//		updateFlags();
 	}
 	
 	@Override

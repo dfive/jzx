@@ -17,6 +17,7 @@ import pt.ist.ave.jzx.operations.BIT_XX;
 import pt.ist.ave.jzx.operations.CMP_A;
 import pt.ist.ave.jzx.operations.CMP_A_SPECIAL;
 import pt.ist.ave.jzx.operations.DEC8;
+import pt.ist.ave.jzx.operations.DefaultOperation;
 import pt.ist.ave.jzx.operations.IN8;
 import pt.ist.ave.jzx.operations.INC8;
 import pt.ist.ave.jzx.operations.LD_A_SPECIAL;
@@ -136,7 +137,7 @@ public class Z80 extends BaseComponent {
 	{
 		lastFlagOperation = new Operation[NUMBER_FLAGS];
 		for(int i=0; i < NUMBER_FLAGS; ++i){
-			//			lastFlagOperation[i] = new DefaultOperation();
+//			lastFlagOperation[i] = new DefaultOperation();
 			lastFlagOperation[i] = null;
 		}
 	}
@@ -252,14 +253,70 @@ public class Z80 extends BaseComponent {
 	public BaseIO getM_io() {
 		return m_io;
 	}
+	
+	/****************************************************************************
+	 *																			*
+	 * 								FLAGS										*
+	 * 																			*
+	 ****************************************************************************/
+
+	public void setFlagOperation(int flagId, Operation operation) {
+		String flag = "" + flagId;
+		//		switch (flagId) {
+		//		case FLAG_3:
+		//			setM_3F(operation.getM_3F());
+		//			flag = "3";
+		//			break;
+		//		case FLAG_5:
+		//			setM_5F(operation.getM_5F());
+		//			flag = "5";
+		//			break;
+		//		case FLAG_ADD_SUBTRACT:
+		//			setM_addsubtractF(operation.getM_addsubtractF());
+		//			flag = "FLAG_ADD_SUBTRACT";
+		//			break;
+		//		case FLAG_CARRY:
+		//			setM_carryF(operation.getM_carryF());
+		//			flag = "FLAG_CARRY";
+		//			break;
+		//		case FLAG_HALF_CARRY:
+		//			setM_halfcarryF(operation.getM_halfcarryF());
+		//			flag = "FLAG_HALF_CARRY";
+		//			break;
+		//		case FLAG_PARITY_OVERFLOW:
+		//			setM_parityoverflowF(operation.getM_parityoverflowF());
+		//			flag = "FLAG_PARITY_OVERFLOW";
+		//			break;
+		//		case FLAG_SIGN:
+		//			setM_signF(operation.getM_signF());
+		//			flag = "FLAG_SIGN";
+		//			break;
+		//		case FLAG_ZERO:
+		//			setM_zeroF(operation.getM_zeroF());
+		//			flag = "FLAG_ZERO";
+		//			break;
+		//
+		//		default:
+		//			flag = "default";
+		//			break;
+		//		}
+
+//		System.out.println("setFlag [flag: " + flag + ", operation: " + operation + "]");
+
+		lastFlagOperation[flagId] = operation;
+	}
+
+	public Operation getLastFlagOperation(int flagId) {
+		return lastFlagOperation[flagId];
+	}
 
 	/**
 	 * @return the m_carryF
 	 */
 	public boolean getM_carryF() {
-//		if(lastFlagOperation[FLAG_CARRY]!=null) {
-//			return lastFlagOperation[FLAG_CARRY].getM_carryF();
-//		}
+		if(lastFlagOperation[FLAG_CARRY]!=null) {
+			return lastFlagOperation[FLAG_CARRY].getM_carryF();
+		}
 		return m_carryF;
 	}
 
@@ -267,9 +324,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_addsubtractF
 	 */
 	public boolean getM_addsubtractF() {
-		//		if(lastFlagOperation[FLAG_ADD_SUBTRACT]!=null) {
-		//			return lastFlagOperation[FLAG_ADD_SUBTRACT].getM_addsubtractF();
-		//		}
+		if(lastFlagOperation[FLAG_ADD_SUBTRACT]!=null) {
+			return lastFlagOperation[FLAG_ADD_SUBTRACT].getM_addsubtractF();
+		}
 		return m_addsubtractF;
 	}
 
@@ -277,9 +334,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_parityoverflowF
 	 */
 	public boolean getM_parityoverflowF() {
-		//		if(lastFlagOperation[FLAG_PARITY_OVERFLOW]!=null) {
-		//			return lastFlagOperation[FLAG_PARITY_OVERFLOW].getM_parityoverflowF();
-		//		}
+		if(lastFlagOperation[FLAG_PARITY_OVERFLOW]!=null) {
+			return lastFlagOperation[FLAG_PARITY_OVERFLOW].getM_parityoverflowF();
+		}
 		return m_parityoverflowF;
 	}
 
@@ -287,9 +344,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_halfcarryF
 	 */
 	public boolean getM_halfcarryF() {
-		//		if(lastFlagOperation[FLAG_HALF_CARRY]!=null) {
-		//			return lastFlagOperation[FLAG_HALF_CARRY].getM_halfcarryF();
-		//		}
+		if(lastFlagOperation[FLAG_HALF_CARRY]!=null) {
+			return lastFlagOperation[FLAG_HALF_CARRY].getM_halfcarryF();
+		}
 		return m_halfcarryF;
 	}
 
@@ -297,9 +354,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_zeroF
 	 */
 	public boolean getM_zeroF() {
-		//		if(lastFlagOperation[FLAG_ZERO]!=null) {
-		//			return lastFlagOperation[FLAG_ZERO].getM_zeroF();
-		//		}
+		if(lastFlagOperation[FLAG_ZERO]!=null) {
+			return lastFlagOperation[FLAG_ZERO].getM_zeroF();
+		}
 		return m_zeroF;
 	}
 
@@ -307,9 +364,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_signF
 	 */
 	public boolean getM_signF() {
-		//		if(lastFlagOperation[FLAG_SIGN]!=null) {
-		//			return lastFlagOperation[FLAG_SIGN].getM_signF();
-		//		}
+		if(lastFlagOperation[FLAG_SIGN]!=null) {
+			return lastFlagOperation[FLAG_SIGN].getM_signF();
+		}
 		return m_signF;
 	}
 
@@ -317,9 +374,9 @@ public class Z80 extends BaseComponent {
 	 * @return the m_5F
 	 */
 	public boolean getM_5F() {
-		//		if(lastFlagOperation[FLAG_5]!=null) {
-		//			return lastFlagOperation[FLAG_5].getM_5F();
-		//		}
+		if(lastFlagOperation[FLAG_5]!=null) {
+			return lastFlagOperation[FLAG_5].getM_5F();
+		}
 		return m_5F;
 	}
 
@@ -327,12 +384,81 @@ public class Z80 extends BaseComponent {
 	 * @return the m_3F
 	 */
 	public boolean getM_3F() {
-		//		if(lastFlagOperation[FLAG_3]!=null) {
-		//			return lastFlagOperation[FLAG_3].getM_3F();
-		//		}
+		if(lastFlagOperation[FLAG_3]!=null) {
+			return lastFlagOperation[FLAG_3].getM_3F();
+		}
 		return m_3F;
 	}
 
+	/**
+	 * @param m_carryF the m_carryF to set
+	 */
+	public void setM_carryF(boolean m_carryF) {
+		this.m_carryF = m_carryF;
+				setFlagOperation(FLAG_CARRY, null);
+	}
+
+	/**
+	 * @param m_addsubtractF the m_addsubtractF to set
+	 */
+	public void setM_addsubtractF(boolean m_addsubtractF) {
+		this.m_addsubtractF = m_addsubtractF;
+				setFlagOperation(FLAG_ADD_SUBTRACT, null);
+	}
+
+	/**
+	 * @param m_parityoverflowF the m_parityoverflowF to set
+	 */
+	public void setM_parityoverflowF(boolean m_parityoverflowF) {
+		this.m_parityoverflowF = m_parityoverflowF;
+				setFlagOperation(FLAG_PARITY_OVERFLOW, null);
+	}
+
+	/**
+	 * @param m_halfcarryF the m_halfcarryF to set
+	 */
+	public void setM_halfcarryF(boolean m_halfcarryF) {
+		this.m_halfcarryF = m_halfcarryF;
+				setFlagOperation(FLAG_HALF_CARRY, null);
+	}
+
+	/**
+	 * @param m_zeroF the m_zeroF to set
+	 */
+	public void setM_zeroF(boolean m_zeroF) {
+		this.m_zeroF = m_zeroF;
+				setFlagOperation(FLAG_ZERO, null);
+	}
+
+	/**
+	 * @param m_signF the m_signF to set
+	 */
+	public void setM_signF(boolean m_signF) {
+		this.m_signF = m_signF;
+				setFlagOperation(FLAG_SIGN, null);
+	}
+
+	/**
+	 * @param m_5f the m_5F to set
+	 */
+	public void setM_5F(boolean m_5f) {
+		this.m_5F = m_5f;
+				setFlagOperation(FLAG_5, null);
+	}
+
+	/**
+	 * @param m_3f the m_3F to set
+	 */
+	public void setM_3F(boolean m_3f) {
+		this.m_3F = m_3f;
+				setFlagOperation(FLAG_3, null);
+	}
+	/****************************************************************************
+	 *																			*
+	 * 								FLAGS - end									*
+	 * 																			*
+	 ****************************************************************************/
+	
 	/**
 	 * @return the m_a8
 	 */
@@ -515,69 +641,7 @@ public class Z80 extends BaseComponent {
 		this.m_io = m_io;
 	}
 
-	/**
-	 * @param m_carryF the m_carryF to set
-	 */
-	public void setM_carryF(boolean m_carryF) {
-		this.m_carryF = m_carryF;
-		//		setFlagOperation(FLAG_CARRY, null);
-	}
 
-	/**
-	 * @param m_addsubtractF the m_addsubtractF to set
-	 */
-	public void setM_addsubtractF(boolean m_addsubtractF) {
-		this.m_addsubtractF = m_addsubtractF;
-		//		setFlagOperation(FLAG_ADD_SUBTRACT, null);
-	}
-
-	/**
-	 * @param m_parityoverflowF the m_parityoverflowF to set
-	 */
-	public void setM_parityoverflowF(boolean m_parityoverflowF) {
-		this.m_parityoverflowF = m_parityoverflowF;
-		//		setFlagOperation(FLAG_PARITY_OVERFLOW, null);
-	}
-
-	/**
-	 * @param m_halfcarryF the m_halfcarryF to set
-	 */
-	public void setM_halfcarryF(boolean m_halfcarryF) {
-		this.m_halfcarryF = m_halfcarryF;
-		//		setFlagOperation(FLAG_HALF_CARRY, null);
-	}
-
-	/**
-	 * @param m_zeroF the m_zeroF to set
-	 */
-	public void setM_zeroF(boolean m_zeroF) {
-		this.m_zeroF = m_zeroF;
-		//		setFlagOperation(FLAG_ZERO, null);
-	}
-
-	/**
-	 * @param m_signF the m_signF to set
-	 */
-	public void setM_signF(boolean m_signF) {
-		this.m_signF = m_signF;
-		//		setFlagOperation(FLAG_SIGN, null);
-	}
-
-	/**
-	 * @param m_5f the m_5F to set
-	 */
-	public void setM_5F(boolean m_5f) {
-		this.m_5F = m_5f;
-		//		setFlagOperation(FLAG_5, null);
-	}
-
-	/**
-	 * @param m_3f the m_3F to set
-	 */
-	public void setM_3F(boolean m_3f) {
-		this.m_3F = m_3f;
-		//		setFlagOperation(FLAG_3, null);
-	}
 
 	/**
 	 * @param m_a8 the m_a8 to set
@@ -1192,55 +1256,7 @@ public class Z80 extends BaseComponent {
 		return (reg16 - 2) & 0xffff;
 	}
 
-	public void setFlagOperation(int flagId, Operation operation) {
-		String flag = "";
-		switch (flagId) {
-		case FLAG_3:
-			setM_3F(operation.getM_3F());
-			flag = "3";
-			break;
-		case FLAG_5:
-			setM_5F(operation.getM_5F());
-			flag = "5";
-			break;
-		case FLAG_ADD_SUBTRACT:
-			setM_addsubtractF(operation.getM_addsubtractF());
-			flag = "FLAG_ADD_SUBTRACT";
-			break;
-		case FLAG_CARRY:
-			setM_carryF(operation.getM_carryF());
-			flag = "FLAG_CARRY";
-			break;
-		case FLAG_HALF_CARRY:
-			setM_halfcarryF(operation.getM_halfcarryF());
-			flag = "FLAG_HALF_CARRY";
-			break;
-		case FLAG_PARITY_OVERFLOW:
-			setM_parityoverflowF(operation.getM_parityoverflowF());
-			flag = "FLAG_PARITY_OVERFLOW";
-			break;
-		case FLAG_SIGN:
-			setM_signF(operation.getM_signF());
-			flag = "FLAG_SIGN";
-			break;
-		case FLAG_ZERO:
-			setM_zeroF(operation.getM_zeroF());
-			flag = "FLAG_ZERO";
-			break;
 
-		default:
-			flag = "default";
-			break;
-		}
-		
-//		System.out.println("setFlag [flag: " + flag + ", operation: " + operation + "]");
-		
-		lastFlagOperation[flagId] = operation;
-	}
-
-	public Operation getLastFlagOperation(int flagId) {
-		return lastFlagOperation[flagId];
-	}
 
 	/**
 	 * Increment a 8-bit value and return the 8-bit result, setting the

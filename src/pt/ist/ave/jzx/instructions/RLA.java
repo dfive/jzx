@@ -12,6 +12,7 @@ public class RLA extends Instruction {
 	@Override
 	public void execute() {
 		RLA_Operation rlaOperation = OperationsFactory.rla;
+		rlaOperation.rla();
 	}
 
 	@Override

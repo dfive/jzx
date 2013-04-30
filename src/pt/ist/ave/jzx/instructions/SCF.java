@@ -1,6 +1,7 @@
 package pt.ist.ave.jzx.instructions;
 
 import pt.ist.ave.jzx.operations.SCF_Operation;
+import pt.ist.ave.jzx.operations.OperationsFactory;
 
 public class SCF extends Instruction {
 
@@ -10,7 +11,7 @@ public class SCF extends Instruction {
 
 	@Override
 	public void execute() {
-		SCF_Operation scfOperation = new SCF_Operation();
+		SCF_Operation scfOperation = OperationsFactory.scf;
 		scfOperation.scf();
 	}
 

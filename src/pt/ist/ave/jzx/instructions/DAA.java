@@ -1,6 +1,7 @@
 package pt.ist.ave.jzx.instructions;
 
 import pt.ist.ave.jzx.operations.DAA_Operation;
+import pt.ist.ave.jzx.operations.OperationsFactory;
 
 public class DAA extends Instruction {
 
@@ -33,7 +34,7 @@ public class DAA extends Instruction {
 		}
 		_cpu.add_a(work8);
 		
-		DAA_Operation daaOperation = new DAA_Operation();
+		DAA_Operation daaOperation = OperationsFactory.daa;
 		daaOperation.daa(addsubtract, carry);
 	}
 

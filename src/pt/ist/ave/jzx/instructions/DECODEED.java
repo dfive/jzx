@@ -1,6 +1,7 @@
 package pt.ist.ave.jzx.instructions;
 
 import pt.ist.ave.jzx.ILogger;
+import pt.ist.ave.jzx.operations.OperationsFactory;
 import pt.ist.ave.jzx.operations.CPD;
 import pt.ist.ave.jzx.operations.ED_3_5;
 import pt.ist.ave.jzx.operations.INI;
@@ -262,7 +263,7 @@ public class DECODEED extends Instruction {
 			//						_cpu.setM_addsubtractF(false);
 			//						_cpu.setM_3F(((_cpu.getM_a8() & Z80.THREE_MASK) != 0));
 			//						_cpu.setM_5F(((_cpu.getM_a8() & Z80.FIVE_MASK) != 0));
-			RRD op = new RRD();
+			RRD op = OperationsFactory.rrd;
 			work8 = op.rrd();
 			break;
 
@@ -304,7 +305,7 @@ public class DECODEED extends Instruction {
 			//			_cpu.setM_addsubtractF(false);
 			//			_cpu.setM_3F(((_cpu.getM_a8() & Z80.THREE_MASK) != 0));
 			//			_cpu.setM_5F(((_cpu.getM_a8() & Z80.FIVE_MASK) != 0));
-			RLD rldOp = new RLD();
+			RLD rldOp = OperationsFactory.rld;
 			work8 = rldOp.rld();
 			break;
 
@@ -381,12 +382,11 @@ public class DECODEED extends Instruction {
 			//						_cpu.setM_halfcarryF(false);
 			//						_cpu.setM_parityoverflowF((_cpu.bc16() != 0));
 			//						_cpu.setM_addsubtractF(false);
-			LDI ldiOp = new LDI();
-			ldiOp.ldi();
+			LDI ldiOp = OperationsFactory.ldi;
 			work8 += _cpu.getM_a8();
 			//						_cpu.setM_3F(((work8 & Z80.THREE_MASK) != 0));
 			//						_cpu.setM_5F(((work8 & Z80.ONE_MASK) != 0));
-			ed_3_5 = new ED_3_5();
+			ed_3_5 = OperationsFactory.ed_3_5;
 			ed_3_5.update5_3(work8);
 
 			break;
@@ -399,12 +399,12 @@ public class DECODEED extends Instruction {
 			_cpu.inc16hl();
 			_cpu.dec16bc();
 			//			_cpu.setM_parityoverflowF((_cpu.bc16() != 0));
-			CPD cpdOp = new CPD();
+			CPD cpdOp = OperationsFactory.cpd;
 			cpdOp.cpd();
 			work8 = _cpu.getM_a8() - work8 - (_cpu.getM_halfcarryF() ? 1 : 0);
 			//			_cpu.setM_3F(((work8 & Z80.THREE_MASK) != 0));
 			//			_cpu.setM_5F(((work8 & Z80.ONE_MASK) != 0));
-			ed_3_5 = new ED_3_5();
+			ed_3_5 = OperationsFactory.ed_3_5;
 			ed_3_5.update5_3(work8);
 
 			break;
@@ -418,7 +418,7 @@ public class DECODEED extends Instruction {
 			//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
 			//			_cpu.setM_addsubtractF(true);
 			// TODO: handle 3F, 5F
-			INI iniOp = new INI();
+			INI iniOp = OperationsFactory.ini;
 			iniOp.ini();
 			break;
 
@@ -429,7 +429,7 @@ public class DECODEED extends Instruction {
 			_cpu.getM_io().out(_cpu.bc16(), _cpu.getM_memory().read8(_cpu.hl16()));
 			//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
 			//			_cpu.setM_addsubtractF(true);
-			iniOp = new INI();
+			iniOp = OperationsFactory.ini;
 			iniOp.ini();
 
 			// TODO: handle 3F, 5F
@@ -446,12 +446,12 @@ public class DECODEED extends Instruction {
 			//						_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
 			//						_cpu.setM_halfcarryF(false);
 			//						_cpu.setM_addsubtractF(false);
-			LDD lddOp = new LDD();
+			LDD lddOp = OperationsFactory.ldd;
 			lddOp.ldd(work8);
 			work8 += _cpu.getM_a8();
 			//						_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
 			//						_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
-			ed_3_5 = new ED_3_5();
+			ed_3_5 = OperationsFactory.ed_3_5;
 			ed_3_5.update5_3(work8);
 
 			break;
@@ -464,14 +464,14 @@ public class DECODEED extends Instruction {
 			_cpu.dec16hl();
 			_cpu.dec16bc();
 			//			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
-			cpdOp = new CPD();
+			cpdOp = OperationsFactory.cpd;
 			cpdOp.cpd();
 			work8 = _cpu.getM_a8() - work8 - (_cpu.getM_halfcarryF() ? 1 : 0);
 			//			_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
 			//			_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
 
 
-			ed_3_5 = new ED_3_5();
+			ed_3_5 = OperationsFactory.ed_3_5;
 			ed_3_5.update5_3(work8);
 			break;
 
@@ -483,7 +483,7 @@ public class DECODEED extends Instruction {
 			_cpu.dec16hl();
 			//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
 			//			_cpu.setM_addsubtractF(true);
-			iniOp = new INI();
+			iniOp = OperationsFactory.ini;
 			iniOp.ini();
 			// TODO: handle 3F, 5F
 			break;
@@ -496,7 +496,7 @@ public class DECODEED extends Instruction {
 			_cpu.dec16hl();
 			//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
 			//			_cpu.setM_addsubtractF(true);
-			iniOp = new INI();
+			iniOp = OperationsFactory.ini;
 			iniOp.ini();
 			// TODO: handle 3F, 5F
 			break;
@@ -512,7 +512,7 @@ public class DECODEED extends Instruction {
 			//			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
 			//			_cpu.setM_halfcarryF(false);
 			//			_cpu.setM_addsubtractF(false);
-			LDIR ldirOp = new LDIR();
+			LDIR ldirOp = OperationsFactory.ldir;
 			ldirOp.ldir(work8);
 			if (_cpu.getM_parityoverflowF()) {
 				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
@@ -521,7 +521,7 @@ public class DECODEED extends Instruction {
 			work8 += _cpu.getM_a8();
 			//			_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
 			//			_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
-			ed_3_5 = new ED_3_5();
+			ed_3_5 = OperationsFactory.ed_3_5;
 			ed_3_5.update5_3(work8);
 
 			break;
@@ -534,7 +534,7 @@ public class DECODEED extends Instruction {
 			_cpu.inc16hl();
 			_cpu.dec16bc();
 			//			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
-			CPD cpdrOp = new CPD();
+			CPD cpdrOp = OperationsFactory.cpd;
 			cpdrOp.cpd();
 			if (_cpu.getM_parityoverflowF() && !_cpu.getM_zeroF()) {
 				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
@@ -543,7 +543,7 @@ public class DECODEED extends Instruction {
 			work8 = _cpu.getM_a8() - work8 - (_cpu.getM_halfcarryF() ? 1 : 0);
 			//			_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
 			//			_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
-			ed_3_5 = new ED_3_5();
+			ed_3_5 = OperationsFactory.ed_3_5;
 			ed_3_5.update5_3(work8);
 			break;
 
@@ -555,7 +555,7 @@ public class DECODEED extends Instruction {
 			_cpu.inc16hl();
 			//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
 			//			_cpu.setM_addsubtractF(true);
-			iniOp = new INI();
+			iniOp = OperationsFactory.ini;
 			iniOp.ini();
 			if (!_cpu.getM_zeroF()) {
 				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
@@ -571,7 +571,7 @@ public class DECODEED extends Instruction {
 			_cpu.inc16hl();
 			//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
 			//			_cpu.setM_addsubtractF(true);
-			iniOp = new INI();
+			iniOp = OperationsFactory.ini;
 			iniOp.ini();
 			if (!_cpu.getM_zeroF()) {
 				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
@@ -591,7 +591,7 @@ public class DECODEED extends Instruction {
 			//			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
 			//			_cpu.setM_halfcarryF(false);
 			//			_cpu.setM_addsubtractF(false);
-			LDDR lddrOp = new LDDR();
+			LDDR lddrOp = OperationsFactory.lddr;
 			lddrOp.ldd(work8);
 			if (_cpu.getM_parityoverflowF()) {
 				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
@@ -600,7 +600,7 @@ public class DECODEED extends Instruction {
 			work8 += _cpu.getM_a8();
 			//						_cpu.setM_3F((work8 & Z80.THREE_MASK) != 0);
 			//						_cpu.setM_5F((work8 & Z80.ONE_MASK) != 0);
-			ed_3_5 = new ED_3_5();
+			ed_3_5 = OperationsFactory.ed_3_5;
 			ed_3_5.update5_3(work8);
 
 			break;
@@ -613,7 +613,7 @@ public class DECODEED extends Instruction {
 			_cpu.dec16hl();
 			_cpu.dec16bc();
 			//			_cpu.setM_parityoverflowF(_cpu.bc16() != 0);
-			cpdrOp = new CPD();
+			cpdrOp = OperationsFactory.cpd;
 			cpdrOp.cpd();
 			if (_cpu.getM_parityoverflowF() && !_cpu.getM_zeroF()) {
 				_cpu.setM_tstates(_cpu.getM_tstates() + 5);
@@ -622,7 +622,7 @@ public class DECODEED extends Instruction {
 			work8 = _cpu.getM_a8() - work8 - (_cpu.getM_halfcarryF() ? 1 : 0);
 			//						_cpu.setM_3F ((work8 & Z80.THREE_MASK) != 0);
 			//						_cpu.setM_5F ((work8 & Z80.ONE_MASK) != 0);
-			ed_3_5 = new ED_3_5();
+			ed_3_5 = OperationsFactory.ed_3_5;
 			ed_3_5.update5_3(work8);
 
 
@@ -636,7 +636,7 @@ public class DECODEED extends Instruction {
 			_cpu.dec16hl();
 			//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
 			//			_cpu.setM_addsubtractF(true);
-			iniOp = new INI();
+			iniOp = OperationsFactory.ini;
 			iniOp.ini();
 
 			if (!_cpu.getM_zeroF()) {
@@ -656,7 +656,7 @@ public class DECODEED extends Instruction {
 			//			_cpu.setM_zeroF(_cpu.getM_b8() == 0);
 			//			_cpu.setM_addsubtractF(true);
 
-			iniOp = new INI();
+			iniOp = OperationsFactory.ini;
 			iniOp.ini();
 
 			if (!_cpu.getM_zeroF()) {

@@ -2,6 +2,7 @@ package pt.ist.ave.jzx.instructions;
 
 import pt.ist.ave.jzx.Z80;
 import pt.ist.ave.jzx.operations.RRA_Operation;
+import pt.ist.ave.jzx.operations.OperationsFactory;
 
 public class RRA extends Instruction {
 
@@ -19,7 +20,7 @@ public class RRA extends Instruction {
 //		_cpu.setM_addsubtractF(false);
 //		_cpu.setM_3F((_cpu.getM_a8() & Z80.THREE_MASK) != 0);
 //		_cpu.setM_5F((_cpu.getM_a8() & Z80.FIVE_MASK) != 0);
-		RRA_Operation rraOperation = new RRA_Operation();
+		RRA_Operation rraOperation = OperationsFactory.rra;
 		rraOperation.rra();
 	}
 

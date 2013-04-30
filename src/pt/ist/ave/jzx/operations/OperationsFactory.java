@@ -33,6 +33,7 @@ public class OperationsFactory {
 	public static RLA_Operation rla = new RLA_Operation();
 	public static RLC8 rlc8 = new RLC8();
 	public static RRCA_Operation rrca = new RRCA_Operation();
+	public static RLCA_Operation rlca = new RLCA_Operation();
 	public static RLD rld = new RLD();
 	public static RR8 rr8 = new RR8();
 	public static RRA_Operation rra = new RRA_Operation();

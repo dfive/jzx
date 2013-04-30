@@ -1,6 +1,7 @@
 package pt.ist.ave.jzx.instructions;
 
 import pt.ist.ave.jzx.operations.RRCA_Operation;
+import pt.ist.ave.jzx.operations.OperationsFactory;
 
 public class RRCA extends Instruction {
 
@@ -10,8 +11,7 @@ public class RRCA extends Instruction {
 
 	@Override
 	public void execute() {
-		RRCA_Operation rrcaOperation = new RRCA_Operation();
-		rrcaOperation.rra();
+		RRCA_Operation rrcaOperation = OperationsFactory.rrca;
 	}
 
 	@Override

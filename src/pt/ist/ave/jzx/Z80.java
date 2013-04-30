@@ -5,6 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import pt.ist.ave.jzx.instructions.Instruction;
 import pt.ist.ave.jzx.instructions.InstructionFactory;
+import pt.ist.ave.jzx.operations.OperationsFactory;
 import pt.ist.ave.jzx.operations.ADC_A;
 import pt.ist.ave.jzx.operations.ADC_HL;
 import pt.ist.ave.jzx.operations.ADD_A;
@@ -1046,7 +1047,7 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public void add_xx(int val16) {
-		ADD_XX operation = new ADD_XX();
+		ADD_XX operation = OperationsFactory.add_xx;
 		operation.add_xx(val16);
 	}
 
@@ -1054,7 +1055,7 @@ public class Z80 extends BaseComponent {
 	 * Add a 16-bit value to the HL register and set the appropriate flags.
 	 */
 	public void add_hl(int val16) {
-		ADD_HL op = new ADD_HL();
+		ADD_HL op = OperationsFactory.add_hl;
 		op.add_hl(val16);
 	}
 
@@ -1063,7 +1064,7 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public void adc_hl(int val16) {
-		ADC_HL op = new ADC_HL();
+		ADC_HL op = OperationsFactory.adc_hl;
 		op.adc_hl(val16);
 	}
 
@@ -1072,7 +1073,7 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public void sbc_hl(int val16) {
-		SBC_HL op = new SBC_HL();
+		SBC_HL op = OperationsFactory.sbc_hl;
 		op.sbc_hl(val16);
 	}
 
@@ -1131,7 +1132,7 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int inc8(int reg8) {
-		INC8 op = new INC8();
+		INC8 op = OperationsFactory.inc8;
 		return op.inc8(reg8);
 	}
 
@@ -1141,7 +1142,7 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int dec8(int reg8) {
-		DEC8 op = new DEC8();
+		DEC8 op = OperationsFactory.dec8;
 		return op.dec8(reg8);
 	}
 
@@ -1150,7 +1151,7 @@ public class Z80 extends BaseComponent {
 	 * the appropriate flags.
 	 */
 	public int rlc8(int reg8) {
-		RLC8 rlc8 = new RLC8();
+		RLC8 rlc8 = OperationsFactory.rlc8;
 		return rlc8.rlc8(reg8);
 	}
 
@@ -1159,7 +1160,7 @@ public class Z80 extends BaseComponent {
 	 * setting the appropriate flags.
 	 */
 	public int rrc8(int reg8) {
-		RRC8 op = new RRC8();
+		RRC8 op = OperationsFactory.rrc8;
 		return op.rcc8(reg8);
 	}
 
@@ -1168,7 +1169,7 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int rl8(int reg8) {
-		RL8 op = new RL8();
+		RL8 op = OperationsFactory.rl8;
 		return op.rl8(reg8);
 	}
 
@@ -1177,7 +1178,7 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int rr8(int reg8) {
-		RR8 op = new RR8();
+		RR8 op = OperationsFactory.rr8;
 		return op.rr8(reg8);
 	}
 
@@ -1186,7 +1187,7 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int sla8(int reg8) {
-		SLA8 op = new SLA8();
+		SLA8 op = OperationsFactory.sla8;
 		return op.sla8(reg8);
 	}
 
@@ -1195,7 +1196,7 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public int sra8(int reg8) {
-		SRA8 op = new SRA8();
+		SRA8 op = OperationsFactory.sra8;
 		return op.sra8(reg8);
 	}
 
@@ -1204,7 +1205,7 @@ public class Z80 extends BaseComponent {
 	 * the appropriate flags.
 	 */
 	public int sli8(int reg8) {
-		SLI8 op = new SLI8();
+		SLI8 op = OperationsFactory.sli8;
 		return op.sli8(reg8);
 	}
 
@@ -1213,7 +1214,7 @@ public class Z80 extends BaseComponent {
 	 * the appropriate flags.
 	 */
 	public int srl8(int reg8) {
-		SRL8 op = new SRL8();
+		SRL8 op = OperationsFactory.srl8;
 		return op.srl8(reg8);
 	}
 
@@ -1235,7 +1236,7 @@ public class Z80 extends BaseComponent {
 	}
 
 	public void ld_a_special(int reg8) {
-		LD_A_SPECIAL op = new LD_A_SPECIAL();
+		LD_A_SPECIAL op = OperationsFactory.ld_a_special;
 		op.ld_a_special(reg8);
 	}
 
@@ -1243,7 +1244,7 @@ public class Z80 extends BaseComponent {
 	 * Add a 8-bit value to the A register and set the appropriate flags.
 	 */
 	public void add_a(int val8) {
-		ADD_A op = new ADD_A();
+		ADD_A op = OperationsFactory.add_a;
 		op.add_a(val8);
 	}
 
@@ -1252,7 +1253,7 @@ public class Z80 extends BaseComponent {
 	 * flags.
 	 */
 	public void adc_a(int val8) {
-		ADC_A op = new ADC_A();
+		ADC_A op = OperationsFactory.adc_a;
 		op.adc_a(val8);
 	}
 
@@ -1260,7 +1261,7 @@ public class Z80 extends BaseComponent {
 	 * Subtract a 8-bit value from the A register and set the appropriate flags.
 	 */
 	public void sub_a(int val8) {
-		SUB_A op = new SUB_A();
+		SUB_A op = OperationsFactory.sub_a;
 		op.sub_a(val8);
 	}
 
@@ -1269,7 +1270,7 @@ public class Z80 extends BaseComponent {
 	 * appropriate flags.
 	 */
 	public void sbc_a(int val8) {
-		SBC_A op = new SBC_A();
+		SBC_A op = OperationsFactory.sbc_a;
 		op.sbc_a(val8);
 	}
 
@@ -1277,7 +1278,7 @@ public class Z80 extends BaseComponent {
 	 * And a 8-bit value to the A register and set the appropriate flags.
 	 */
 	public void and_a(int val8) {
-		AND_A_OPERATION op = new AND_A_OPERATION();
+		AND_A_OPERATION op = OperationsFactory.and_a;
 		op.and_a(val8);
 	}
 
@@ -1285,7 +1286,7 @@ public class Z80 extends BaseComponent {
 	 * Xor a 8-bit value to the A register and set the appropriate flags.
 	 */
 	public void xor_a(int val8) {
-		XOR_A_Operation op = new XOR_A_Operation();
+		XOR_A_Operation op = OperationsFactory.xor_a;
 		op.xor_a(val8);
 	}
 
@@ -1293,7 +1294,7 @@ public class Z80 extends BaseComponent {
 	 * Or a 8-bit value to the A register and set the appropriate flags.
 	 */
 	public void or_a(int val8) {
-		OR_A_Operation op = new OR_A_Operation();
+		OR_A_Operation op = OperationsFactory.or_a;
 		op.or_a(val8);
 	}
 
@@ -1301,7 +1302,7 @@ public class Z80 extends BaseComponent {
 	 * Compare a 8-bit value to the A register and set the appropriate flags.
 	 */
 	public void cmp_a(int val8) {
-		CMP_A op = new CMP_A();
+		CMP_A op = OperationsFactory.cmp_a;
 		op.cmp_a(val8);
 	}
 
@@ -1310,7 +1311,7 @@ public class Z80 extends BaseComponent {
 	 * except PARITY and CARRY.
 	 */
 	public void cmp_a_special(int val8) {
-		CMP_A_SPECIAL op = new CMP_A_SPECIAL();
+		CMP_A_SPECIAL op = OperationsFactory.cmp_a_special;
 		op.cmp_a_special(val8);
 	}
 
@@ -1318,17 +1319,17 @@ public class Z80 extends BaseComponent {
 	 * Test the given bit in a byte and set the appropriate flags.
 	 */
 	public void bit(int bit3, int reg8) {
-		BIT_Operation op = new BIT_Operation();
+		BIT_Operation op = OperationsFactory.bit;
 		op.bit(bit3, reg8);
 	}
 
 	public void bit_hl(int bit3, int val8) {
-		BIT_HL op = new BIT_HL();
+		BIT_HL op = OperationsFactory.bit_hl;
 		op.bit_hl(bit3, val8);
 	}
 
 	public void bit_xx(int bit3, int val8) {
-		BIT_XX op = new BIT_XX();
+		BIT_XX op = OperationsFactory.bit_xx;
 		op.bit_xx(bit3, val8);
 	}
 
@@ -1336,7 +1337,7 @@ public class Z80 extends BaseComponent {
 	 * Read an 8-bit value from a 16-bit I/O port and return it.
 	 */
 	public int in8(int port16) {
-		IN8 op = new IN8();
+		IN8 op = OperationsFactory.in8;
 		return op.in8(port16);
 	}
 

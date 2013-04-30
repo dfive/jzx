@@ -12,6 +12,7 @@ public class RRCA extends Instruction {
 	@Override
 	public void execute() {
 		RRCA_Operation rrcaOperation = OperationsFactory.rrca;
+		rrcaOperation.rra();
 	}
 
 	@Override

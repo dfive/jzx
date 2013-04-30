@@ -1,7 +1,7 @@
 package pt.ist.ave.jzx.instructions;
 
-import pt.ist.ave.jzx.operations.RLA_Operation;
 import pt.ist.ave.jzx.operations.OperationsFactory;
+import pt.ist.ave.jzx.operations.RLA_Operation;
 
 public class RLA extends Instruction {
 
@@ -12,7 +12,6 @@ public class RLA extends Instruction {
 	@Override
 	public void execute() {
 		RLA_Operation rlaOperation = OperationsFactory.rla;
-		rlaOperation.rla();
 	}
 
 	@Override

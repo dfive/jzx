@@ -1,7 +1,7 @@
 package pt.ist.ave.jzx.instructions;
 
-import pt.ist.ave.jzx.operations.RLCA_Operation;
 import pt.ist.ave.jzx.operations.OperationsFactory;
+import pt.ist.ave.jzx.operations.RLCA_Operation;
 
 public class RLCA extends Instruction {
 

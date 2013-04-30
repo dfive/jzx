@@ -1,8 +1,7 @@
 package pt.ist.ave.jzx.instructions;
 
-import pt.ist.ave.jzx.Z80;
-import pt.ist.ave.jzx.operations.RRA_Operation;
 import pt.ist.ave.jzx.operations.OperationsFactory;
+import pt.ist.ave.jzx.operations.RRA_Operation;
 
 public class RRA extends Instruction {
 

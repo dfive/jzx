@@ -677,10 +677,6 @@ public class Z80 extends BaseComponent {
 	/** Tabela com as instancias das instrucoes do cpu */
 	private static final Instruction[] instructionTable = new Instruction[256];
 
-//	private static final int[] instructionCounter = new int[255];
-
-//	private static long instrs = 0;
-
 	/** Inicializacaoo da tabela */
 	static {
 		for(short i = 0; i < 256; i++){
@@ -1404,7 +1400,7 @@ public class Z80 extends BaseComponent {
 		asyncEmulate(barrier, lock);
 	}
 
-	private AtomicBoolean isUpdateDone = new AtomicBoolean(false);
+	private volatile int isUpdateDone = 1;
 
 	private void asyncUpdate(final CyclicBarrier barrier, final Object lock) {
 		new Thread(new Runnable() {
@@ -1413,15 +1409,9 @@ public class Z80 extends BaseComponent {
 			public void run() {
 				while(true) {
 
-					//WARNING: ACTIVE WAIT FOR THE EMULATE TO FINISH 
-					//[this should not happen but we never know..]
-					// while(isUpdateDone.get()==true);
-					//I THINK THAT ACTUALLY THIS SYNC IS NOT NEEDED BECAUSE IN THE WORST CASE WE UPDATE
-					//MORE TIMES THAN WHAT WE NEED AND THE RISK PAYS OFF.
-
 					m_spectrum.update();
 
-					isUpdateDone.set(true);
+					isUpdateDone = 0;
 
 				}
 			}
@@ -1429,8 +1419,8 @@ public class Z80 extends BaseComponent {
 	}
 
 	private void asyncEmulate(final CyclicBarrier barrier, final Object lock) {
+
 		while (true) {
-			//			PerformanceCounter.start("emulate");
 			emulateOne();
 
 			if (m_stop) {
@@ -1442,13 +1432,9 @@ public class Z80 extends BaseComponent {
 			}
 
 			//WARNING: ACTIVE WAIT FOR THE UPDATE TO FINISH
-			//			PerformanceCounter.start("emulate - WAIT");
 
-			while(!isUpdateDone.getAndSet(false));
-
-			//			PerformanceCounter.end("emulate - WAIT");
-			//			PerformanceCounter.end("emulate");
-
+			while(isUpdateDone != 0);
+			isUpdateDone = 1;
 		}
 	}
 

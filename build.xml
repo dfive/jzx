@@ -45,7 +45,7 @@
 			<arg value="128" />
 
 			<arg value="-snapshot" />
-			<arg value="etc/assm.z80" />
+			<!--arg value="etc/assm.z80" /-->
 		</java>
 	</target>
 

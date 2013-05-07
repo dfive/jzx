@@ -174,48 +174,48 @@ public class Z80Loader extends BaseLoader {
 				m_mode = (is.read() & 0xff);
 
 				m_last0x7ffd = (is.read() & 0xff);
-				// byte if1Paged = (byte) is.read(); // not used
-				// byte flags3 = (byte) is.read(); // not used
+				byte if1Paged = (byte) is.read(); // not used
+				byte flags3 = (byte) is.read(); // not used
 				m_last0xfffd = (is.read() & 0xff);
-				// for (int i = 0; i < 16; i++) {
-				// byte psg = (byte) is.read(); // not used
-				// }
+				for (int i = 0; i < 16; i++) {
+					byte psg = (byte) is.read(); // not used
+				}
 			}
 
-			// if (m_version >= VERSION_3) {
-			// /* V3.0+ */
-			// for (int i = 0; i < 3; i++) {
-			// byte tstates = (byte) is.read(); // not used
-			// }
-			// byte flags4 = (byte) is.read(); // not used
-			// byte mgtPaged = (byte) is.read(); // not used
-			// byte mf128Paged = (byte) is.read(); // not used
-			// byte ramAt0x0000 = (byte) is.read();// not used
-			// byte ramAt0x2000 = (byte) is.read();// not used
-			// for (int i = 0; i < 10; i++) {
-			// byte joystickKeys = (byte) is.read(); // not used
-			// }
-			// for (int i = 0; i < 10; i++) {
-			// byte keyNames = (byte) is.read(); // not used
-			// }
+			if (m_version >= VERSION_3) {
+				/* V3.0+ */
+				for (int i = 0; i < 3; i++) {
+					byte tstates = (byte) is.read(); // not used
+				}
+				byte flags4 = (byte) is.read(); // not used
+				byte mgtPaged = (byte) is.read(); // not used
+				byte mf128Paged = (byte) is.read(); // not used
+				byte ramAt0x0000 = (byte) is.read();// not used
+				byte ramAt0x2000 = (byte) is.read();// not used
+				for (int i = 0; i < 10; i++) {
+					byte joystickKeys = (byte) is.read(); // not used
+				}
+				for (int i = 0; i < 10; i++) {
+					byte keyNames = (byte) is.read(); // not used
+				}
 
-			// if (m_version == VERSION_3) {
-			// byte mgtType = (byte) is.read(); // not used
-			// byte discipleInhibit = (byte) is.read(); // not used
-			// byte discipleRom = (byte) is.read(); // not used
-			// } else {
-			// for (int i = 0; i < 3; i++) {
-			// byte fdc = (byte) is.read(); // not used
-			// }
-			// }
-			// }
+				if (m_version == VERSION_3) {
+					byte mgtType = (byte) is.read(); // not used
+					byte discipleInhibit = (byte) is.read(); // not used
+					byte discipleRom = (byte) is.read(); // not used
+				} else {
+					for (int i = 0; i < 3; i++) {
+						byte fdc = (byte) is.read(); // not used
+					}
+				}
+			}
 
-			// if (m_version >= VERSION_3x) {
-			// /* V3.X */
-			// for (int i = 3; i < 14; i++) {
-			// byte fdc = (byte) is.read(); // not used
-			// }
-			// }
+			if (m_version >= VERSION_3x) {
+				/* V3.X */
+				for (int i = 3; i < 14; i++) {
+					byte fdc = (byte) is.read(); // not used
+				}
+			}
 		}
 	}
 

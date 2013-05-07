@@ -1585,7 +1585,9 @@ public class Z80 extends BaseComponent {
 		asyncEmulate(barrier, lock);
 	}
 
-	private AtomicBoolean isUpdateDone = new AtomicBoolean(false);
+	private volatile int isUpdateDone = 1;
+	private static int instructionCount = 0;
+	private static long time = 0;
 
 	private void asyncUpdate(final CyclicBarrier barrier, final Object lock) {
 		new Thread(new Runnable() {
@@ -1593,17 +1595,17 @@ public class Z80 extends BaseComponent {
 			@Override
 			public void run() {
 				while(true) {
-					
+
 					//WARNING: ACTIVE WAIT FOR THE EMULATE TO FINISH 
 					//[this should not happen but we never know..]
 					// while(isUpdateDone.get()==true);
 					//I THINK THAT ACTUALLY THIS SYNC IS NOT NEEDED BECAUSE IN THE WORST CASE WE UPDATE
 					//MORE TIMES THAN WHAT WE NEED AND THE RISK PAYS OFF.
-					
+
 					m_spectrum.update();
 
-					isUpdateDone.set(true);
-					
+					isUpdateDone = 0;
+
 				}
 			}
 		}).start();
@@ -1611,7 +1613,6 @@ public class Z80 extends BaseComponent {
 
 	private void asyncEmulate(final CyclicBarrier barrier, final Object lock) {
 		while (true) {
-			PerformanceCounter.start("emulate");
 			emulateOne();
 
 			if (m_stop) {
@@ -1623,12 +1624,9 @@ public class Z80 extends BaseComponent {
 			}
 
 			//WARNING: ACTIVE WAIT FOR THE UPDATE TO FINISH
-			PerformanceCounter.start("emulate - WAIT");
-			
-			while(!isUpdateDone.getAndSet(false));
-			
-			PerformanceCounter.end("emulate - WAIT");
-			PerformanceCounter.end("emulate");
+
+			while(isUpdateDone != 0);
+			isUpdateDone = 1;
 
 		}
 	}
@@ -1639,8 +1637,18 @@ public class Z80 extends BaseComponent {
 		int opcode = m_memory.read8(m_pc16);
 		instruction = instructionTable[opcode];
 		inc16pc();
-		instruction.execute();
-		m_tstates += instruction.incTstates();
+		if(instructionCount == 1500000) {
+			time = System.nanoTime();
+			instruction.execute();
+			m_tstates += instruction.incTstates();
+			time = System.nanoTime() - time;
+			instructionCount = 0;
+			System.out.println(time);
+		} else {
+			instruction.execute();
+			m_tstates += instruction.incTstates();
+			instructionCount++;
+		}
 	}
 
 	/**
@@ -1683,7 +1691,7 @@ public class Z80 extends BaseComponent {
 
 		retrieveFlags();
 	}
-	
+
 	private void pauseMode() {
 		try {
 			wait();

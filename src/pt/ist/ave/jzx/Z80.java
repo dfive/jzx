@@ -1401,6 +1401,8 @@ public class Z80 extends BaseComponent {
 	}
 
 	private volatile int isUpdateDone = 1;
+	private static int instructionCount = 0;
+	private static long time = 0;
 
 	private void asyncUpdate(final CyclicBarrier barrier, final Object lock) {
 		new Thread(new Runnable() {
@@ -1444,8 +1446,18 @@ public class Z80 extends BaseComponent {
 		int opcode = m_memory.read8(m_pc16);
 		instruction = instructionTable[opcode];
 		inc16pc();
-		instruction.execute();
-		m_tstates += instruction.incTstates();
+		if(instructionCount == 1500000) {
+			time = System.nanoTime();
+			instruction.execute();
+			m_tstates += instruction.incTstates();
+			time = System.nanoTime() - time;
+			instructionCount = 0;
+			System.out.println(time);
+		} else {
+			instruction.execute();
+			m_tstates += instruction.incTstates();
+			instructionCount++;
+		}
 	}
 
 	/**

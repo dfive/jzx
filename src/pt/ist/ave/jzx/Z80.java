@@ -1555,51 +1555,18 @@ public class Z80 extends BaseComponent {
 	}
 
 
-	private void dump() {
-		int max = -1;
-		int maxindex = -1;
-		TreeMap<Integer,Integer> teste = new TreeMap<Integer,Integer>();
-		for(int i = 0; i < instructionCounter.length; i++) {
-			if(instructionCounter[i] >= max){
-				max = instructionCounter[i];
-				maxindex = i;
-			}
-			teste.put(instructionCounter[i], i);
-		}
-
-		System.out.println("NUM CACHE MISSES: " + numMiss);
-		System.out.println("NUM CACHE HITS: " + numHits);
-		if(numMiss>0 && numHits>0){
-			System.out.println("HIT RATE: " + (numHits*100) / (numMiss + numHits));
-		}
-		System.out.println("TOTAL TIME " + count);
-
-		//		for (Integer key : teste.keySet()) {
-		//			System.out.println("Run instruction " + teste.get(key) + ": " + key + " times." );
-		//		}
-		//
-		//		System.out.println("MAX: " + maxindex + " - " + max);
-	}
-
 	/*
 	 * Mantains the most used instructions in cache
 	 * in a way that improves the performace in the access to the most used instructions
 	 */
-	private InstructionsCache instructionsCache;
 
 	/**
 	 * Decode one instruction: call <TT>mone8()</TT> to retrieve the opcode,
 	 * decode it and execute it.
 	 */
 
-	private long time = 0;
-	private long count = 0;
-	private long numHits = 0;
-	private long numMiss = 0;
-
 	{
 		Instruction.setCPU(this);
-		instructionsCache = new InstructionsCache(MAX_CACHE_CAPACITY);
 	}
 
 
@@ -1611,36 +1578,39 @@ public class Z80 extends BaseComponent {
 		original_emulate();
 	}
 
+	private static int instructionCount = 0;
+	private static long time = 0;
+
 	public void original_emulate() {
 		while (true) {
 			m_spectrum.update();
 
 			updateRefreshRegister();
 			Instruction instruction;
-//			if(instructionsCache.isHit(m_pc16)){
-//				PerformanceCounter.cacheHit(INSTRUCTION_CACHE);
-//				instruction = instructionsCache.get(m_pc16);
-//			} else {
-//				PerformanceCounter.cacheMiss(INSTRUCTION_CACHE);
-//				int opcode = m_memory.read8(m_pc16);
-//				instruction = instructionTable[opcode];
-//				instructionsCache.addInstruction(m_pc16, instruction);
-//			}
 
 			//original code - START:
 			int opcode = m_memory.read8(m_pc16);
 			instructionCounter[opcode]++;
 			instruction = instructionTable[opcode];
-			//			numMiss++;
-			//			numHits++;
 			//original code - END:
 
 			inc16pc();
 
-			instruction.execute();
 
-			m_tstates += instruction.incTstates();
-			
+			if(instructionCount == 1500000) {
+				time = System.nanoTime();
+				instruction.execute();
+				m_tstates += instruction.incTstates();
+				time = System.nanoTime() - time;
+				instructionCount = 0;
+				System.out.println(time);
+			} else {
+				instruction.execute();
+				m_tstates += instruction.incTstates();
+				instructionCount++;
+			}
+
+
 			if (m_stop) {
 				break;
 			}

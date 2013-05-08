@@ -190,8 +190,8 @@ public class IO extends BaseIO {
 					m_last0x7ffd = val8;
 
 //					out.println("FIRST: " + (BaseMemory.RAM0 + (val8 & B_SELRAM)) + " to " + 3);
-					if((BaseMemory.RAM0 + (val8 & B_SELRAM)) == 8)
-						System.out.println("weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+//					if((BaseMemory.RAM0 + (val8 & B_SELRAM)) == 8)
+//						System.out.println("weeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
 					// Bits D0-D2 are RAM select at 0xC000
 					m_memory.pageIn(3, BaseMemory.RAM0 + (val8 & B_SELRAM));
 					

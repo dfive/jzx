@@ -132,6 +132,7 @@ public abstract class BaseMemory extends BaseComponent {
 	/**
 	 * Sets the memory arrays to null and releases the cached screen reference.
 	 */
+	
 	public void terminate() {
 		m_frameToPage = null;
 		m_page = null;

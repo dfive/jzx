@@ -530,7 +530,7 @@ public abstract class BaseScreen extends Canvas {
 			int val8 = ((int) memory[addr16]) & 0xff;
 			if ((val8 & FLASH) != 0) {
 				attrTouch(addr16);
-			}
+			}	
 		}
 	}
 

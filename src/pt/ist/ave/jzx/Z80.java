@@ -1394,47 +1394,17 @@ public class Z80 extends BaseComponent {
 
 
 	public void emulate() {
-		final CyclicBarrier barrier = new CyclicBarrier(1);
-		final Object lock = new Object();
-		asyncUpdate(barrier, lock);
-		asyncEmulate(barrier, lock);
+		Update();
 	}
 
 	private volatile int isUpdateDone = 1;
 
-	private void asyncUpdate(final CyclicBarrier barrier, final Object lock) {
-		new Thread(new Runnable() {
+	private void Update() {
+		while(true) {
 
-			@Override
-			public void run() {
-				while(true) {
-
-					m_spectrum.update();
-
-					isUpdateDone = 0;
-
-				}
-			}
-		}).start();
-	}
-
-	private void asyncEmulate(final CyclicBarrier barrier, final Object lock) {
-
-		while (true) {
+			m_spectrum.update();
 			emulateOne();
 
-			if (m_stop) {
-				break;
-			}
-
-			while (m_pause) {
-				pauseMode();
-			}
-
-			//WARNING: ACTIVE WAIT FOR THE UPDATE TO FINISH
-
-			while(isUpdateDone != 0);
-			isUpdateDone = 1;
 		}
 	}
 

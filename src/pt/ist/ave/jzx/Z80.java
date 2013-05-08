@@ -1446,7 +1446,7 @@ public class Z80 extends BaseComponent {
 		int opcode = m_memory.read8(m_pc16);
 		instruction = instructionTable[opcode];
 		inc16pc();
-		if(instructionCount == 1500000) {
+		if(instructionCount == 2000000) {
 			time = System.nanoTime();
 			instruction.execute();
 			m_tstates += instruction.incTstates();

@@ -1400,19 +1400,38 @@ public class Z80 extends BaseComponent {
 		asyncEmulate(barrier, lock);
 	}
 
-	private volatile int isUpdateDone = 1;
+	private volatile boolean isUpdateDone = false;
+	private volatile boolean isEmulateDone = false;
+	
+	
+	private static int instructionCount = 0;
+	
+	private static long updateOneTime = 0;
+	private static long updateTime = 0;
+	
+	private static long emulateOneTime = 0;
+	private static long emulateTime = 0;
+	private static long totalEmulateTime = 0;
+	private static long totalOneEmulateTime = 0;
 
 	private void asyncUpdate(final CyclicBarrier barrier, final Object lock) {
 		new Thread(new Runnable() {
-
+			
 			@Override
 			public void run() {
 				while(true) {
-
+					
+					updateOneTime = System.nanoTime();
 					m_spectrum.update();
-
-					isUpdateDone = 0;
-
+					
+					updateTime += System.nanoTime() - updateOneTime;
+					
+					isUpdateDone = true;
+					
+					while(!isEmulateDone);
+					
+					isEmulateDone = false;
+					
 				}
 			}
 		}).start();
@@ -1421,8 +1440,10 @@ public class Z80 extends BaseComponent {
 	private void asyncEmulate(final CyclicBarrier barrier, final Object lock) {
 
 		while (true) {
+			
+			totalOneEmulateTime = System.nanoTime();
 			emulateOne();
-
+			
 			if (m_stop) {
 				break;
 			}
@@ -1432,9 +1453,31 @@ public class Z80 extends BaseComponent {
 			}
 
 			//WARNING: ACTIVE WAIT FOR THE UPDATE TO FINISH
-
-			while(isUpdateDone != 0);
-			isUpdateDone = 1;
+			
+			
+			while(!isUpdateDone);
+			
+			isUpdateDone = false;
+			
+			totalEmulateTime  += System.nanoTime() - totalOneEmulateTime ;
+			
+			if(instructionCount == 2000000) {
+				long updateTimePerInstruction = updateTime / instructionCount;
+				long emulateTimePerInstruction = emulateTime/ instructionCount;
+				long totalEmulateTimePerInstruction = totalEmulateTime / instructionCount;
+				
+				long winnerRation = (emulateTimePerInstruction*100) / (emulateTimePerInstruction+totalEmulateTimePerInstruction) ;
+				
+				System.out.println("Update: " + updateTimePerInstruction + " ns/instruction");
+				System.out.println("Emulatetime:"+ emulateTimePerInstruction + " ns/instruction"); 
+				System.out.println("TotalEmulate: " + totalEmulateTimePerInstruction + " ns/instruction (includes idle time)");
+				System.out.println("EmulateOne ratio: " + winnerRation + " % (RealEmulate+RealUpdate / TotalTime)");
+				
+				instructionCount = 0;
+				emulateTime = 0;
+				totalEmulateTime = 0;
+				updateTime = 0;
+			} 
 		}
 	}
 
@@ -1443,11 +1486,15 @@ public class Z80 extends BaseComponent {
 		Instruction instruction;
 		int opcode = m_memory.read8(m_pc16);
 		instruction = instructionTable[opcode];
+		emulateOneTime  = System.nanoTime();
 		inc16pc();
 		instruction.execute();
 		m_tstates += instruction.incTstates();
+		isEmulateDone = true;
+		emulateTime  += System.nanoTime() - emulateOneTime ;
+		
+		instructionCount++;
 	}
-
 	/**
 	 * Return a string representation of the CPU state, which is useful for
 	 * debugging purposes.

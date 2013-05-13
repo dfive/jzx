@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.5.13)  13 MAY 2013 12:40
+This is pdfTeX, Version 3.1415926-1.40.10 (TeX Live 2009/Debian) (format=pdflatex 2012.5.13)  13 MAY 2013 17:38
 entering extended mode
  %&-line parsing enabled.
 **ave.tex
@@ -224,11 +224,7 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <7> on input line 47.
 LaTeX Font Info:    External font `cmex10' loaded for size
 (Font)              <5> on input line 47.
-
-
-LaTeX Warning: `h' float specifier changed to `ht'.
-
-
+ [2 <./img/z80_reg.png (PNG copy)>]
 Overfull \hbox (3.09653pt too wide) in paragraph at lines 76--76
 []\OT1/ptm/m/n/10 0xFFFFh
  []
@@ -288,19 +284,52 @@ Overfull \hbox (0.85678pt too wide) in paragraph at lines 79--79
 \OT1/ptm/m/n/10 0x0000h| 
  []
 
-) [2 <./img/z80_reg.png (PNG copy)>] (./jzxemulator.tex
+) (./jzxemulator.tex
 <img/softwareArchitecture.png, id=16, 500.87125pt x 534.99875pt>
 File: img/softwareArchitecture.png Graphic file (type png)
 
 <use img/softwareArchitecture.png> [3 <./img/softwareArchitecture.png (PNG copy
-)>]) (./optimization.tex
-Underfull \vbox (badness 10000) has occurred while \output is active []
+)>])
+Underfull \vbox (badness 2435) has occurred while \output is active []
 
- [4]
-[5]) (./evaluation.tex) (./conclusion.tex) (./futurework.tex
-Underfull \vbox (badness 2564) has occurred while \output is active []
 
-)
+(./optimization.tex [4] [5] <img/Serial.png, id=26, 540.0175pt x 100.375pt>
+File: img/Serial.png Graphic file (type png)
+
+<use img/Serial.png> <img/Parallel.png, id=28, 434.62375pt x 99.37125pt>
+File: img/Parallel.png Graphic file (type png)
+
+<use img/Parallel.png>
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) (./evaluation.tex <img/chart_1.png, id=29, 451.6875pt x 321.2pt>
+File: img/chart_1.png Graphic file (type png)
+
+<use img/chart_1.png> <img/chart_2.png, id=30, 451.6875pt x 321.2pt>
+File: img/chart_2.png Graphic file (type png)
+
+<use img/chart_2.png> <img/chart_3.png, id=31, 352.31625pt x 297.11pt>
+File: img/chart_3.png Graphic file (type png)
+
+<use img/chart_3.png> <img/chart_4.png, id=32, 355.3275pt x 321.2pt>
+File: img/chart_4.png Graphic file (type png)
+
+<use img/chart_4.png>) (./conclusion.tex [6 <./img/Serial.png> <./img/Parallel.
+png>]
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+
+LaTeX Warning: `h' float specifier changed to `ht'.
+
+) (./futurework.tex)
+Underfull \vbox (badness 6332) has occurred while \output is active []
+
+
 No file ave.bbl.
 LaTeX Font Info:    Try loading font information for OT1+pcr on input line 100.
 
@@ -312,26 +341,29 @@ Underfull \hbox (badness 10000) in paragraph at lines 100--101
 dules /
  []
 
-[6] (./ave.aux) ) 
+[7 <./img/chart_1.png (PNG copy)> <./img/chart_2.png (PNG copy)> <./img/chart_3
+.png (PNG copy)>] [8
+
+ <./img/chart_4.png (PNG copy)>] (./ave.aux) ) 
 Here is how much of TeX's memory you used:
- 2091 strings out of 495041
- 29816 string characters out of 1181897
- 110220 words of memory out of 3000000
- 5250 multiletter control sequences out of 15000+50000
+ 2121 strings out of 495041
+ 30356 string characters out of 1181897
+ 111220 words of memory out of 3000000
+ 5274 multiletter control sequences out of 15000+50000
  19074 words of font info for 41 fonts, out of 3000000 for 9000
  30 hyphenation exceptions out of 8191
- 35i,10n,35p,1300b,255s stack positions out of 5000i,500n,10000p,200000b,50000s
-{/usr/share/texmf-texlive/fonts/enc/dvips/base/8r.enc}</usr/sh
-are/texmf-texlive/fonts/type1/public/amsfonts/cm/cmbx10.pfb></usr/share/texmf-t
-exlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/share/texmf-texlive/font
-s/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/helvet
-ic/uhvb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmb8a.pfb></usr/
-share/texmf-texlive/fonts/type1/urw/times/utmbi8a.pfb></usr/share/texmf-texlive
-/fonts/type1/urw/times/utmr8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/tim
-es/utmri8a.pfb>
-Output written on ave.pdf (6 pages, 206018 bytes).
+ 35i,10n,35p,1302b,255s stack positions out of 5000i,500n,10000p,200000b,50000s
+{/usr/share/texmf-texlive/fonts/e
+nc/dvips/base/8r.enc}</usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/c
+mbx10.pfb></usr/share/texmf-texlive/fonts/type1/public/amsfonts/cm/cmsy10.pfb><
+/usr/share/texmf-texlive/fonts/type1/urw/courier/ucrr8a.pfb></usr/share/texmf-t
+exlive/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/share/texmf-texlive/fonts/type
+1/urw/times/utmb8a.pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmbi8a.
+pfb></usr/share/texmf-texlive/fonts/type1/urw/times/utmr8a.pfb></usr/share/texm
+f-texlive/fonts/type1/urw/times/utmri8a.pfb>
+Output written on ave.pdf (8 pages, 250850 bytes).
 PDF statistics:
- 56 PDF objects out of 1000 (max. 8388607)
+ 73 PDF objects out of 1000 (max. 8388607)
  0 named destinations out of 1000 (max. 500000)
- 11 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 41 words of extra memory for PDF output out of 10000 (max. 10000000)
 

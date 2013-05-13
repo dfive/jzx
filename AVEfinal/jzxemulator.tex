@@ -1,31 +1,34 @@
 \section{The JZX Emulator}
-The JZX Emulator is the ZX Spectrum emulator implemented in Java. This is the studied emulator and the one we perfomed some optimizations described below.
-Razvan Surdulescu is a Staff software engineer ate Google, graduated from Harvard University and University of Texas at Austin who took the chalenge of building a ZX Spectrum emulator written 100\% in Java. This emulator is based on a Linux native emulator called XZX.
+The JZX Emulator is the ZX Spectrum emulator implemented in Java. This is the studied emulator and the one we performed some optimizations described below.
+Razvan Surdulescu is a Staff software engineer ate Google, graduated from Harvard University and University of Texas at Austin who took the challenge of building a ZX Spectrum emulator written 100\% in Java. This emulator is based on a Linux native emulator called XZX.
 To emulate the ZX Spectrum, each hardware component must be a logical component made in Java, to correctly simulate the execution. Thus, in our emulator, each Spectrum component is a class that inherits from the abstract class BaseComponent. It is used a composite pattern, where the component BaseSpectrum is the composite, and the other components are the leafs, that allows BaseSpectrum to be the abstraction for all components. The Spectrum components are: BaseSpectrum, BaseMemory, Z80, BaseIO, BaseKeyboard and  BaseScreen.
 The emulator emulates two different versions of the ZX Spectrum, the 48K model and the 128K. Since the machines are similar, the author made 95\% of the code base shared by the two versions.
-It does emulate the normal beaviour of the ZX Spectrum including the sound and the ROM reading but doesn’t emulate the tape reader, because the original uses it to load the and save the software and the emulator uses .z80 files, nor the speaker.
-<<Imagem da arquitectura>>
+It does emulate the normal behavior of the ZX Spectrum including the sound and the ROM reading but doesn't emulate the tape reader, because the original uses it to load the and save the software and the emulator uses .z80 files, nor the speaker.
+\begin{figure}
+	\center{\includegraphics[width=0.4\textwidth]{img/softwareArchitecture.png}}
+	\caption{Software architecture.}
+\end{figure}
 
 \subsection{CPU Emulation}
-The ZX Spectrum emulator is very simple and is based on a decode-and-dispatch interpreter. It mantains the general registers, the program counter, stack pointer and flag registers in memory having an integer variable for each register.
-The emulator has a interpertation loop that follows the execution of the program by fetching the memory position pointed by the program counter and then compairing the opcode with all the possible opcodes of the processor in order to discover wich instruction should be executed. That compairison is done in a switch case that is not even ordered by the most used instructions. 
-All the code for each instruction is placed inside the respective case statement. This very basic parsing is a major source of ineficiency since for each original instruction the emulator need to perform N compairisons and only then it emulates the instruction. 
-Like in the original processor, each time an instruction is executed all the flags are updated. This causes a lot of ineficency since most of the times the work performed to update the flags is bigger than the work to execute the instruction itself.
-After fetching and executing an instruction the emulator updates the screen and makes a sleep so that the compatability with the original processor programs are mantained. The time of the sleep depends on the instruction that has been executed. As we optimize the emulation process of the instructions we expect that the update step ocupies more time because the total time for each instruction need to be mantained.
-As you can see the orignal emulator has lots of inefficiencies and some of them could be reduced by applying techniques learned in the AVE course. In the next section we present some of the possible optimizations.
+The ZX Spectrum emulator is very simple and is based on a decode-and-dispatch interpreter. It maintains the general registers, the program counter, stack pointer and flag registers in memory having an integer variable for each register.
+The emulator has a interpretation loop that follows the execution of the program by fetching the memory position pointed by the program counter and then comparing the opcode with all the possible opcodes of the processor in order to discover which instruction should be executed. That comparison is done in a switch case that is not even ordered by the most used instructions. 
+All the code for each instruction is placed inside the respective case statement. This very basic parsing is a major source of inefficiency since for each original instruction the emulator need to perform N comparisons and only then it emulates the instruction. 
+Like in the original processor, each time an instruction is executed all the flags are updated. This causes a lot of inefficiency since most of the times the work performed to update the flags is bigger than the work to execute the instruction itself.
+After fetching and executing an instruction the emulator updates the screen and makes a sleep so that the compatibility with the original processor programs are maintained. The time of the sleep depends on the instruction that has been executed. As we optimize the emulation process of the instructions we expect that the update step occupies more time because the total time for each instruction need to be maintained.
+As you can see the original emulator has lots of inefficiencies and some of them could be reduced by applying techniques learned in the AVE course. In the next section we present some of the possible optimizations.
 
 \subsection{128KB Memory Emulation}
-The emulator uses two arrays to emulate the memory of the physical machine. The m\_frame array is the memory visible to the CPU, with only four positions, and the m\_page array its all the available memory that the 128k versions had, with twelve positions. Each position in those arrays has 16KB like the physical pages in the originals had.
-The first position of the m\_frame its where the ROM pages are loaded. The remaining pages are RAM pages with the same distribuition of the original. In the m\_page array, the first four positions are ROM pages and the remaining are RAM pages. This pages are filled with data during the load of the .z80 file.
+The emulator uses two arrays to emulate the memory of the physical machine. The m\_frame array is the memory visible to the CPU, with only four positions, and the m\_page array its all the available memory that the 128K versions had, with twelve positions. Each position in those arrays has 16KB like the physical pages in the originals had.
+The first position of the m\_frame its where the ROM pages are loaded. The remaining pages are RAM pages with the same distribution of the original. In the m\_page array, the first four positions are ROM pages and the remaining are RAM pages. This pages are filled with data during the load of the .z80 file.
 
 Paging
 Like the 128K ZX Spectrum versions do, this emulator is able to do paging too.
-The following code takes advantage of a known bug in the original 128K ZX Spectrum. This code activates the second screen, stored in memory at address 7C00h, and writes small files to the RAMdisk causing it to fail in recognising the existence of the second screen. Type the following code in the 128 BASIC:
-10 POKE 23388, 24: REM
-20 FOR I = 1 TO 562
-30 SAVE! ''F'' + STR\$ I CODE 0, 1
-40 NEXT I
-50 PAUSE 0
-60 POKE 23388, 16: REM
-RUN
+The following code takes advantage of a known bug in the original 128K ZX Spectrum. This code activates the second screen, stored in memory at address 7C00h, and writes small files to the RAMdisk causing it to fail in recognizing the existence of the second screen. Type the following code in the 128 BASIC:\\
+10 POKE 23388, 24: REM\\
+20 FOR I = 1 TO 562\\
+30 SAVE! ''F'' + STR\$ I CODE 0, 1\\
+40 NEXT I\\
+50 PAUSE 0\\
+60 POKE 23388, 16: REM\\
+RUN\\
 As you may noticed, this code begin to fill the screen with colorful squares form bottom to top. If you now type POKE 23388,24: PAUSE 1000 and press enter you will see the screen that the previous chunk of code fill with colorful squares. During the execution of the previous chunk of code the emulator is constantly paging the memory.
